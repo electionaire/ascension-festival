@@ -135,6 +135,7 @@ const EVENTS = [
     doors: '23:30 — 04:00',
     tag: 'Headline event',
     status: 'On sale',
+    price: '€22.50',
     poster: 'assets/poster-summer.jpg',
   },
   {
@@ -147,6 +148,7 @@ const EVENTS = [
     city: 'Eindhoven, NL',
     tag: 'Three-show series',
     status: 'On sale',
+    price: '€18.50 / show',
     poster: 'assets/poster-intro.jpg',
     // Compact label for grid cells that expect a single date
     date: { day: '29', month: 'AUG', dow: 'SAT', year: '2026' },

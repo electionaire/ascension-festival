@@ -1,27 +1,26 @@
-// MONOCHROME — stripped landing. Hero · Events · Gallery strip · Footer.
-// Black & white. Type small, photography big. Desktop + Mobile.
+// mono.jsx — Homepage (desktop + mobile) and shared layout components.
+
+const { useState, useEffect } = React;
 
 const monoStyles = {
   root: {
-    width: 1280, fontFamily: 'Montserrat, sans-serif',
+    width: '100%', fontFamily: 'Montserrat, sans-serif',
     background: '#fafafa', color: '#0a0a0a',
-    position: 'relative', overflow: 'hidden'
+    position: 'relative',
   },
   mono: { fontFamily: 'Montserrat', fontWeight: 500, fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase' }
 };
 
-// ── Grayscale photo placeholder ────────────────────────────────────────
-// If `src` is provided, renders an <img> with the placeholder as fallback.
-// If `video` is provided, renders a <video> instead. Caption + grayscale still apply.
+// ── Grayscale photo / video block ─────────────────────────────────────
 function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, video, kenBurns = false }) {
   const palettes = {
-    crowd: 'linear-gradient(180deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.08) 35%, rgba(0,0,0,.55) 80%, #000 100%), radial-gradient(80% 60% at 50% 78%, #2a2a2a 0%, #0d0d0d 70%, #000 100%)',
+    crowd:    'linear-gradient(180deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.08) 35%, rgba(0,0,0,.55) 80%, #000 100%), radial-gradient(80% 60% at 50% 78%, #2a2a2a 0%, #0d0d0d 70%, #000 100%)',
     portrait: 'linear-gradient(160deg, rgba(255,255,255,.10), rgba(0,0,0,.6)), radial-gradient(70% 55% at 40% 35%, #353535 0%, #111 70%, #000 100%)',
-    floor: 'linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(0,0,0,.5) 60%, #000 100%), radial-gradient(60% 40% at 50% 60%, #303030 0%, #0a0a0a 70%, #000 100%)',
-    smoke: 'linear-gradient(140deg, rgba(255,255,255,.16), rgba(0,0,0,.7)), radial-gradient(60% 50% at 70% 30%, #404040 0%, #1a1a1a 50%, #000 100%)',
-    light: 'linear-gradient(160deg, rgba(255,255,255,.22), rgba(0,0,0,.55)), radial-gradient(50% 40% at 25% 30%, #5a5a5a 0%, #1e1e1e 60%, #050505 100%)',
-    venue: 'linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.55)), radial-gradient(80% 60% at 50% 20%, #4a4a4a 0%, #181818 60%, #000 100%)',
-    flag: 'linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.6)), radial-gradient(80% 60% at 50% 40%, #2e2e2e 0%, #0d0d0d 70%, #000 100%)'
+    floor:    'linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(0,0,0,.5) 60%, #000 100%), radial-gradient(60% 40% at 50% 60%, #303030 0%, #0a0a0a 70%, #000 100%)',
+    smoke:    'linear-gradient(140deg, rgba(255,255,255,.16), rgba(0,0,0,.7)), radial-gradient(60% 50% at 70% 30%, #404040 0%, #1a1a1a 50%, #000 100%)',
+    light:    'linear-gradient(160deg, rgba(255,255,255,.22), rgba(0,0,0,.55)), radial-gradient(50% 40% at 25% 30%, #5a5a5a 0%, #1e1e1e 60%, #050505 100%)',
+    venue:    'linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.55)), radial-gradient(80% 60% at 50% 20%, #4a4a4a 0%, #181818 60%, #000 100%)',
+    flag:     'linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.6)), radial-gradient(80% 60% at 50% 40%, #2e2e2e 0%, #0d0d0d 70%, #000 100%)',
   };
   return (
     <div data-cap={caption} style={{
@@ -29,72 +28,89 @@ function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, vide
       backgroundImage: (palettes[tone] || palettes.crowd) + ', repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 8px, rgba(0,0,0,.04) 8px 16px)',
       color: 'rgba(255,255,255,.4)',
       fontFamily: 'ui-monospace, Menlo, monospace', fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase',
-      overflow: 'hidden',
-      filter: 'contrast(1.05)',
+      overflow: 'hidden', filter: 'contrast(1.05)',
       ...style
     }}>
       <style>{`@keyframes kb { from { transform: scale(1.0) translate(0,0) } to { transform: scale(1.18) translate(-2%, -1%) } }`}</style>
-      {src &&
-      <img src={src} alt={caption} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', animation: kenBurns ? 'kb 14s ease-in-out infinite alternate' : 'none' }} />
-      }
-      {video &&
-      <video src={video} autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-      }
-      {/* placeholder ken-burns motion suggesting a looping video */}
-      {!src && !video && kenBurns &&
-      <div aria-hidden style={{ position: 'absolute', inset: 0, animation: 'kb 14s ease-in-out infinite alternate', backgroundImage: palettes[tone] || palettes.crowd, backgroundSize: 'cover' }} />
-      }
-      <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', mixBlendMode: 'overlay', opacity: .4,
-        backgroundImage: 'radial-gradient(rgba(255,255,255,.2) 1px, transparent 1px)', backgroundSize: '3px 3px' }} />
-      {caption &&
-      <div style={{ position: 'absolute', left: 12, bottom: 10, color: 'rgba(255,255,255,.55)', fontFamily: 'ui-monospace, Menlo, monospace', fontSize: 9, letterSpacing: '.18em', textTransform: 'uppercase' }}>
-          {caption}
-        </div>
-      }
+      {src && <img src={src} alt={caption} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', animation: kenBurns ? 'kb 14s ease-in-out infinite alternate' : 'none' }} />}
+      {video && <video src={video} autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
+      {!src && !video && kenBurns && <div aria-hidden style={{ position: 'absolute', inset: 0, animation: 'kb 14s ease-in-out infinite alternate', backgroundImage: palettes[tone] || palettes.crowd, backgroundSize: 'cover' }} />}
+      <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', mixBlendMode: 'overlay', opacity: .4, backgroundImage: 'radial-gradient(rgba(255,255,255,.2) 1px, transparent 1px)', backgroundSize: '3px 3px' }} />
+      {caption && <div style={{ position: 'absolute', left: 12, bottom: 10, color: 'rgba(255,255,255,.55)', fontFamily: 'ui-monospace, Menlo, monospace', fontSize: 9, letterSpacing: '.18em', textTransform: 'uppercase' }}>{caption}</div>}
       {children}
-    </div>);
-
+    </div>
+  );
 }
 
-// ── DESKTOP ────────────────────────────────────────────────────────────
-
+// ── Nav (desktop + mobile-responsive) ─────────────────────────────────
 function MonoNav({ inverted = false }) {
-  const ink = inverted ? '#fafafa' : '#0a0a0a';
+  const [open, setOpen] = useState(false);
+  const ink  = inverted ? '#fafafa' : '#0a0a0a';
   const link = { color: ink, textDecoration: 'none', fontSize: 11, fontWeight: 500, letterSpacing: '.18em', textTransform: 'uppercase' };
   const logo = inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
-  return (
-    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10, padding: '24px 48px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', color: ink }}>
-      <div>
-        <img src={logo} alt="Ascension" style={{ height: 38, display: 'block' }} />
-      </div>
-      <div style={{ display: 'flex', gap: 32, justifyContent: 'center' }}>
-        <a style={link}>Events</a>
-        <a style={link}>Gallery</a>
-        <a style={link}>Contact</a>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <a style={{ ...link, borderBottom: `1px solid ${ink}`, paddingBottom: 2 }}>Tickets →</a>
-      </div>
-    </div>);
 
+  useEffect(() => {
+    const onHash = () => setOpen(false);
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  return (
+    <>
+      {/* Bar — position:absolute on desktop, overridden to fixed on mobile via CSS */}
+      <div className="af-nav-bar" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 100, padding: '24px 48px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', color: ink }}>
+        <div>
+          <a href="#home" className="af-logo-link">
+            <img src={logo} className="af-nav-logo" alt="Ascension" style={{ height: 38, display: 'block' }} />
+          </a>
+        </div>
+        {/* Desktop links */}
+        <div className="af-nav-links" style={{ display: 'flex', gap: 32, justifyContent: 'center' }}>
+          <a href="#home"    className="af-nav-link" style={link}>Home</a>
+          <a href="#events"  className="af-nav-link" style={link}>Events</a>
+          <a href="#gallery" className="af-nav-link" style={link}>Gallery</a>
+          <a href="#contact" className="af-nav-link" style={link}>Contact</a>
+        </div>
+        <div className="af-nav-tickets" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <a href="#tickets" className="af-nav-link" style={{ ...link, borderBottom: `1px solid ${ink}`, paddingBottom: 2 }}>Tickets →</a>
+        </div>
+        {/* Mobile hamburger — hidden on desktop via CSS */}
+        <button className="af-nav-ham" onClick={() => setOpen(o => !o)}
+          aria-label={open ? 'Close menu' : 'Menu'}
+          style={{ display: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: 44, height: 44, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5.5, justifySelf: 'end' }}>
+          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'transform .22s', transform: open ? 'rotate(45deg) translateY(3.5px)' : 'none' }} />
+          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'opacity .15s', opacity: open ? 0 : 1 }} />
+          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'transform .22s', transform: open ? 'rotate(-45deg) translateY(-3.5px)' : 'none' }} />
+        </button>
+      </div>
+      {/* Mobile overlay menu */}
+      {open && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 99, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 36 }}>
+          {[['Home','#home'],['Events','#events'],['Gallery','#gallery'],['Tickets','#tickets'],['Contact','#contact']].map(([label, href]) => (
+            <a key={label} href={href} className="af-mobile-item" onClick={() => setOpen(false)}
+              style={{ color: '#fafafa', textDecoration: 'none', fontFamily: 'Montserrat', fontWeight: 300, fontSize: 42, letterSpacing: '-0.025em', lineHeight: 1 }}>
+              {label}
+            </a>
+          ))}
+        </div>
+      )}
+    </>
+  );
 }
 
+// ── Desktop hero (fullscreen) ──────────────────────────────────────────
 function MonoHero() {
   const { days, hours, mins, secs } = useCountdown('2026-06-05T22:00:00+02:00');
   const pad = (n) => String(n).padStart(2, '0');
   return (
-    <section style={{ position: 'relative', height: 880 }}>
+    <section className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
-
-      {/* festival mark — intro 2026 logo, vertically centered above the countdown bar */}
-      <div style={{ position: 'absolute', left: 0, right: 0, top: 110, bottom: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 60px', textAlign: 'center' }}>
-        <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: 820, maxWidth: '100%', display: 'block', filter: 'drop-shadow(0 8px 40px rgba(0,0,0,.6))' }} />
+      <div style={{ position: 'absolute', left: 0, right: 0, top: '15%', bottom: '22%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 60px', textAlign: 'center' }}>
+        <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: 820, maxWidth: '90%', display: 'block', filter: 'drop-shadow(0 8px 40px rgba(0,0,0,.6))' }} />
         <div style={{ ...monoStyles.mono, marginTop: 26, fontSize: 12, color: '#fafafa', opacity: .9, letterSpacing: '.28em' }}>
-          A warm welcome to Eindhoven’s International Student Experience
+          A warm welcome to Eindhoven's International Student Experience
         </div>
       </div>
-
-      {/* bottom — next show + countdown + CTA */}
       <div style={{ position: 'absolute', left: 48, right: 48, bottom: 48, color: '#fafafa', display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 48, alignItems: 'flex-end', borderTop: '1px solid rgba(250,250,250,.3)', paddingTop: 32 }}>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10 }}>Next show · Fri 05 Jun 2026 · 22:00</div>
@@ -104,23 +120,24 @@ function MonoHero() {
         </div>
         <div style={{ display: 'flex', gap: 28, alignItems: 'baseline' }}>
           {[['D', pad(days)], ['H', pad(hours)], ['M', pad(mins)], ['S', pad(secs)]].map(([l, v]) =>
-          <div key={l} style={{ textAlign: 'center', minWidth: 56 }}>
+            <div key={l} style={{ textAlign: 'center', minWidth: 56 }}>
               <div style={{ fontFamily: 'Montserrat', fontWeight: 200, fontSize: 56, lineHeight: 1, letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums' }}>{v}</div>
               <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 9 }}>{l}</div>
             </div>
           )}
         </div>
-        <a style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap' }}>
+        <a href="#tickets" className="af-cta-light" style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap', display: 'inline-block' }}>
           Buy tickets →
         </a>
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
+// ── Desktop upcoming events ────────────────────────────────────────────
 function MonoEvents() {
   return (
-    <section style={{ padding: '120px 48px' }}>
+    <section className="af-reveal" style={{ padding: '120px 48px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 }}>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 56, letterSpacing: '-0.025em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Upcoming</span> shows
@@ -130,23 +147,14 @@ function MonoEvents() {
       <div>
         {EVENTS.map((ev, i) => {
           const isLast = i === EVENTS.length - 1;
-          const baseRow = {
-            display: 'grid',
-            alignItems: 'center', padding: '28px 0',
-            borderTop: '1px solid #0a0a0a',
-            ...(isLast ? { borderBottom: '1px solid #0a0a0a' } : {}),
-          };
-
+          const baseRow = { display: 'grid', alignItems: 'center', padding: '28px 0', borderTop: '1px solid #0a0a0a', ...(isLast ? { borderBottom: '1px solid #0a0a0a' } : {}) };
           if (ev.isSeries) {
-            // Series row — poster | series block | dates list | CTA
             return (
-              <div key={ev.id} style={{ ...baseRow, gridTemplateColumns: '120px 1fr 1.2fr 140px', gap: 28 }}>
+              <div key={ev.id} className="af-event-row" style={{ ...baseRow, gridTemplateColumns: '120px 1fr 1.2fr 140px', gap: 28 }}>
                 <img src={ev.poster} alt={ev.title} style={{ width: 120, height: 120, objectFit: 'cover', display: 'block' }} />
                 <div>
                   <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>{ev.tag}</div>
-                  <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 22, lineHeight: 1.15, letterSpacing: '-0.005em', marginTop: 8 }}>
-                    {ev.title}
-                  </div>
+                  <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 22, lineHeight: 1.15, letterSpacing: '-0.005em', marginTop: 8 }}>{ev.title}</div>
                   <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 8, fontSize: 10 }}>{ev.venue} · 18+ · ID required</div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -164,17 +172,13 @@ function MonoEvents() {
                   ))}
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <a href="#tickets" style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>
-                    Buy series →
-                  </a>
+                  <a href="#tickets" className="af-link" style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy series →</a>
                 </div>
               </div>
             );
           }
-
-          // Single event row — poster | date | title | venue | CTA
           return (
-            <div key={ev.id} style={{ ...baseRow, gridTemplateColumns: '120px 100px 1.5fr 1fr 140px', gap: 24 }}>
+            <div key={ev.id} className="af-event-row" style={{ ...baseRow, gridTemplateColumns: '120px 100px 1.5fr 1fr 140px', gap: 24 }}>
               <img src={ev.poster} alt={ev.title} style={{ width: 120, height: 120, objectFit: 'cover', display: 'block' }} />
               <div>
                 <div style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 56, lineHeight: 1, letterSpacing: '-0.04em' }}>{ev.date.day}</div>
@@ -192,166 +196,256 @@ function MonoEvents() {
                 <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 6, fontSize: 10 }}>{ev.doors}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <a href="#tickets" style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>
-                  Buy ticket →
-                </a>
+                <a href="#tickets" className="af-link" style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy ticket →</a>
               </div>
             </div>
           );
         })}
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
+// ── Desktop gallery strip ──────────────────────────────────────────────
 function MonoGalleryStrip() {
   const items = [
-  { src: 'assets/photo-02.jpg', cap: '', isVideo: true },
-  { src: 'assets/photo-03.jpg', cap: '' },
-  { src: 'assets/photo-04.jpg', cap: '' },
-  { src: 'assets/photo-05.jpg', cap: '' },
-  { src: 'assets/photo-06.jpg', cap: '' },
-  { src: 'assets/photo-07.jpg', cap: '' }];
-
+    { src: 'assets/photo-02.jpg', isVideo: true },
+    { src: 'assets/photo-03.jpg' },
+    { src: 'assets/photo-04.jpg' },
+    { src: 'assets/photo-05.jpg' },
+    { src: 'assets/photo-06.jpg' },
+    { src: 'assets/photo-07.jpg' },
+  ];
   return (
-    <section style={{ padding: '40px 48px 60px' }}>
+    <section className="af-reveal" style={{ padding: '40px 48px 60px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 28 }}>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
-          <span style={{ fontStyle: 'italic' }}>Gallery</span> 
+          <span style={{ fontStyle: 'italic' }}>Gallery</span>
         </h2>
-        <a style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
+        <a href="#gallery" className="af-link" style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
         {items.map((it, i) =>
-        <div key={i} style={{ position: 'relative' }}>
-            <BWPhoto src={it.src} caption={it.cap} kenBurns={it.isVideo} style={{ aspectRatio: '3 / 4' }} />
+          <div key={i} className="af-photo-item" style={{ position: 'relative' }}>
+            <BWPhoto src={it.src} caption="" kenBurns={it.isVideo} style={{ aspectRatio: '3 / 4' }} />
             {it.isVideo &&
-          <div style={{ position: 'absolute', top: 10, right: 10, color: '#fafafa', ...monoStyles.mono, fontSize: 8, display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(0,0,0,.5)', padding: '4px 7px' }}>
+              <div style={{ position: 'absolute', top: 10, right: 10, color: '#fafafa', ...monoStyles.mono, fontSize: 8, display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(0,0,0,.5)', padding: '4px 7px', pointerEvents: 'none' }}>
                 <span style={{ width: 0, height: 0, borderLeft: '6px solid #fafafa', borderTop: '4px solid transparent', borderBottom: '4px solid transparent' }} />
                 Video
               </div>
-          }
+            }
           </div>
         )}
       </div>
-
-      {/* Featured video reel — wide cinema strip */}
-      <div style={{ marginTop: 60, position: 'relative' }}>
-        <BWPhoto src="assets/photo-08.jpg" caption="season reel · 2026 highlights · 02:14" kenBurns style={{ aspectRatio: '21 / 9', width: '100%' }} />
-        {/* play button overlay */}
-        <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', pointerEvents: 'none' }}>
-          <div style={{ width: 92, height: 92, borderRadius: '50%', border: '1.5px solid #fafafa', display: 'grid', placeItems: 'center', backdropFilter: 'blur(4px)', background: 'rgba(0,0,0,.15)' }}>
-            <span style={{ width: 0, height: 0, borderLeft: '20px solid #fafafa', borderTop: '13px solid transparent', borderBottom: '13px solid transparent', marginLeft: 6 }} />
-          </div>
-        </div>
-        <div style={{ position: 'absolute', left: 20, top: 18, ...monoStyles.mono, color: '#fafafa', fontSize: 10, opacity: .85 }}>
-          ▸ Featured reel · Season 2026
-        </div>
-        <div style={{ position: 'absolute', right: 20, bottom: 18, ...monoStyles.mono, color: '#fafafa', fontSize: 10, opacity: .85 }}>
-          02:14
-        </div>
-      </div>
-    </section>);
-
+    </section>
+  );
 }
 
+// ── Shared footer ──────────────────────────────────────────────────────
 function MonoFooter() {
   return (
-    <footer style={{ background: '#fafafa', borderTop: '1px solid #0a0a0a', padding: '48px 48px 28px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 32, alignItems: 'flex-start' }}>
-          <div>
-            <img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} />
-            <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10, marginTop: 16 }}>EINDHOVEN, SINCE 2025</div>
-            <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, lineHeight: 1.6, opacity: .65, marginTop: 10, maxWidth: 320, textWrap: 'pretty' }}>
-              A warm welcome to Eindhoven’s International Student Experience. Run by students, for students.
-            </div>
+    <footer className="af-reveal" style={{ background: '#fafafa', borderTop: '1px solid #0a0a0a', padding: '48px 48px 28px' }}>
+      <div className="af-footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 32, alignItems: 'flex-start' }}>
+        <div>
+          <a href="#home" className="af-logo-link"><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
+          <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10, marginTop: 16 }}>EINDHOVEN, SINCE 2025</div>
+          <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, lineHeight: 1.6, opacity: .65, marginTop: 10, maxWidth: 320 }}>
+            A warm welcome to Eindhoven's International Student Experience. Run by students, for students.
           </div>
-          <div>
-            <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Follow</div>
-            {['Instagram', 'TikTok', 'Spotify'].map((it) =>
-          <div key={it} style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>{it}</div>
+        </div>
+        <div>
+          <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Follow</div>
+          {[['Instagram', 'https://instagram.com/ascensionfestival.nl'], ['TikTok', 'https://tiktok.com/@ascensionfestival'], ['Spotify', '#']].map(([label, href]) =>
+            <div key={label} style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
+              <a href={href} className="af-footer-link" target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" style={{ color: '#0a0a0a', textDecoration: 'none' }}>{label}</a>
+            </div>
           )}
-          </div>
-          <div>
-            <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Contact</div>
-            <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>info@ascensionfestival.nl</div>
-            <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}></div>
-            <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}></div>
-          </div>
-          <div>
-            <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Mailing list</div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
-              <div style={{ flex: 1, fontFamily: 'Montserrat', fontWeight: 400, fontSize: 14, opacity: .5 }}>your@university.nl</div>
-              <a style={{ ...monoStyles.mono, fontSize: 11, color: '#0a0a0a' }}>Sign up →</a>
-            </div>
-          </div>
         </div>
-        <div style={{ borderTop: '1px solid rgba(10,10,10,.15)', marginTop: 36, paddingTop: 18, display: 'flex', justifyContent: 'space-between', ...monoStyles.mono, opacity: .5, fontSize: 9 }}>
-          <span>© 2026 Ascension Festival NL</span>
-          <span>Made in Eindhoven</span>
+        <div>
+          <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Contact</div>
+          <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
+            <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" style={{ color: '#0a0a0a', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
+          </div>
+          <a href="#contact" className="af-footer-link" style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
         </div>
-    </footer>);
-
+        <div>
+          <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Mailing list</div>
+          <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
+            <input type="email" placeholder="your@university.nl" required style={{ flex: 1, border: 'none', background: 'transparent', fontFamily: 'Montserrat', fontWeight: 400, fontSize: 14, color: '#0a0a0a', outline: 'none' }} />
+            <button type="submit" className="af-footer-link" style={{ border: 'none', background: 'transparent', cursor: 'pointer', ...monoStyles.mono, fontSize: 11, color: '#0a0a0a', padding: 0 }}>Sign up →</button>
+          </form>
+        </div>
+      </div>
+      <div style={{ borderTop: '1px solid rgba(10,10,10,.15)', marginTop: 36, paddingTop: 18, display: 'flex', justifyContent: 'space-between', ...monoStyles.mono, opacity: .5, fontSize: 9 }}>
+        <span>© 2026 Ascension Festival NL</span>
+        <span>Made in Eindhoven</span>
+      </div>
+    </footer>
+  );
 }
 
+// ── International Student Intro section — desktop ──────────────────────
+function MonoIntroSection() {
+  return (
+    <section className="af-reveal" style={{ padding: '100px 48px', borderBottom: '1px solid #0a0a0a' }}>
+      {/* headline + body */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 64 }}>
+        <div style={{ flex: '0 0 auto', maxWidth: 720 }}>
+          <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 22 }}>§ — International Student Intro · Eindhoven 2026</div>
+          <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 84, lineHeight: 0.96, letterSpacing: '-0.033em', margin: 0 }}>
+            Experience the real<br />
+            <span style={{ fontStyle: 'italic' }}>international</span><br />
+            clubbing scene.
+          </h2>
+        </div>
+        <div style={{ paddingTop: 12, maxWidth: 380 }}>
+          <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 17, lineHeight: 1.7, opacity: .7, margin: '0 0 12px' }}>
+            Three shows across three of Eindhoven's best venues — a warm welcome to the city's nightlife, parties, and international student community.
+          </p>
+          <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 17, lineHeight: 1.7, opacity: .7, margin: '0 0 32px' }}>
+            Dance until sunrise, meet thousands of fellow internationals, and discover why Eindhoven is the city to start your student life.
+          </p>
+          <a href="#tickets" className="af-cta-dark" style={{ display: 'inline-block', background: '#0a0a0a', color: '#fafafa', padding: '16px 26px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
+            Get your tickets →
+          </a>
+        </div>
+      </div>
+
+      {/* photo grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 8, height: 500 }}>
+        <BWPhoto src="assets/photo-02.jpg" style={{ height: '100%' }} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <BWPhoto src="assets/photo-03.jpg" style={{ flex: 1 }} />
+          <BWPhoto src="assets/photo-05.jpg" style={{ flex: 1 }} />
+        </div>
+        <BWPhoto src="assets/photo-04.jpg" style={{ height: '100%' }} />
+      </div>
+
+      {/* show facts strip */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 32, marginTop: 44, paddingTop: 32, borderTop: '1px solid rgba(10,10,10,.12)' }}>
+        {[
+          ['29 AUG', 'The Opening',       'Domusdela · 900 cap'],
+          ['11 SEP', 'Main Act',          'Effenaar · 1,400 cap'],
+          ['02 OCT', 'Closing Festival',  'Vibes Eindhoven · 650 cap'],
+          ['18+',    'Eindhoven, NL',     'ID required at the door'],
+        ].map(([date, title, sub]) => (
+          <div key={date}>
+            <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 9 }}>{date}</div>
+            <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 18, letterSpacing: '-0.005em', marginTop: 8 }}>{title}</div>
+            <div style={{ ...monoStyles.mono, opacity: .45, fontSize: 9, marginTop: 8 }}>{sub}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── International Student Intro section — mobile ────────────────────────
+function MobileIntroSection() {
+  return (
+    <section className="af-reveal" style={{ padding: '60px 22px', borderBottom: '1px solid #0a0a0a' }}>
+      <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginBottom: 18 }}>International Student Intro · Eindhoven 2026</div>
+      <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 44, lineHeight: 1.0, letterSpacing: '-0.027em', margin: '0 0 22px' }}>
+        Experience the real<br /><span style={{ fontStyle: 'italic' }}>international</span><br />clubbing scene.
+      </h2>
+      <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.7, opacity: .7, margin: '0 0 28px' }}>
+        Three shows. Three venues. One unforgettable welcome to Eindhoven's nightlife, parties, and international student community.
+      </p>
+      <a href="#tickets" className="af-cta-dark" style={{ display: 'block', textAlign: 'center', background: '#0a0a0a', color: '#fafafa', padding: '16px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, marginBottom: 36 }}>
+        Get your tickets →
+      </a>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 32 }}>
+        <BWPhoto src="assets/photo-02.jpg" style={{ aspectRatio: '3/4' }} />
+        <BWPhoto src="assets/photo-04.jpg" style={{ aspectRatio: '3/4' }} />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, paddingTop: 24, borderTop: '1px solid rgba(10,10,10,.12)' }}>
+        {[
+          ['29 AUG', 'The Opening', 'Domusdela'],
+          ['11 SEP', 'Main Act',    'Effenaar'],
+          ['02 OCT', 'Closing',     'Vibes EHV'],
+        ].map(([d, t, v]) => (
+          <div key={d}>
+            <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>{d}</div>
+            <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 14, letterSpacing: '-0.005em', marginTop: 6 }}>{t}</div>
+            <div style={{ ...monoStyles.mono, opacity: .45, fontSize: 8, marginTop: 5 }}>{v}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── Desktop homepage ───────────────────────────────────────────────────
 function Monochrome() {
   return (
     <div style={monoStyles.root}>
       <MonoNav inverted />
       <MonoHero />
+      <MonoIntroSection />
       <MonoEvents />
       <MonoGalleryStrip />
       <MonoFooter />
-    </div>);
-
+    </div>
+  );
 }
 
-// ── MOBILE ─────────────────────────────────────────────────────────────
-
-function MobileMonoStatusBar() {
-  return (
-    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 44, padding: '0 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fafafa', fontFamily: 'SF Pro Display, Montserrat', fontWeight: 600, fontSize: 14, zIndex: 20 }}>
-      <span>9:41</span>
-      <span style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-        <span style={{ fontSize: 11 }}>●●●●</span>
-        <span style={{ width: 16, height: 9, border: '1px solid #fafafa', borderRadius: 2, position: 'relative', display: 'inline-block' }}>
-          <span style={{ position: 'absolute', inset: 1, background: '#fafafa', borderRadius: 1 }} />
-        </span>
-      </span>
-    </div>);
-
-}
-
+// ── Mobile nav with fullscreen overlay menu ────────────────────────────
 function MobileMonoNav({ inverted = true }) {
-  const ink = inverted ? '#fafafa' : '#0a0a0a';
-  const logo = inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
-  return (
-    <div style={{ position: 'absolute', top: 44, left: 0, right: 0, zIndex: 10, padding: '14px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: ink }}>
-      <img src={logo} alt="Ascension" style={{ height: 22, display: 'block' }} />
-      <div style={{ width: 24, height: 14, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <span style={{ height: 1.5, background: ink }} />
-        <span style={{ height: 1.5, background: ink }} />
-      </div>
-    </div>);
+  const [open, setOpen] = useState(false);
+  // Always white when menu is open, otherwise match bg
+  const ink  = open ? '#fafafa' : (inverted ? '#fafafa' : '#0a0a0a');
+  const logo = open || inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
 
+  useEffect(() => {
+    const onHash = () => setOpen(false);
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  return (
+    <>
+      {/* position:fixed — bypasses any child stacking context created by filter/transform */}
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <a href="#home" className="af-logo-link">
+          <img src={logo} alt="Ascension" style={{ height: 20, display: 'block' }} />
+        </a>
+        {/* 44×44 tap target — minimum per touch guidelines */}
+        <button onClick={() => setOpen(o => !o)} aria-label={open ? 'Close menu' : 'Menu'}
+          style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: 44, height: 44, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5.5, WebkitTapHighlightColor: 'transparent' }}>
+          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'transform .22s', transform: open ? 'rotate(45deg) translateY(3.5px)' : 'none' }} />
+          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'opacity .15s', opacity: open ? 0 : 1 }} />
+          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'transform .22s', transform: open ? 'rotate(-45deg) translateY(-3.5px)' : 'none' }} />
+        </button>
+      </div>
+      {/* Full-screen overlay — z-index below the bar so the × stays tappable */}
+      {open && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 199, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 36 }}>
+          {[['Home','#home'],['Events','#events'],['Gallery','#gallery'],['Tickets','#tickets'],['Contact','#contact']].map(([label, href]) => (
+            <a key={label} href={href} className="af-mobile-item" onClick={() => setOpen(false)}
+              style={{ color: '#fafafa', textDecoration: 'none', fontFamily: 'Montserrat', fontWeight: 300, fontSize: 42, letterSpacing: '-0.025em', lineHeight: 1 }}>
+              {label}
+            </a>
+          ))}
+        </div>
+      )}
+    </>
+  );
 }
 
+// ── Mobile hero (fullscreen) ───────────────────────────────────────────
 function MobileMonoHero() {
   const { days, hours, mins, secs } = useCountdown('2026-06-05T22:00:00+02:00');
   const pad = (n) => String(n).padStart(2, '0');
   return (
-    <section style={{ position: 'relative', height: 720 }}>
+    <section className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
-
-      <div style={{ position: 'absolute', left: 0, right: 0, top: 240, color: '#fafafa', textAlign: 'center', padding: '0 22px' }}>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: '28%', color: '#fafafa', textAlign: 'center', padding: '0 22px' }}>
         <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: '92%', display: 'block', margin: '0 auto', filter: 'drop-shadow(0 4px 24px rgba(0,0,0,.5))' }} />
-        <div style={{ ...monoStyles.mono, marginTop: 16, fontSize: 10, opacity: .9, textWrap: 'balance' }}>
-          A warm welcome to Eindhoven’s International Student Experience
+        <div style={{ ...monoStyles.mono, marginTop: 16, fontSize: 10, opacity: .9 }}>
+          A warm welcome to Eindhoven's International Student Experience
         </div>
       </div>
-
-      {/* Bottom card */}
-      <div style={{ position: 'absolute', left: 16, right: 16, bottom: 22, color: '#fafafa', borderTop: '1px solid rgba(250,250,250,.4)', paddingTop: 18 }}>
+      <div style={{ position: 'absolute', left: 16, right: 16, bottom: 28, color: '#fafafa', borderTop: '1px solid rgba(250,250,250,.4)', paddingTop: 18 }}>
         <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 9 }}>Next · Fri 05 Jun 2026</div>
         <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 22, marginTop: 6, letterSpacing: '-0.015em', lineHeight: 1.15 }}>
           <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Summer Festival</span><br />
@@ -359,23 +453,24 @@ function MobileMonoHero() {
         </div>
         <div style={{ display: 'flex', gap: 18, marginTop: 18, justifyContent: 'space-between' }}>
           {[['D', pad(days)], ['H', pad(hours)], ['M', pad(mins)], ['S', pad(secs)]].map(([l, v]) =>
-          <div key={l} style={{ textAlign: 'center', flex: 1 }}>
+            <div key={l} style={{ textAlign: 'center', flex: 1 }}>
               <div style={{ fontFamily: 'Montserrat', fontWeight: 200, fontSize: 36, lineHeight: 1, letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums' }}>{v}</div>
               <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>{l}</div>
             </div>
           )}
         </div>
-        <a style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
+        <a href="#tickets" className="af-cta-light" style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
           Buy tickets · €18.50 →
         </a>
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
+// ── Mobile events ──────────────────────────────────────────────────────
 function MobileMonoEvents() {
   return (
-    <section style={{ padding: '60px 22px' }}>
+    <section className="af-reveal" style={{ padding: '60px 22px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 22 }}>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Upcoming</span>
@@ -385,33 +480,24 @@ function MobileMonoEvents() {
       <div>
         {EVENTS.map((ev, i) => {
           const isLast = i === EVENTS.length - 1;
-          const baseRow = {
-            padding: '16px 0',
-            borderTop: '1px solid #0a0a0a',
-            ...(isLast ? { borderBottom: '1px solid #0a0a0a' } : {}),
-          };
-
+          const baseRow = { padding: '16px 0', borderTop: '1px solid #0a0a0a', ...(isLast ? { borderBottom: '1px solid #0a0a0a' } : {}) };
           if (ev.isSeries) {
             return (
-              <div key={ev.id} style={baseRow}>
+              <div key={ev.id} className="af-event-row" style={baseRow}>
                 <div style={{ display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 14, alignItems: 'center' }}>
                   <img src={ev.poster} alt={ev.title} style={{ width: 64, height: 64, objectFit: 'cover', display: 'block' }} />
                   <div>
                     <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 8 }}>{ev.tag}</div>
-                    <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 13, lineHeight: 1.15, letterSpacing: '-0.005em', marginTop: 4 }}>
-                      Int'l Student Intro 2026
-                    </div>
+                    <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 13, lineHeight: 1.15, letterSpacing: '-0.005em', marginTop: 4 }}>Int'l Student Intro 2026</div>
                     <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>3 shows · Eindhoven · 18+</div>
                   </div>
-                  <a style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>
-                    Buy →
-                  </a>
+                  <a href="#tickets" className="af-link" style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 12, paddingLeft: 78 }}>
                   {ev.series.map((s) => (
                     <div key={s.id} style={{ display: 'flex', gap: 10, alignItems: 'baseline', ...monoStyles.mono, fontSize: 9, opacity: .75 }}>
                       <span style={{ minWidth: 56 }}>{s.dow} {s.day} {s.month}</span>
-                      <span style={{ opacity: .8 }}>{s.subtitle}</span>
+                      <span>{s.subtitle}</span>
                       <span style={{ opacity: .55, marginLeft: 'auto' }}>{s.venue}</span>
                     </div>
                   ))}
@@ -419,13 +505,8 @@ function MobileMonoEvents() {
               </div>
             );
           }
-
           return (
-            <div key={ev.id} style={{
-              ...baseRow,
-              display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 14,
-              alignItems: 'center',
-            }}>
+            <div key={ev.id} className="af-event-row" style={{ ...baseRow, display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 14, alignItems: 'center' }}>
               <img src={ev.poster} alt={ev.title} style={{ width: 64, height: 64, objectFit: 'cover', display: 'block' }} />
               <div>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
@@ -438,81 +519,100 @@ function MobileMonoEvents() {
                 </div>
                 <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>{ev.venue.split(' — ')[0]} · 18+</div>
               </div>
-              <a style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>
-                Buy →
-              </a>
+              <a href="#tickets" className="af-link" style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
             </div>
           );
         })}
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
+// ── Mobile gallery strip ───────────────────────────────────────────────
 function MobileMonoGallery() {
   const items = [
-  { src: 'assets/photo-02.jpg', cap: 'floor' },
-  { src: 'assets/photo-04.jpg', cap: 'dance' },
-  { src: 'assets/photo-06.jpg', cap: 'pair' },
-  { src: 'assets/photo-08.jpg', cap: 'dj' }];
-
+    { src: 'assets/photo-02.jpg' },
+    { src: 'assets/photo-04.jpg' },
+    { src: 'assets/photo-06.jpg' },
+    { src: 'assets/photo-08.jpg' },
+  ];
   return (
-    <section style={{ padding: '20px 22px 60px' }}>
+    <section className="af-reveal" style={{ padding: '20px 22px 60px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 18 }}>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 24, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Recent</span> moments
         </h2>
-        <a style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
+        <a href="#gallery" className="af-link" style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {items.map((it, i) =>
-        <BWPhoto key={i} src={it.src} caption={it.cap} style={{ aspectRatio: '3 / 4' }} />
+          <div key={i} className="af-photo-item">
+            <BWPhoto src={it.src} caption="" style={{ aspectRatio: '3 / 4' }} />
+          </div>
         )}
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
+// ── Mobile footer ──────────────────────────────────────────────────────
 function MobileMonoFooter() {
   return (
-    <footer style={{ borderTop: '1px solid #0a0a0a' }}>
-      <div style={{ padding: '24px 22px 28px' }}>
-        <img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} />
-        <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginTop: 12 }}>Eindhoven, since 2018</div>
+    <footer className="af-reveal" style={{ borderTop: '1px solid #0a0a0a' }}>
+      <div style={{ padding: '24px 22px 36px' }}>
+        <a href="#home" className="af-logo-link"><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
+        <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginTop: 12 }}>Eindhoven, since 2025</div>
         <div style={{ marginTop: 22 }}>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginBottom: 8 }}>Mailing list</div>
-          <div style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
-            <div style={{ flex: 1, fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, opacity: .5 }}>you@uni.nl</div>
-            <a style={{ ...monoStyles.mono, fontSize: 10 }}>Sign up →</a>
-          </div>
+          <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
+            <input type="email" placeholder="you@uni.nl" required style={{ flex: 1, border: 'none', background: 'transparent', fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, color: '#0a0a0a', outline: 'none' }} />
+            <button type="submit" className="af-footer-link" style={{ border: 'none', background: 'transparent', cursor: 'pointer', ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', padding: 0 }}>→</button>
+          </form>
         </div>
         <div style={{ display: 'flex', gap: 16, marginTop: 24, ...monoStyles.mono, fontSize: 10 }}>
-          <span>Instagram</span><span>TikTok</span><span>Spotify</span>
+          <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" style={{ color: '#0a0a0a', textDecoration: 'none' }}>Instagram</a>
+          <a href="https://tiktok.com/@ascensionfestival" className="af-footer-link" target="_blank" rel="noopener" style={{ color: '#0a0a0a', textDecoration: 'none' }}>TikTok</a>
+          <a href="#" className="af-footer-link" style={{ color: '#0a0a0a', textDecoration: 'none' }}>Spotify</a>
         </div>
         <div style={{ marginTop: 28, ...monoStyles.mono, opacity: .5, fontSize: 8, display: 'flex', justifyContent: 'space-between' }}>
           <span>© 2026 Ascension Festival NL</span>
           <span>Made in Eindhoven</span>
         </div>
-        {/* iOS home indicator */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 26 }}>
-          <div style={{ width: 134, height: 5, background: '#0a0a0a', borderRadius: 3, opacity: .9 }} />
-        </div>
       </div>
-    </footer>);
-
+    </footer>
+  );
 }
 
+// ── Mobile homepage ────────────────────────────────────────────────────
 function MonochromeMobile() {
   return (
-    <div style={{ ...monoStyles.root, width: 390, borderRadius: 0, boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.08)' }}>
-      <MobileMonoStatusBar />
+    <div style={monoStyles.root}>
       <MobileMonoNav inverted />
       <MobileMonoHero />
+      <MobileIntroSection />
       <MobileMonoEvents />
       <MobileMonoGallery />
       <MobileMonoFooter />
-    </div>);
-
+    </div>
+  );
 }
 
-Object.assign(window, { Monochrome, MonochromeMobile, MonoNav, MonoFooter, BWPhoto, monoStyles });
+// ── Responsive homepage ────────────────────────────────────────────────
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const handler = (e) => setMobile(e.matches);
+    mq.addEventListener('change', handler);
+    setMobile(mq.matches);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return mobile;
+}
+
+function HomePage() {
+  const mobile = useIsMobile();
+  return mobile ? <MonochromeMobile /> : <Monochrome />;
+}
+
+Object.assign(window, { Monochrome, MonochromeMobile, MonoNav, MonoFooter, BWPhoto, monoStyles, HomePage });
