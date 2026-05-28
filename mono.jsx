@@ -72,22 +72,23 @@ function MonoNav({ inverted = false }) {
           <a href="#contact" className="af-nav-link" style={link}>Contact</a>
         </div>
         <div className="af-nav-tickets" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-          <a href="#tickets" className="af-nav-link" style={{ ...link, borderBottom: `1px solid ${ink}`, paddingBottom: 2 }}>Tickets →</a>
+          <a href="https://tickets.ascensionfestival.nl/" target="_blank" rel="noopener" className="af-nav-link" style={{ ...link, borderBottom: `1px solid ${ink}`, paddingBottom: 2 }}>Tickets →</a>
         </div>
         {/* Mobile hamburger — hidden on desktop via CSS */}
         <button className="af-nav-ham" onClick={() => setOpen(o => !o)}
           aria-label={open ? 'Close menu' : 'Menu'}
           style={{ display: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: 44, height: 44, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5.5, justifySelf: 'end' }}>
-          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'transform .22s', transform: open ? 'rotate(45deg) translateY(3.5px)' : 'none' }} />
+          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'transform .22s', transform: open ? 'rotate(45deg) translateY(7px)' : 'rotate(0deg)' }} />
           <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'opacity .15s', opacity: open ? 0 : 1 }} />
-          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'transform .22s', transform: open ? 'rotate(-45deg) translateY(-3.5px)' : 'none' }} />
+          <span style={{ width: 22, height: 1.5, background: ink, display: 'block', transition: 'transform .22s', transform: open ? 'rotate(-45deg) translateY(-7px)' : 'rotate(0deg)' }} />
         </button>
       </div>
       {/* Mobile overlay menu */}
       {open && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 99, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 36 }}>
-          {[['Home','#home'],['Events','#events'],['Gallery','#gallery'],['Tickets','#tickets'],['Contact','#contact']].map(([label, href]) => (
+          {[['Home','#home'],['Events','#events'],['Gallery','#gallery'],['Tickets','https://tickets.ascensionfestival.nl/'],['Contact','#contact']].map(([label, href]) => (
             <a key={label} href={href} className="af-mobile-item" onClick={() => setOpen(false)}
+              target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined}
               style={{ color: '#fafafa', textDecoration: 'none', fontFamily: 'Montserrat', fontWeight: 300, fontSize: 42, letterSpacing: '-0.025em', lineHeight: 1 }}>
               {label}
             </a>
@@ -114,9 +115,8 @@ function MonoHero() {
       <div style={{ position: 'absolute', left: 48, right: 48, bottom: 48, color: '#fafafa', display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 48, alignItems: 'flex-end', borderTop: '1px solid rgba(250,250,250,.3)', paddingTop: 32 }}>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10 }}>Next show · Fri 05 Jun 2026 · 22:00</div>
-          <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 30, marginTop: 8, letterSpacing: '-0.015em' }}>
-            <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Summer Festival</span> — Effenaar Main Stage
-          </div>
+          <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 30, marginTop: 8, letterSpacing: '-0.015em' }}>Summer Festival</div>
+          <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 10, marginTop: 5 }}>Effenaar Main Stage</div>
         </div>
         <div style={{ display: 'flex', gap: 28, alignItems: 'baseline' }}>
           {[['D', pad(days)], ['H', pad(hours)], ['M', pad(mins)], ['S', pad(secs)]].map(([l, v]) =>
@@ -126,7 +126,7 @@ function MonoHero() {
             </div>
           )}
         </div>
-        <a href="#tickets" className="af-cta-light" style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap', display: 'inline-block' }}>
+        <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-cta-light" style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap', display: 'inline-block' }}>
           Buy tickets →
         </a>
       </div>
@@ -209,12 +209,12 @@ function MonoEvents() {
 // ── Desktop gallery strip ──────────────────────────────────────────────
 function MonoGalleryStrip() {
   const items = [
-    { src: 'assets/photo-02.jpg', isVideo: true },
-    { src: 'assets/photo-03.jpg' },
-    { src: 'assets/photo-04.jpg' },
-    { src: 'assets/photo-05.jpg' },
-    { src: 'assets/photo-06.jpg' },
-    { src: 'assets/photo-07.jpg' },
+    { src: 'assets/photo-13.jpg' },
+    { src: 'assets/photo-10.jpg' },
+    { src: 'assets/photo-11.jpg' },
+    { src: 'assets/photo-9.jpg' },
+    { src: 'assets/photo-12.jpg' },
+    { src: 'assets/photo-08.jpg' },
   ];
   return (
     <section className="af-reveal" style={{ padding: '40px 48px 60px' }}>
@@ -293,40 +293,40 @@ function MonoIntroSection() {
         <div style={{ flex: '0 0 auto', maxWidth: 720 }}>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 22 }}>§ — International Student Intro · Eindhoven 2026</div>
           <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 84, lineHeight: 0.96, letterSpacing: '-0.033em', margin: 0 }}>
-            Experience the real<br />
-            <span style={{ fontStyle: 'italic' }}>international</span><br />
-            clubbing scene.
+            Eindhoven's International<br />
+            <span style={{ fontStyle: 'italic' }}>Student Intro</span><br />
+            Event Series.
           </h2>
         </div>
         <div style={{ paddingTop: 12, maxWidth: 380 }}>
           <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 17, lineHeight: 1.7, opacity: .7, margin: '0 0 12px' }}>
-            Three shows across three of Eindhoven's best venues — a warm welcome to the city's nightlife, parties, and international student community.
+            Eindhoven's International Student Intro Event Series, a warm welcome to the city's International Student Experience.
           </p>
           <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 17, lineHeight: 1.7, opacity: .7, margin: '0 0 32px' }}>
-            Dance until sunrise, meet thousands of fellow internationals, and discover why Eindhoven is the city to start your student life.
+            All events have been carefully curated to fit into the first-year TU/e students' timetable, with the first two events on Fridays of the first two weeks of the start of the quarter, and the final closing festival on the Friday right after the Calculus Midterm.
           </p>
-          <a href="#tickets" className="af-cta-dark" style={{ display: 'inline-block', background: '#0a0a0a', color: '#fafafa', padding: '16px 26px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
-            Get your tickets →
+          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-dark" style={{ display: 'inline-block', background: '#0a0a0a', color: '#fafafa', padding: '16px 26px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
+            Get tickets →
           </a>
         </div>
       </div>
 
       {/* photo grid */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 8, height: 500 }}>
-        <BWPhoto src="assets/photo-02.jpg" style={{ height: '100%' }} />
+        <BWPhoto src="assets/photo-10.jpg" style={{ height: '100%' }} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <BWPhoto src="assets/photo-03.jpg" style={{ flex: 1 }} />
-          <BWPhoto src="assets/photo-05.jpg" style={{ flex: 1 }} />
+          <BWPhoto src="assets/photo-9.jpg" style={{ flex: 1 }} />
+          <BWPhoto src="assets/photo-12.jpg" style={{ flex: 1 }} />
         </div>
-        <BWPhoto src="assets/photo-04.jpg" style={{ height: '100%' }} />
+        <BWPhoto src="assets/photo-11.jpg" style={{ height: '100%' }} />
       </div>
 
       {/* show facts strip */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 32, marginTop: 44, paddingTop: 32, borderTop: '1px solid rgba(10,10,10,.12)' }}>
         {[
-          ['29 AUG', 'The Opening',       'Domusdela · 900 cap'],
-          ['11 SEP', 'Main Act',          'Effenaar · 1,400 cap'],
-          ['02 OCT', 'Closing Festival',  'Vibes Eindhoven · 650 cap'],
+          ['04 SEP', 'The Opening Ball',   'Effenaar Main Stage · 1,200 cap'],
+          ['11 SEP', 'Main Act',          'Effenaar Main Stage · 1,200 cap'],
+          ['02 OCT', 'Closing Festival',  'Vibes Eindhoven · 3,000 cap'],
           ['18+',    'Eindhoven, NL',     'ID required at the door'],
         ].map(([date, title, sub]) => (
           <div key={date}>
@@ -346,22 +346,22 @@ function MobileIntroSection() {
     <section className="af-reveal" style={{ padding: '60px 22px', borderBottom: '1px solid #0a0a0a' }}>
       <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginBottom: 18 }}>International Student Intro · Eindhoven 2026</div>
       <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 44, lineHeight: 1.0, letterSpacing: '-0.027em', margin: '0 0 22px' }}>
-        Experience the real<br /><span style={{ fontStyle: 'italic' }}>international</span><br />clubbing scene.
+        Eindhoven's International<br /><span style={{ fontStyle: 'italic' }}>Student Intro</span><br />Event Series.
       </h2>
       <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.7, opacity: .7, margin: '0 0 28px' }}>
-        Three shows. Three venues. One unforgettable welcome to Eindhoven's nightlife, parties, and international student community.
+        Eindhoven's International Student Intro Event Series, a warm welcome to the city's International Student Experience. All events have been carefully curated to fit into the first-year TU/e students' timetable, with the first two events on Fridays of the first two weeks of the start of the quarter, and the final closing festival on the Friday right after the Calculus Midterm.
       </p>
-      <a href="#tickets" className="af-cta-dark" style={{ display: 'block', textAlign: 'center', background: '#0a0a0a', color: '#fafafa', padding: '16px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, marginBottom: 36 }}>
-        Get your tickets →
+      <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-dark" style={{ display: 'block', textAlign: 'center', background: '#0a0a0a', color: '#fafafa', padding: '16px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, marginBottom: 36 }}>
+        Get tickets →
       </a>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 32 }}>
-        <BWPhoto src="assets/photo-02.jpg" style={{ aspectRatio: '3/4' }} />
-        <BWPhoto src="assets/photo-04.jpg" style={{ aspectRatio: '3/4' }} />
+        <BWPhoto src="assets/photo-10.jpg" style={{ aspectRatio: '3/4' }} />
+        <BWPhoto src="assets/photo-12.jpg" style={{ aspectRatio: '3/4' }} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, paddingTop: 24, borderTop: '1px solid rgba(10,10,10,.12)' }}>
         {[
-          ['29 AUG', 'The Opening', 'Domusdela'],
-          ['11 SEP', 'Main Act',    'Effenaar'],
+          ['04 SEP', 'The Opening Ball', 'Effenaar'],
+          ['11 SEP', 'Main Act',         'Effenaar'],
           ['02 OCT', 'Closing',     'Vibes EHV'],
         ].map(([d, t, v]) => (
           <div key={d}>
@@ -420,8 +420,9 @@ function MobileMonoNav({ inverted = true }) {
       {/* Full-screen overlay — z-index below the bar so the × stays tappable */}
       {open && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 199, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 36 }}>
-          {[['Home','#home'],['Events','#events'],['Gallery','#gallery'],['Tickets','#tickets'],['Contact','#contact']].map(([label, href]) => (
+          {[['Home','#home'],['Events','#events'],['Gallery','#gallery'],['Tickets','https://tickets.ascensionfestival.nl/'],['Contact','#contact']].map(([label, href]) => (
             <a key={label} href={href} className="af-mobile-item" onClick={() => setOpen(false)}
+              target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined}
               style={{ color: '#fafafa', textDecoration: 'none', fontFamily: 'Montserrat', fontWeight: 300, fontSize: 42, letterSpacing: '-0.025em', lineHeight: 1 }}>
               {label}
             </a>
@@ -447,10 +448,8 @@ function MobileMonoHero() {
       </div>
       <div style={{ position: 'absolute', left: 16, right: 16, bottom: 28, color: '#fafafa', borderTop: '1px solid rgba(250,250,250,.4)', paddingTop: 18 }}>
         <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 9 }}>Next · Fri 05 Jun 2026</div>
-        <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 22, marginTop: 6, letterSpacing: '-0.015em', lineHeight: 1.15 }}>
-          <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Summer Festival</span><br />
-          Effenaar Main Stage
-        </div>
+        <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 22, marginTop: 6, letterSpacing: '-0.015em' }}>Summer Festival</div>
+        <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 9, marginTop: 4 }}>Effenaar Main Stage</div>
         <div style={{ display: 'flex', gap: 18, marginTop: 18, justifyContent: 'space-between' }}>
           {[['D', pad(days)], ['H', pad(hours)], ['M', pad(mins)], ['S', pad(secs)]].map(([l, v]) =>
             <div key={l} style={{ textAlign: 'center', flex: 1 }}>
@@ -459,8 +458,8 @@ function MobileMonoHero() {
             </div>
           )}
         </div>
-        <a href="#tickets" className="af-cta-light" style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
-          Buy tickets · €18.50 →
+        <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-cta-light" style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
+          Buy tickets →
         </a>
       </div>
     </section>
@@ -531,10 +530,10 @@ function MobileMonoEvents() {
 // ── Mobile gallery strip ───────────────────────────────────────────────
 function MobileMonoGallery() {
   const items = [
-    { src: 'assets/photo-02.jpg' },
-    { src: 'assets/photo-04.jpg' },
-    { src: 'assets/photo-06.jpg' },
-    { src: 'assets/photo-08.jpg' },
+    { src: 'assets/photo-13.jpg' },
+    { src: 'assets/photo-10.jpg' },
+    { src: 'assets/photo-9.jpg' },
+    { src: 'assets/photo-12.jpg' },
   ];
   return (
     <section className="af-reveal" style={{ padding: '20px 22px 60px' }}>
