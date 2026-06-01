@@ -138,7 +138,7 @@ function TicketsPage() {
 
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginTop: 16, textAlign: 'center' }}>
           Trouble loading the shop?{' '}
-          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-link" style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 1 }}>Open it directly →</a>
+          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-link" onClick={() => track('Tickets Page – Open Shop Directly', 'cta')} style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 1 }}>Open it directly →</a>
         </div>
       </section>
 
@@ -283,7 +283,7 @@ function GalleryPage() {
   const layout = ALBUM_LAYOUTS[activeId];
   const images = layout.map(it => it.src);
 
-  const switchAlbum = (id) => { setActiveId(id); setLightbox(null); };
+  const switchAlbum = (id) => { setActiveId(id); setLightbox(null); track(`Gallery – Switch Album: ${id}`, 'gallery'); };
 
   return (
     <div style={pageRoot}>
@@ -316,14 +316,14 @@ function GalleryPage() {
         <div className="af-gallery-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 8 }}>
           {layout.map((it, i) =>
             <div key={`${activeId}-${i}`} className="af-photo-item" style={{ gridColumn: it.col, height: it.h, position: 'relative' }}
-              onClick={() => setLightbox(i)}>
+              onClick={() => { setLightbox(i); track(`Gallery – Open Photo ${i + 1}`, 'gallery'); }}>
               <BWPhoto src={it.src} caption="" style={{ width: '100%', height: '100%' }} />
             </div>
           )}
         </div>
       </section>
 
-      {lightbox !== null && <Lightbox images={images} startIndex={lightbox} onClose={() => setLightbox(null)} />}
+      {lightbox !== null && <Lightbox images={images} startIndex={lightbox} onClose={() => { setLightbox(null); track('Gallery – Lightbox Close', 'gallery'); }} />}
 
       <MonoFooter />
     </div>
@@ -365,7 +365,7 @@ function EventCard({ ev, i }) {
               {ev.title}
             </h3>
           </div>
-          <a href={ev.id === 'summer-fest-2026' ? 'https://tickets.ascensionfestival.nl/summerfestival/' : 'https://tickets.ascensionfestival.nl/intro/'} target="_blank" rel="noopener" className="af-cta-dark" style={{ background: '#0a0a0a', color: '#fafafa', padding: '14px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap' }}>
+          <a href={ev.id === 'summer-fest-2026' ? 'https://tickets.ascensionfestival.nl/summerfestival/' : 'https://tickets.ascensionfestival.nl/intro/'} target="_blank" rel="noopener" className="af-cta-dark" onClick={() => track(`Events Page – Get Tickets: ${ev.title}`, 'cta')} style={{ background: '#0a0a0a', color: '#fafafa', padding: '14px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap' }}>
             Get tickets →
           </a>
         </div>
@@ -406,7 +406,7 @@ function ContactPage() {
         photo="assets/gallery/g66.jpg" />
 
       <section className="af-reveal" style={{ padding: '100px 48px 120px' }}>
-        <a href="mailto:egor@ascensionfestival.nl" className="af-contact-email" style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 4, display: 'inline-block', wordBreak: 'break-all' }}>
+        <a href="mailto:egor@ascensionfestival.nl" className="af-contact-email" onClick={() => track('Contact Page – Email', 'contact')} style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 4, display: 'inline-block', wordBreak: 'break-all' }}>
           egor@ascensionfestival.nl
         </a>
       </section>

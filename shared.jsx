@@ -3,6 +3,11 @@
 
 const { useState, useEffect, useMemo } = React;
 
+// ── Analytics helper ─────────────────────────────────────────────────────
+window.track = (label, category = 'engagement') => {
+  try { gtag('event', 'click', { event_category: category, event_label: label }); } catch(e) {}
+};
+
 // ── Countdown ───────────────────────────────────────────────────────────
 // Target: June 5, 2026 — Summer Festival @ Effenaar
 function useCountdown(targetIso) {

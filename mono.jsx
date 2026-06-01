@@ -62,12 +62,13 @@ function MonoNav({ inverted = false }) {
         transition: 'opacity 0.3s ease', color: '#fafafa',
       }}>
         {NAV.map(([label, href]) => (
-          <a key={label} href={href} onClick={() => setOpen(false)}
+          <a key={label} href={href} onClick={() => { setOpen(false); track(`Overlay Nav – ${label}`, 'navigation'); }}
             style={{ display: 'block', color: '#fafafa', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontWeight: 300, fontSize: 48, letterSpacing: '-0.025em', lineHeight: 1.15, padding: '10px 0', WebkitTapHighlightColor: 'transparent' }}>
             {label}
           </a>
         ))}
         <a href="https://tickets.ascensionfestival.nl/" target="_blank" rel="noopener"
+          onClick={() => track('Overlay Nav – Tickets', 'navigation')}
           style={{ display: 'inline-block', marginTop: 48, color: '#fafafa', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.6)', padding: '14px 28px', fontFamily: 'Montserrat, sans-serif', fontWeight: 500, fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', WebkitTapHighlightColor: 'transparent' }}>
           Tickets →
         </a>
@@ -76,21 +77,21 @@ function MonoNav({ inverted = false }) {
       {/* Bar — position:absolute on desktop, overridden to fixed on mobile via CSS */}
       <div className="af-nav-bar" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 9999, padding: '24px 48px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', color: ink }}>
         <div>
-          <a href="index.html" className="af-logo-link">
+          <a href="index.html" className="af-logo-link" onClick={() => track('Nav – Logo', 'navigation')}>
             <img src={logo} className="af-nav-logo" alt="Ascension" style={{ height: 38, display: 'block' }} />
           </a>
         </div>
         {/* Desktop links */}
         <div className="af-nav-links" style={{ display: 'flex', gap: 32, justifyContent: 'center' }}>
           {NAV.map(([label, href]) => (
-            <a key={label} href={href} className="af-nav-link" style={link}>{label}</a>
+            <a key={label} href={href} className="af-nav-link" style={link} onClick={() => track(`Nav – ${label}`, 'navigation')}>{label}</a>
           ))}
         </div>
         <div className="af-nav-tickets" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-          <a href="https://tickets.ascensionfestival.nl/" target="_blank" rel="noopener" className="af-nav-link" style={{ ...link, borderBottom: `1px solid ${ink}`, paddingBottom: 2 }}>Tickets →</a>
+          <a href="https://tickets.ascensionfestival.nl/" target="_blank" rel="noopener" className="af-nav-link" style={{ ...link, borderBottom: `1px solid ${ink}`, paddingBottom: 2 }} onClick={() => track('Nav – Tickets', 'navigation')}>Tickets →</a>
         </div>
         {/* Mobile hamburger — hidden on desktop via CSS */}
-        <button className="af-nav-ham" onClick={() => setOpen(o => !o)}
+        <button className="af-nav-ham" onClick={() => { const next = !open; setOpen(next); track(next ? 'Hamburger – Open' : 'Hamburger – Close', 'navigation'); }}
           aria-label={open ? 'Close menu' : 'Menu'}
           style={{ display: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: 44, height: 44, alignItems: 'center', justifyContent: 'center', justifySelf: 'end', WebkitTapHighlightColor: 'transparent' }}>
           {open
@@ -139,7 +140,7 @@ function MonoHero() {
             </div>
           )}
         </div>
-        <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-cta-light" style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap', display: 'inline-block' }}>
+        <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track('Hero – Buy Tickets (Summer Festival)', 'cta')} style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap', display: 'inline-block' }}>
           Buy tickets →
         </a>
       </div>
@@ -185,7 +186,7 @@ function MonoEvents() {
                   ))}
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <a href="#tickets" className="af-link" style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy series →</a>
+                  <a href="#tickets" className="af-link" onClick={() => track('Events List – Buy ISI Series', 'cta')} style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy series →</a>
                 </div>
               </div>
             );
@@ -209,7 +210,7 @@ function MonoEvents() {
                 <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 6, fontSize: 10 }}>{ev.doors}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <a href="#tickets" className="af-link" style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy ticket →</a>
+                <a href="#tickets" className="af-link" onClick={() => track('Events List – Buy Summer Festival Ticket', 'cta')} style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy ticket →</a>
               </div>
             </div>
           );
@@ -235,7 +236,7 @@ function MonoGalleryStrip() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Gallery</span>
         </h2>
-        <a href="gallery.html" className="af-link" style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
+        <a href="gallery.html" className="af-link" onClick={() => track('Gallery Strip – Full Archive', 'navigation')} style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
         {items.map((it, i) =>
@@ -260,7 +261,7 @@ function MonoFooter() {
     <footer id="contact" className="af-reveal" style={{ background: '#fafafa', borderTop: '1px solid #0a0a0a', padding: '48px 48px 28px' }}>
       <div className="af-footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 32, alignItems: 'flex-start' }}>
         <div>
-          <a href="index.html" className="af-logo-link"><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
+          <a href="index.html" className="af-logo-link" onClick={() => track('Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
           <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10, marginTop: 16 }}>EINDHOVEN, SINCE 2025</div>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, lineHeight: 1.6, opacity: .65, marginTop: 10, maxWidth: 320 }}>
             A warm welcome to Eindhoven's International Student Experience. Run by students, for students.
@@ -270,20 +271,20 @@ function MonoFooter() {
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Follow</div>
           {[['Instagram', 'https://instagram.com/ascensionfestival.nl'], ['TikTok', 'https://tiktok.com/@ascensionfestival'], ['Spotify', '#']].map(([label, href]) =>
             <div key={label} style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
-              <a href={href} className="af-footer-link" target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" style={{ color: '#0a0a0a', textDecoration: 'none' }}>{label}</a>
+              <a href={href} className="af-footer-link" target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" onClick={() => track(`Footer – ${label}`, 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>{label}</a>
             </div>
           )}
         </div>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Contact</div>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
-            <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" style={{ color: '#0a0a0a', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
+            <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" onClick={() => track('Footer – Email', 'contact')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
           </div>
-          <a href="contact.html" className="af-footer-link" style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
+          <a href="contact.html" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
         </div>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Mailing list</div>
-          <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
+          <form onSubmit={(e) => { e.preventDefault(); track('Footer – Mailing List Signup', 'engagement'); }} style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
             <input type="email" placeholder="your@university.nl" required style={{ flex: 1, border: 'none', background: 'transparent', fontFamily: 'Montserrat', fontWeight: 400, fontSize: 14, color: '#0a0a0a', outline: 'none' }} />
             <button type="submit" className="af-footer-link" style={{ border: 'none', background: 'transparent', cursor: 'pointer', ...monoStyles.mono, fontSize: 11, color: '#0a0a0a', padding: 0 }}>Sign up →</button>
           </form>
@@ -321,7 +322,7 @@ function MonoIntroSection() {
             <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.65, margin: '0 0 24px' }}>
               All events have been carefully curated to fit into the first-year TU/e students' timetable, with the first two events on Fridays of the first two weeks of the start of the quarter, and the final closing festival on the Friday right after the Calculus Midterm.
             </p>
-            <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-dark" style={{ display: 'inline-block', background: 'transparent', color: '#fafafa', border: '1px solid rgba(255,255,255,.7)', padding: '13px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
+            <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-dark" onClick={() => track('ISI Section – Get Tickets', 'cta')} style={{ display: 'inline-block', background: 'transparent', color: '#fafafa', border: '1px solid rgba(255,255,255,.7)', padding: '13px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
               Get tickets →
             </a>
           </div>
@@ -373,7 +374,7 @@ function MobileIntroSection() {
         <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.7, margin: '0 0 28px' }}>
           Eindhoven's International Student Intro Event Series, a warm welcome to the city's International Student Experience. All events have been carefully curated to fit into the first-year TU/e students' timetable, with the first two events on Fridays of the first two weeks of the start of the quarter, and the final closing festival on the Friday right after the Calculus Midterm.
         </p>
-        <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-dark" style={{ display: 'block', textAlign: 'center', background: 'transparent', color: '#fafafa', border: '1px solid rgba(255,255,255,.7)', padding: '16px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, marginBottom: 36 }}>
+        <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-dark" onClick={() => track('ISI Section Mobile – Get Tickets', 'cta')} style={{ display: 'block', textAlign: 'center', background: 'transparent', color: '#fafafa', border: '1px solid rgba(255,255,255,.7)', padding: '16px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, marginBottom: 36 }}>
           Get tickets →
         </a>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 32 }}>
@@ -466,7 +467,7 @@ function MonoEventDetailsSection() {
           <div style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 28, letterSpacing: '-0.02em' }}>
             All 3 nights · <span style={{ fontStyle: 'italic' }}>get your tickets now</span>
           </div>
-          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" style={{ display: 'inline-block', background: 'rgba(255,255,255,0.12)', color: '#fafafa', border: '1px solid rgba(255,255,255,.55)', padding: '14px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, backdropFilter: 'blur(6px)', whiteSpace: 'nowrap' }}>
+          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" onClick={() => track('Event Details – Buy Tickets (ISI All 3 Nights)', 'cta')} style={{ display: 'inline-block', background: 'rgba(255,255,255,0.12)', color: '#fafafa', border: '1px solid rgba(255,255,255,.55)', padding: '14px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, backdropFilter: 'blur(6px)', whiteSpace: 'nowrap' }}>
             Buy tickets →
           </a>
         </div>
@@ -506,7 +507,7 @@ function MobileEventDetailsSection() {
         ))}
         {/* Tickets CTA */}
         <div className="af-reveal" style={{ padding: '32px 0', borderTop: '1px solid rgba(255,255,255,.22)', transitionDelay: `${EVENT_DETAILS.length * 0.18}s` }}>
-          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" style={{ display: 'block', textAlign: 'center', background: 'rgba(255,255,255,0.12)', color: '#fafafa', border: '1px solid rgba(255,255,255,.55)', padding: '18px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, backdropFilter: 'blur(6px)' }}>
+          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" onClick={() => track('Event Details Mobile – Buy Tickets (ISI All 3 Nights)', 'cta')} style={{ display: 'block', textAlign: 'center', background: 'rgba(255,255,255,0.12)', color: '#fafafa', border: '1px solid rgba(255,255,255,.55)', padding: '18px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, backdropFilter: 'blur(6px)' }}>
             Buy tickets — all 3 nights →
           </a>
         </div>
@@ -573,7 +574,7 @@ function MobileMonoNav({ inverted = true }) {
       }}>
         {[['Home','index.html'],['Events','events.html'],['Gallery','gallery.html'],['Contact','contact.html']].map(([label, href]) => (
           <a key={label} href={href}
-            onClick={() => setOpen(false)}
+            onClick={() => { setOpen(false); track(`Mobile Overlay – ${label}`, 'navigation'); }}
             style={{
               display: 'block',
               color: '#fafafa',
@@ -590,6 +591,7 @@ function MobileMonoNav({ inverted = true }) {
           </a>
         ))}
         <a href="https://tickets.ascensionfestival.nl/" target="_blank" rel="noopener"
+          onClick={() => track('Mobile Overlay – Tickets', 'navigation')}
           style={{
             display: 'inline-block', marginTop: 48,
             color: '#fafafa',
@@ -611,11 +613,11 @@ function MobileMonoNav({ inverted = true }) {
         padding: '14px 20px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <a href="index.html" onClick={() => setOpen(false)} style={{ display: 'block', WebkitTapHighlightColor: 'transparent' }}>
+        <a href="index.html" onClick={() => { setOpen(false); track('Mobile Nav – Logo', 'navigation'); }} style={{ display: 'block', WebkitTapHighlightColor: 'transparent' }}>
           <img src={logo} alt="Ascension" style={{ height: 20, display: 'block' }} />
         </a>
         <button
-          onClick={() => setOpen(o => !o)}
+          onClick={() => { const next = !open; setOpen(next); track(next ? 'Mobile Hamburger – Open' : 'Mobile Hamburger – Close', 'navigation'); }}
           aria-label={open ? 'Close menu' : 'Open menu'}
           style={{
             background: 'none', border: 'none', padding: 0, margin: 0,
@@ -668,7 +670,7 @@ function MobileMonoHero() {
             </div>
           )}
         </div>
-        <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-cta-light" style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
+        <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track('Mobile Hero – Buy Tickets (Summer Festival)', 'cta')} style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
           Buy tickets →
         </a>
       </div>
@@ -700,7 +702,7 @@ function MobileMonoEvents() {
                     <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 13, lineHeight: 1.15, letterSpacing: '-0.005em', marginTop: 4 }}>Int'l Student Intro 2026</div>
                     <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>3 shows · Eindhoven · 18+</div>
                   </div>
-                  <a href="#tickets" className="af-link" style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
+                  <a href="#tickets" className="af-link" onClick={() => track('Mobile Events List – Buy ISI Series', 'cta')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 12, paddingLeft: 78 }}>
                   {ev.series.map((s) => (
@@ -728,7 +730,7 @@ function MobileMonoEvents() {
                 </div>
                 <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>{ev.venue.split(' — ')[0]} · 18+</div>
               </div>
-              <a href="#tickets" className="af-link" style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
+              <a href="#tickets" className="af-link" onClick={() => track('Mobile Events List – Buy Summer Festival Ticket', 'cta')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
             </div>
           );
         })}
@@ -751,7 +753,7 @@ function MobileMonoGallery() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 24, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Recent</span> moments
         </h2>
-        <a href="gallery.html" className="af-link" style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
+        <a href="gallery.html" className="af-link" onClick={() => track('Mobile Gallery Strip – Archive', 'navigation')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {items.map((it, i) =>
@@ -769,19 +771,19 @@ function MobileMonoFooter() {
   return (
     <footer id="contact" className="af-reveal" style={{ borderTop: '1px solid #0a0a0a' }}>
       <div style={{ padding: '24px 22px 36px' }}>
-        <a href="index.html" className="af-logo-link"><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
+        <a href="index.html" className="af-logo-link" onClick={() => track('Mobile Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginTop: 12 }}>Eindhoven, since 2025</div>
         <div style={{ marginTop: 22 }}>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginBottom: 8 }}>Mailing list</div>
-          <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
+          <form onSubmit={(e) => { e.preventDefault(); track('Mobile Footer – Mailing List Signup', 'engagement'); }} style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
             <input type="email" placeholder="you@uni.nl" required style={{ flex: 1, border: 'none', background: 'transparent', fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, color: '#0a0a0a', outline: 'none' }} />
             <button type="submit" className="af-footer-link" style={{ border: 'none', background: 'transparent', cursor: 'pointer', ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', padding: 0 }}>→</button>
           </form>
         </div>
         <div style={{ display: 'flex', gap: 16, marginTop: 24, ...monoStyles.mono, fontSize: 10 }}>
-          <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" style={{ color: '#0a0a0a', textDecoration: 'none' }}>Instagram</a>
-          <a href="https://tiktok.com/@ascensionfestival" className="af-footer-link" target="_blank" rel="noopener" style={{ color: '#0a0a0a', textDecoration: 'none' }}>TikTok</a>
-          <a href="#" className="af-footer-link" style={{ color: '#0a0a0a', textDecoration: 'none' }}>Spotify</a>
+          <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Mobile Footer – Instagram', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Instagram</a>
+          <a href="https://tiktok.com/@ascensionfestival" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Mobile Footer – TikTok', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>TikTok</a>
+          <a href="#" className="af-footer-link" onClick={() => track('Mobile Footer – Spotify', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Spotify</a>
         </div>
         <div style={{ marginTop: 28, ...monoStyles.mono, opacity: .5, fontSize: 8, display: 'flex', justifyContent: 'space-between' }}>
           <span>© 2026 Ascension Festival NL</span>
