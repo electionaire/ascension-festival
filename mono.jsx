@@ -48,7 +48,7 @@ function MonoNav({ inverted = false }) {
   const ink  = inverted ? '#fafafa' : '#0a0a0a';
   const link = { color: ink, textDecoration: 'none', fontSize: 11, fontWeight: 500, letterSpacing: '.18em', textTransform: 'uppercase' };
   const logo = inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
-  const NAV = [['Home','index.html'],['Events','events.html'],['Gallery','gallery.html'],['Contact','contact.html']];
+  const NAV = [['Home','/'],['Events','/events'],['Gallery','/gallery'],['Contact','/contact']];
 
   return (
     <>
@@ -77,7 +77,7 @@ function MonoNav({ inverted = false }) {
       {/* Bar — position:absolute on desktop, overridden to fixed on mobile via CSS */}
       <div className="af-nav-bar" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 9999, padding: '24px 48px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', color: ink }}>
         <div>
-          <a href="index.html" className="af-logo-link" onClick={() => track('Nav – Logo', 'navigation')}>
+          <a href="/" className="af-logo-link" onClick={() => track('Nav – Logo', 'navigation')}>
             <img src={logo} className="af-nav-logo" alt="Ascension" style={{ height: 38, display: 'block' }} />
           </a>
         </div>
@@ -236,7 +236,7 @@ function MonoGalleryStrip() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Gallery</span>
         </h2>
-        <a href="gallery.html" className="af-link" onClick={() => track('Gallery Strip – Full Archive', 'navigation')} style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
+        <a href="/gallery" className="af-link" onClick={() => track('Gallery Strip – Full Archive', 'navigation')} style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
         {items.map((it, i) =>
@@ -261,7 +261,7 @@ function MonoFooter() {
     <footer id="contact" className="af-reveal" style={{ background: '#fafafa', borderTop: '1px solid #0a0a0a', padding: '48px 48px 28px' }}>
       <div className="af-footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 32, alignItems: 'flex-start' }}>
         <div>
-          <a href="index.html" className="af-logo-link" onClick={() => track('Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
+          <a href="/" className="af-logo-link" onClick={() => track('Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
           <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10, marginTop: 16 }}>EINDHOVEN, SINCE 2025</div>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, lineHeight: 1.6, opacity: .65, marginTop: 10, maxWidth: 320 }}>
             A warm welcome to Eindhoven's International Student Experience. Run by students, for students.
@@ -280,7 +280,7 @@ function MonoFooter() {
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
             <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" onClick={() => track('Footer – Email', 'contact')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
           </div>
-          <a href="contact.html" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
+          <a href="/contact" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
         </div>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Mailing list</div>
@@ -572,7 +572,7 @@ function MobileMonoNav({ inverted = true }) {
         transition: 'opacity 0.3s ease',
         color: '#fafafa',
       }}>
-        {[['Home','index.html'],['Events','events.html'],['Gallery','gallery.html'],['Contact','contact.html']].map(([label, href]) => (
+        {[['Home','/'],['Events','/events'],['Gallery','/gallery'],['Contact','/contact']].map(([label, href]) => (
           <a key={label} href={href}
             onClick={() => { setOpen(false); track(`Mobile Overlay – ${label}`, 'navigation'); }}
             style={{
@@ -613,7 +613,7 @@ function MobileMonoNav({ inverted = true }) {
         padding: '14px 20px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <a href="index.html" onClick={() => { setOpen(false); track('Mobile Nav – Logo', 'navigation'); }} style={{ display: 'block', WebkitTapHighlightColor: 'transparent' }}>
+        <a href="/" onClick={() => { setOpen(false); track('Mobile Nav – Logo', 'navigation'); }} style={{ display: 'block', WebkitTapHighlightColor: 'transparent' }}>
           <img src={logo} alt="Ascension" style={{ height: 20, display: 'block' }} />
         </a>
         <button
@@ -753,7 +753,7 @@ function MobileMonoGallery() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 24, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Recent</span> moments
         </h2>
-        <a href="gallery.html" className="af-link" onClick={() => track('Mobile Gallery Strip – Archive', 'navigation')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
+        <a href="/gallery" className="af-link" onClick={() => track('Mobile Gallery Strip – Archive', 'navigation')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {items.map((it, i) =>
@@ -771,7 +771,7 @@ function MobileMonoFooter() {
   return (
     <footer id="contact" className="af-reveal" style={{ borderTop: '1px solid #0a0a0a' }}>
       <div style={{ padding: '24px 22px 36px' }}>
-        <a href="index.html" className="af-logo-link" onClick={() => track('Mobile Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
+        <a href="/" className="af-logo-link" onClick={() => track('Mobile Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginTop: 12 }}>Eindhoven, since 2025</div>
         <div style={{ marginTop: 22 }}>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginBottom: 8 }}>Mailing list</div>
