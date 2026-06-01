@@ -248,6 +248,9 @@
   /* Footer: single column */
   .af-footer-grid { grid-template-columns: 1fr !important; }
 
+  /* Contact email — scale down so it fits */
+  .af-contact-email { font-size: 6vw !important; letter-spacing: -0.02em !important; }
+
   /* Reduce horizontal padding on all sections on mobile */
   .af-reveal, .af-page-header { padding-left: 22px; padding-right: 22px; }
   /* Ensure first content section below fixed nav isn't hidden */

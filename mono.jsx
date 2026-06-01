@@ -48,28 +48,43 @@ function MonoNav({ inverted = false }) {
   const ink  = inverted ? '#fafafa' : '#0a0a0a';
   const link = { color: ink, textDecoration: 'none', fontSize: 11, fontWeight: 500, letterSpacing: '.18em', textTransform: 'uppercase' };
   const logo = inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
-
-  useEffect(() => {
-    const onHash = () => setOpen(false);
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
+  const NAV = [['Home','index.html'],['Events','events.html'],['Gallery','gallery.html'],['Contact','contact.html']];
 
   return (
     <>
+      {/* Full-screen overlay — always in DOM, toggled via opacity */}
+      <div style={{
+        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+        zIndex: 9998, background: '#080808',
+        display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center',
+        padding: '0 36px',
+        opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
+        transition: 'opacity 0.3s ease', color: '#fafafa',
+      }}>
+        {NAV.map(([label, href]) => (
+          <a key={label} href={href} onClick={() => setOpen(false)}
+            style={{ display: 'block', color: '#fafafa', textDecoration: 'none', fontFamily: 'Montserrat, sans-serif', fontWeight: 300, fontSize: 48, letterSpacing: '-0.025em', lineHeight: 1.15, padding: '10px 0', WebkitTapHighlightColor: 'transparent' }}>
+            {label}
+          </a>
+        ))}
+        <a href="https://tickets.ascensionfestival.nl/" target="_blank" rel="noopener"
+          style={{ display: 'inline-block', marginTop: 48, color: '#fafafa', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.6)', padding: '14px 28px', fontFamily: 'Montserrat, sans-serif', fontWeight: 500, fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', WebkitTapHighlightColor: 'transparent' }}>
+          Tickets →
+        </a>
+      </div>
+
       {/* Bar — position:absolute on desktop, overridden to fixed on mobile via CSS */}
-      <div className="af-nav-bar" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 100, padding: '24px 48px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', color: ink }}>
+      <div className="af-nav-bar" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 9999, padding: '24px 48px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', color: ink }}>
         <div>
-          <a href="#home" className="af-logo-link">
+          <a href="index.html" className="af-logo-link">
             <img src={logo} className="af-nav-logo" alt="Ascension" style={{ height: 38, display: 'block' }} />
           </a>
         </div>
         {/* Desktop links */}
         <div className="af-nav-links" style={{ display: 'flex', gap: 32, justifyContent: 'center' }}>
-          <a href="#home"    className="af-nav-link" style={link}>Home</a>
-          <a href="#events"  className="af-nav-link" style={link}>Events</a>
-          <a href="#gallery" className="af-nav-link" style={link}>Gallery</a>
-          <a href="#contact" className="af-nav-link" style={link}>Contact</a>
+          {NAV.map(([label, href]) => (
+            <a key={label} href={href} className="af-nav-link" style={link}>{label}</a>
+          ))}
         </div>
         <div className="af-nav-tickets" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
           <a href="https://tickets.ascensionfestival.nl/" target="_blank" rel="noopener" className="af-nav-link" style={{ ...link, borderBottom: `1px solid ${ink}`, paddingBottom: 2 }}>Tickets →</a>
@@ -77,25 +92,13 @@ function MonoNav({ inverted = false }) {
         {/* Mobile hamburger — hidden on desktop via CSS */}
         <button className="af-nav-ham" onClick={() => setOpen(o => !o)}
           aria-label={open ? 'Close menu' : 'Menu'}
-          style={{ display: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: 44, height: 44, alignItems: 'center', justifyContent: 'center', justifySelf: 'end', color: ink, WebkitTapHighlightColor: 'transparent' }}>
+          style={{ display: 'none', background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: 44, height: 44, alignItems: 'center', justifyContent: 'center', justifySelf: 'end', WebkitTapHighlightColor: 'transparent' }}>
           {open
-            ? <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="3" x2="17" y2="17"/><line x1="17" y1="3" x2="3" y2="17"/></svg>
-            : <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="0" y1="1" x2="22" y2="1"/><line x1="0" y1="8" x2="22" y2="8"/><line x1="0" y1="15" x2="22" y2="15"/></svg>
+            ? <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fafafa" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="3" x2="17" y2="17"/><line x1="17" y1="3" x2="3" y2="17"/></svg>
+            : <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke={ink} strokeWidth="2" strokeLinecap="round"><line x1="0" y1="1" x2="22" y2="1"/><line x1="0" y1="8" x2="22" y2="8"/><line x1="0" y1="15" x2="22" y2="15"/></svg>
           }
         </button>
       </div>
-      {/* Mobile overlay menu */}
-      {open && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 99, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 36 }}>
-          {[['Home','#home'],['Events','#events'],['Gallery','#gallery'],['Tickets','https://tickets.ascensionfestival.nl/'],['Contact','#contact']].map(([label, href]) => (
-            <a key={label} href={href} className="af-mobile-item" onClick={() => setOpen(false)}
-              target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined}
-              style={{ color: '#fafafa', textDecoration: 'none', fontFamily: 'Montserrat', fontWeight: 300, fontSize: 42, letterSpacing: '-0.025em', lineHeight: 1 }}>
-              {label}
-            </a>
-          ))}
-        </div>
-      )}
     </>
   );
 }
@@ -105,7 +108,7 @@ function MonoHero() {
   const { days, hours, mins, secs } = useCountdown('2026-06-05T22:00:00+02:00');
   const pad = (n) => String(n).padStart(2, '0');
   return (
-    <section className="af-hero" style={{ position: 'relative' }}>
+    <section id="home" className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '15%', bottom: '22%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 60px', textAlign: 'center' }}>
         <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: 820, maxWidth: '90%', display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
@@ -113,7 +116,7 @@ function MonoHero() {
           A warm welcome to Eindhoven's International Student Experience
         </div>
         <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-          <div style={{ ...monoStyles.mono, color: '#fafafa', opacity: .5, fontSize: 9 }}>In partnership with</div>
+          <div style={{ ...monoStyles.mono, color: '#fafafa', opacity: .5, fontSize: 9 }}>In collaboration with</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 40 }}>
             <img src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 24, opacity: .8, filter: 'brightness(0) invert(1)' }} />
             <img src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 16, opacity: .8, filter: 'brightness(0) invert(1)' }} />
@@ -147,7 +150,7 @@ function MonoHero() {
 // ── Desktop upcoming events ────────────────────────────────────────────
 function MonoEvents() {
   return (
-    <section className="af-reveal" style={{ padding: '120px 48px' }}>
+    <section id="events" className="af-reveal" style={{ padding: '120px 48px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 }}>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 56, letterSpacing: '-0.025em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Upcoming</span> shows
@@ -227,12 +230,12 @@ function MonoGalleryStrip() {
     { src: 'assets/photo-08.jpg' },
   ];
   return (
-    <section className="af-reveal" style={{ padding: '40px 48px 60px' }}>
+    <section id="gallery" className="af-reveal" style={{ padding: '40px 48px 60px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 28 }}>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Gallery</span>
         </h2>
-        <a href="#gallery" className="af-link" style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
+        <a href="gallery.html" className="af-link" style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
         {items.map((it, i) =>
@@ -254,10 +257,10 @@ function MonoGalleryStrip() {
 // ── Shared footer ──────────────────────────────────────────────────────
 function MonoFooter() {
   return (
-    <footer className="af-reveal" style={{ background: '#fafafa', borderTop: '1px solid #0a0a0a', padding: '48px 48px 28px' }}>
+    <footer id="contact" className="af-reveal" style={{ background: '#fafafa', borderTop: '1px solid #0a0a0a', padding: '48px 48px 28px' }}>
       <div className="af-footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 32, alignItems: 'flex-start' }}>
         <div>
-          <a href="#home" className="af-logo-link"><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
+          <a href="index.html" className="af-logo-link"><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
           <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10, marginTop: 16 }}>EINDHOVEN, SINCE 2025</div>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, lineHeight: 1.6, opacity: .65, marginTop: 10, maxWidth: 320 }}>
             A warm welcome to Eindhoven's International Student Experience. Run by students, for students.
@@ -276,7 +279,7 @@ function MonoFooter() {
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
             <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" style={{ color: '#0a0a0a', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
           </div>
-          <a href="#contact" className="af-footer-link" style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
+          <a href="contact.html" className="af-footer-link" style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
         </div>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Mailing list</div>
@@ -520,10 +523,10 @@ function MobileEventDetailsSection() {
 function Monochrome() {
   return (
     <div style={{ ...monoStyles.root, position: 'relative' }}>
-      <img src="assets/fog-overlay.png" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
       <MonoNav inverted />
       <MonoHero />
       <div style={{ backgroundImage: 'url(assets/sunset-gradient.png)', backgroundSize: 'cover', backgroundPosition: 'center top', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
+        <img src="assets/fog-overlay.png" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
         <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '90vw', height: '90vw', pointerEvents: 'none', zIndex: 0 }}>
           <img src="assets/sun.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
         </div>
@@ -531,7 +534,7 @@ function Monochrome() {
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '48px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
           <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: 420, display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-            <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 9 }}>In partnership with</div>
+            <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 9 }}>In collaboration with</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 48, flexWrap: 'wrap' }}>
               <img src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 28, opacity: .85, filter: 'brightness(0) invert(1)' }} />
               <img src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 20, opacity: .85, filter: 'brightness(0) invert(1)' }} />
@@ -552,43 +555,81 @@ function Monochrome() {
 // ── Mobile nav with fullscreen overlay menu ────────────────────────────
 function MobileMonoNav({ inverted = true }) {
   const [open, setOpen] = useState(false);
-  // Always white when menu is open, otherwise match bg
-  const ink  = open ? '#fafafa' : (inverted ? '#fafafa' : '#0a0a0a');
-  const logo = open || inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
-
-  useEffect(() => {
-    const onHash = () => setOpen(false);
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
+  const logo = inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
 
   return (
     <>
-      {/* position:fixed — bypasses any child stacking context created by filter/transform */}
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <a href="#home" className="af-logo-link">
+      {/* Full-screen overlay — always in DOM, toggled via opacity */}
+      <div style={{
+        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+        zIndex: 9998,
+        background: '#080808',
+        display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center',
+        padding: '0 36px',
+        opacity: open ? 1 : 0,
+        pointerEvents: open ? 'all' : 'none',
+        transition: 'opacity 0.3s ease',
+        color: '#fafafa',
+      }}>
+        {[['Home','index.html'],['Events','events.html'],['Gallery','gallery.html'],['Contact','contact.html']].map(([label, href]) => (
+          <a key={label} href={href}
+            onClick={() => setOpen(false)}
+            style={{
+              display: 'block',
+              color: '#fafafa',
+              textDecoration: 'none',
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeight: 300,
+              fontSize: 48,
+              letterSpacing: '-0.025em',
+              lineHeight: 1.15,
+              padding: '10px 0',
+              WebkitTapHighlightColor: 'transparent',
+            }}>
+            {label}
+          </a>
+        ))}
+        <a href="https://tickets.ascensionfestival.nl/" target="_blank" rel="noopener"
+          style={{
+            display: 'inline-block', marginTop: 48,
+            color: '#fafafa',
+            textDecoration: 'none',
+            border: '1px solid rgba(255,255,255,0.6)',
+            padding: '14px 28px',
+            fontFamily: 'Montserrat, sans-serif',
+            fontWeight: 500, fontSize: 11,
+            letterSpacing: '.18em', textTransform: 'uppercase',
+            WebkitTapHighlightColor: 'transparent',
+          }}>
+          Tickets →
+        </a>
+      </div>
+
+      {/* Fixed top bar */}
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999,
+        padding: '14px 20px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
+        <a href="index.html" onClick={() => setOpen(false)} style={{ display: 'block', WebkitTapHighlightColor: 'transparent' }}>
           <img src={logo} alt="Ascension" style={{ height: 20, display: 'block' }} />
         </a>
-        <button onClick={() => setOpen(o => !o)} aria-label={open ? 'Close menu' : 'Menu'}
-          style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', WebkitTapHighlightColor: 'transparent', color: ink }}>
+        <button
+          onClick={() => setOpen(o => !o)}
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          style={{
+            background: 'none', border: 'none', padding: 0, margin: 0,
+            width: 44, height: 44, cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fafafa',
+            WebkitTapHighlightColor: 'transparent',
+          }}>
           {open
-            ? <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="3" x2="17" y2="17"/><line x1="17" y1="3" x2="3" y2="17"/></svg>
-            : <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="0" y1="1" x2="22" y2="1"/><line x1="0" y1="8" x2="22" y2="8"/><line x1="0" y1="15" x2="22" y2="15"/></svg>
+            ? <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fafafa" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="3" x2="17" y2="17"/><line x1="17" y1="3" x2="3" y2="17"/></svg>
+            : <svg width="22" height="16" viewBox="0 0 22 16" fill="none" stroke="#fafafa" strokeWidth="2" strokeLinecap="round"><line x1="0" y1="1" x2="22" y2="1"/><line x1="0" y1="8" x2="22" y2="8"/><line x1="0" y1="15" x2="22" y2="15"/></svg>
           }
         </button>
       </div>
-      {/* Full-screen overlay — z-index below the bar so the × stays tappable */}
-      {open && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 199, background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 36 }}>
-          {[['Home','#home'],['Events','#events'],['Gallery','#gallery'],['Tickets','https://tickets.ascensionfestival.nl/'],['Contact','#contact']].map(([label, href]) => (
-            <a key={label} href={href} className="af-mobile-item" onClick={() => setOpen(false)}
-              target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined}
-              style={{ color: '#fafafa', textDecoration: 'none', fontFamily: 'Montserrat', fontWeight: 300, fontSize: 42, letterSpacing: '-0.025em', lineHeight: 1 }}>
-              {label}
-            </a>
-          ))}
-        </div>
-      )}
     </>
   );
 }
@@ -598,7 +639,7 @@ function MobileMonoHero() {
   const { days, hours, mins, secs } = useCountdown('2026-06-05T22:00:00+02:00');
   const pad = (n) => String(n).padStart(2, '0');
   return (
-    <section className="af-hero" style={{ position: 'relative' }}>
+    <section id="home" className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '28%', color: '#fafafa', textAlign: 'center', padding: '0 22px' }}>
         <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: '92%', display: 'block', margin: '0 auto', opacity: .85, filter: 'brightness(0) invert(1)' }} />
@@ -606,7 +647,7 @@ function MobileMonoHero() {
           A warm welcome to Eindhoven's International Student Experience
         </div>
         <div style={{ marginTop: 22, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-          <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>In partnership with</div>
+          <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>In collaboration with</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
             <img src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 20, opacity: .8, filter: 'brightness(0) invert(1)' }} />
             <img src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 14, opacity: .8, filter: 'brightness(0) invert(1)' }} />
@@ -638,7 +679,7 @@ function MobileMonoHero() {
 // ── Mobile events ──────────────────────────────────────────────────────
 function MobileMonoEvents() {
   return (
-    <section className="af-reveal" style={{ padding: '60px 22px' }}>
+    <section id="events" className="af-reveal" style={{ padding: '60px 22px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 22 }}>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Upcoming</span>
@@ -705,12 +746,12 @@ function MobileMonoGallery() {
     { src: 'assets/photo-12.jpg' },
   ];
   return (
-    <section className="af-reveal" style={{ padding: '20px 22px 60px' }}>
+    <section id="gallery" className="af-reveal" style={{ padding: '20px 22px 60px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 18 }}>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 24, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Recent</span> moments
         </h2>
-        <a href="#gallery" className="af-link" style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
+        <a href="gallery.html" className="af-link" style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {items.map((it, i) =>
@@ -726,9 +767,9 @@ function MobileMonoGallery() {
 // ── Mobile footer ──────────────────────────────────────────────────────
 function MobileMonoFooter() {
   return (
-    <footer className="af-reveal" style={{ borderTop: '1px solid #0a0a0a' }}>
+    <footer id="contact" className="af-reveal" style={{ borderTop: '1px solid #0a0a0a' }}>
       <div style={{ padding: '24px 22px 36px' }}>
-        <a href="#home" className="af-logo-link"><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
+        <a href="index.html" className="af-logo-link"><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginTop: 12 }}>Eindhoven, since 2025</div>
         <div style={{ marginTop: 22 }}>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginBottom: 8 }}>Mailing list</div>
@@ -755,10 +796,10 @@ function MobileMonoFooter() {
 function MonochromeMobile() {
   return (
     <div style={{ ...monoStyles.root, position: 'relative' }}>
-      <img src="assets/fog-overlay.png" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
       <MobileMonoNav inverted />
       <MobileMonoHero />
       <div style={{ backgroundImage: 'url(assets/sunset-gradient.png)', backgroundSize: 'cover', backgroundPosition: 'center top', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
+        <img src="assets/fog-overlay.png" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
         <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200vw', height: '200vw', pointerEvents: 'none', zIndex: 0 }}>
           <img src="assets/sun.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
         </div>
@@ -766,7 +807,7 @@ function MonochromeMobile() {
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '36px 22px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
           <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: '80%', display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-            <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>In partnership with</div>
+            <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>In collaboration with</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
               <img src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 22, opacity: .85, filter: 'brightness(0) invert(1)' }} />
               <img src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 16, opacity: .85, filter: 'brightness(0) invert(1)' }} />

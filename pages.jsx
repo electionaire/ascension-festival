@@ -403,10 +403,10 @@ function ContactPage() {
         eyebrow="§ 04 — Contact"
         title="Say"
         italic="hello."
-        photo="assets/gallery/g17.jpg" />
+        photo="assets/gallery/g66.jpg" />
 
       <section className="af-reveal" style={{ padding: '100px 48px 120px' }}>
-        <a href="mailto:egor@ascensionfestival.nl" style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 4 }}>
+        <a href="mailto:egor@ascensionfestival.nl" className="af-contact-email" style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 4, display: 'inline-block', wordBreak: 'break-all' }}>
           egor@ascensionfestival.nl
         </a>
       </section>
