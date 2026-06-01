@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/election/dev.ascensionfestival.nl/
+    - export DEPLOYPATH=/home/election/ascensionfestival.nl/
     - /bin/cp -R * $DEPLOYPATH
