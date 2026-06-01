@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ascension Festival — Visual Editor</title>
+<link rel="stylesheet" href="https://unpkg.com/grapesjs@0.21.13/dist/css/grapes.min.css">
+<style>
+  body { margin: 0; }
+  #gjs { height: 100vh; }
+  .gjs-pn-btn { font-size: 13px; }
+</style>
+</head>
+<body>
+<div id="gjs"></div>
+
+<script src="https://unpkg.com/grapesjs@0.21.13/dist/grapes.min.js"></script>
+<script src="https://unpkg.com/grapesjs-preset-webpage@1.0.3/dist/index.js"></script>
+
+<script>
+const galleryAssets = [];
+for (let i = 1; i <= 39; i++) {
+  galleryAssets.push('assets/gallery/g' + String(i).padStart(2, '0') + '.jpg');
+}
+
+const preset = window['grapesjs-preset-webpage'];
+
+const editor = grapesjs.init({
+  container: '#gjs',
+  height: '100vh',
+  storageManager: {
+    type: 'local',
+    autosave: true,
+    autoload: true,
+    stepsBeforeSave: 1,
+  },
+  plugins: preset ? [preset] : [],
+  canvas: {
+    styles: [
+      'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap',
+      'styles.css',
+    ],
+  },
+  assetManager: {
+    assets: [
+      'assets/hero-poster.jpg',
+      'assets/poster-intro.jpg',
+      'assets/poster-summer.jpg',
+      'assets/photo-01.jpg',
+      'assets/photo-02.jpg',
+      'assets/photo-03.jpg',
+      'assets/photo-04.jpg',
+      'assets/photo-05.jpg',
+      'assets/photo-06.jpg',
+      'assets/photo-07.jpg',
+      'assets/photo-08.jpg',
+      'assets/photo-9.jpg',
+      'assets/photo-10.jpg',
+      'assets/photo-11.jpg',
+      'assets/photo-12.jpg',
+      'assets/photo-13.jpg',
+      'assets/logo-black.png',
+      'assets/logo-white.png',
+      'assets/logo-cross.png',
+      ...galleryAssets,
+    ],
+    upload: false,
+  },
+  // Default content shown on first load (cleared once user saves their own)
+  components: `
+    <div style="min-height:100vh;background:#0a0a0a;color:#fafafa;font-family:Montserrat,sans-serif;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;padding:60px 40px;text-align:center;">
+      <img src="assets/logo-white.png" style="height:60px;object-fit:contain;" />
+      <h1 style="font-size:clamp(28px,5vw,64px);font-weight:800;letter-spacing:-.02em;margin:0;">Ascension Festival</h1>
+      <p style="font-size:16px;opacity:.6;max-width:500px;line-height:1.6;margin:0;">
+        Drag blocks from the right panel to build your page. Click any text to edit it inline.
+      </p>
+      <a href="#" style="display:inline-block;margin-top:8px;padding:14px 32px;background:#fff;color:#0a0a0a;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;">
+        Get Tickets
+      </a>
+    </div>
+  `,
+  style: `
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0a0a0a; }
+  `,
+});
+
+// Add a "View Site" button to open index.html
+editor.Panels.addButton('options', {
+  id: 'view-site',
+  label: 'View Site',
+  command() { window.open('index.html', '_blank'); },
+  attributes: { title: 'Open the live site' },
+});
+
+// Add an "Export HTML" button
+editor.Panels.addButton('options', {
+  id: 'export-html',
+  label: 'Export HTML',
+  command: 'export-template',
+  attributes: { title: 'Download HTML' },
+});
+</script>
+</body>
+</html>
