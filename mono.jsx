@@ -32,7 +32,7 @@ function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, vide
       ...style
     }}>
       <style>{`@keyframes kb { from { transform: scale(1.0) translate(0,0) } to { transform: scale(1.18) translate(-2%, -1%) } }`}</style>
-      {src && <img src={src} alt={caption} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', animation: kenBurns ? 'kb 14s ease-in-out infinite alternate' : 'none' }} />}
+      {src && <img src={src} alt={caption} loading="lazy" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', animation: kenBurns ? 'kb 14s ease-in-out infinite alternate' : 'none' }} />}
       {video && <video src={video} autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
       {!src && !video && kenBurns && <div aria-hidden style={{ position: 'absolute', inset: 0, animation: 'kb 14s ease-in-out infinite alternate', backgroundImage: palettes[tone] || palettes.crowd, backgroundSize: 'cover' }} />}
       <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', mixBlendMode: 'overlay', opacity: .4, backgroundImage: 'radial-gradient(rgba(255,255,255,.2) 1px, transparent 1px)', backgroundSize: '3px 3px' }} />
@@ -112,17 +112,17 @@ function MonoHero() {
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '15%', bottom: '22%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 60px', textAlign: 'center' }}>
-        <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: 820, maxWidth: '90%', display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
+        <img loading="lazy" src="assets/logo-layer3.webp" alt="Ascension International Student Intro 2026" style={{ width: 820, maxWidth: '90%', display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
         <div style={{ ...monoStyles.mono, marginTop: 26, fontSize: 12, color: '#fafafa', opacity: .9, letterSpacing: '.28em' }}>
           A warm welcome to Eindhoven's International Student Experience
         </div>
         <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
           <div style={{ ...monoStyles.mono, color: '#fafafa', opacity: .5, fontSize: 9 }}>In collaboration with</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 40 }}>
-            <img src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 24, opacity: .8, filter: 'brightness(0) invert(1)' }} />
-            <img src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 16, opacity: .8, filter: 'brightness(0) invert(1)' }} />
-            <img src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 30, opacity: .8 }} />
-            <img src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 26, opacity: .8, filter: 'brightness(0) invert(1)' }} />
+            <img loading="lazy" src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 24, opacity: .8, filter: 'brightness(0) invert(1)' }} />
+            <img loading="lazy" src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 16, opacity: .8, filter: 'brightness(0) invert(1)' }} />
+            <img loading="lazy" src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 30, opacity: .8 }} />
+            <img loading="lazy" src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 26, opacity: .8, filter: 'brightness(0) invert(1)' }} />
           </div>
         </div>
       </div>
@@ -302,8 +302,8 @@ function MonoFooter() {
 function MonoIntroSection() {
   return (
     <section className="af-reveal" style={{ padding: '60px 48px', position: 'relative', overflow: 'hidden' }}>
-      <img src="assets/palm-left.png"  aria-hidden alt="" style={{ position: 'absolute', left: -40, top: 0, height: '110%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.8, mixBlendMode: 'multiply', zIndex: 0 }} />
-      <img src="assets/palm-right.png" aria-hidden alt="" style={{ position: 'absolute', right: -40, top: 0, height: '110%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.8, mixBlendMode: 'multiply', zIndex: 0 }} />
+      <img loading="lazy" src="assets/palm-left.webp"  aria-hidden alt="" style={{ position: 'absolute', left: -40, top: 0, height: '110%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.8, mixBlendMode: 'multiply', zIndex: 0 }} />
+      <img loading="lazy" src="assets/palm-right.webp" aria-hidden alt="" style={{ position: 'absolute', right: -40, top: 0, height: '110%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.8, mixBlendMode: 'multiply', zIndex: 0 }} />
       <div style={{ position: 'relative', zIndex: 1, textShadow: '0 1px 10px rgba(0,0,0,0.35)' }}>
         {/* headline + body */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 36 }}>
@@ -364,8 +364,8 @@ function MonoIntroSection() {
 function MobileIntroSection() {
   return (
     <section className="af-reveal" style={{ padding: '60px 22px', position: 'relative', overflow: 'hidden' }}>
-      <img src="assets/palm-left.png"  aria-hidden alt="" style={{ position: 'absolute', left: -30, top: 0, height: '60%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.8, mixBlendMode: 'multiply', zIndex: 0 }} />
-      <img src="assets/palm-right.png" aria-hidden alt="" style={{ position: 'absolute', right: -30, top: 0, height: '60%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.8, mixBlendMode: 'multiply', zIndex: 0 }} />
+      <img loading="lazy" src="assets/palm-left.webp"  aria-hidden alt="" style={{ position: 'absolute', left: -30, top: 0, height: '60%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.8, mixBlendMode: 'multiply', zIndex: 0 }} />
+      <img loading="lazy" src="assets/palm-right.webp" aria-hidden alt="" style={{ position: 'absolute', right: -30, top: 0, height: '60%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.8, mixBlendMode: 'multiply', zIndex: 0 }} />
       <div style={{ position: 'relative', zIndex: 1 }}>
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginBottom: 18 }}>International Student Intro · Eindhoven 2026</div>
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 44, lineHeight: 1.0, letterSpacing: '-0.027em', margin: '0 0 22px' }}>
@@ -433,11 +433,11 @@ function MonoEventDetailsSection() {
   return (
     <section style={{ position: 'relative', overflow: 'hidden' }}>
       {/* Palms */}
-      <img src="assets/palm-left.png"  aria-hidden alt="" style={{ position: 'absolute', left: -40, bottom: 0, height: '70%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.75, mixBlendMode: 'multiply', zIndex: 0 }} />
-      <img src="assets/palm-right.png" aria-hidden alt="" style={{ position: 'absolute', right: -40, bottom: 0, height: '70%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.75, mixBlendMode: 'multiply', zIndex: 0 }} />
+      <img loading="lazy" src="assets/palm-left.webp"  aria-hidden alt="" style={{ position: 'absolute', left: -40, bottom: 0, height: '70%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.75, mixBlendMode: 'multiply', zIndex: 0 }} />
+      <img loading="lazy" src="assets/palm-right.webp" aria-hidden alt="" style={{ position: 'absolute', right: -40, bottom: 0, height: '70%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.75, mixBlendMode: 'multiply', zIndex: 0 }} />
       {/* Eindhoven city at the bottom */}
       <div aria-hidden style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '32%', zIndex: 0 }}>
-        <img src="assets/eindhoven-city.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', opacity: 0.72 }} />
+        <img loading="lazy" src="assets/eindhoven-city.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', opacity: 0.72 }} />
       </div>
       {/* Dark gradient — full section scrim for readability */}
       <div aria-hidden style={{ position: 'absolute', inset: 0, zIndex: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 25%, rgba(0,0,0,0.42) 65%, rgba(0,0,0,0.65) 100%)', pointerEvents: 'none' }} />
@@ -481,8 +481,8 @@ function MobileEventDetailsSection() {
   return (
     <section style={{ position: 'relative', overflow: 'hidden' }}>
       {/* Palms anchored to bottom */}
-      <img src="assets/palm-left.png"  aria-hidden alt="" style={{ position: 'absolute', left: -20, bottom: 0, height: '40%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.7, mixBlendMode: 'multiply', zIndex: 0 }} />
-      <img src="assets/palm-right.png" aria-hidden alt="" style={{ position: 'absolute', right: -20, bottom: 0, height: '40%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.7, mixBlendMode: 'multiply', zIndex: 0 }} />
+      <img loading="lazy" src="assets/palm-left.webp"  aria-hidden alt="" style={{ position: 'absolute', left: -20, bottom: 0, height: '40%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.7, mixBlendMode: 'multiply', zIndex: 0 }} />
+      <img loading="lazy" src="assets/palm-right.webp" aria-hidden alt="" style={{ position: 'absolute', right: -20, bottom: 0, height: '40%', width: 'auto', pointerEvents: 'none', userSelect: 'none', opacity: 0.7, mixBlendMode: 'multiply', zIndex: 0 }} />
       {/* Dark gradient — full section scrim for readability */}
       <div aria-hidden style={{ position: 'absolute', inset: 0, zIndex: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 25%, rgba(0,0,0,0.42) 65%, rgba(0,0,0,0.65) 100%)', pointerEvents: 'none' }} />
       {/* Content — always above city */}
@@ -514,7 +514,7 @@ function MobileEventDetailsSection() {
       </div>
       {/* City below all text */}
       <div aria-hidden style={{ position: 'relative', height: 220, overflow: 'hidden' }}>
-        <img src="assets/eindhoven-city.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', opacity: 0.75 }} />
+        <img loading="lazy" src="assets/eindhoven-city.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', opacity: 0.75 }} />
       </div>
     </section>
   );
@@ -526,21 +526,21 @@ function Monochrome() {
     <div style={{ ...monoStyles.root, position: 'relative' }}>
       <MonoNav inverted />
       <MonoHero />
-      <div style={{ backgroundImage: 'url(assets/sunset-gradient.png)', backgroundSize: 'cover', backgroundPosition: 'center top', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
-        <img src="assets/fog-overlay.png" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
+      <div style={{ backgroundImage: 'url(assets/sunset-gradient.webp)', backgroundSize: 'cover', backgroundPosition: 'center top', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
+        <img loading="lazy" src="assets/fog-overlay.webp" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
         <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '90vw', height: '90vw', pointerEvents: 'none', zIndex: 0 }}>
-          <img src="assets/sun.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
+          <img loading="lazy" src="assets/sun.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
         </div>
         <MonoIntroSection />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '48px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
-          <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: 420, display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
+          <img loading="lazy" src="assets/logo-layer3.webp" alt="Ascension International Student Intro 2026" style={{ width: 420, display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
             <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 9 }}>In collaboration with</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 48, flexWrap: 'wrap' }}>
-              <img src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 28, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-              <img src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 20, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-              <img src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 36, opacity: .85 }} />
-              <img src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 30, opacity: .85, filter: 'brightness(0) invert(1)' }} />
+              <img loading="lazy" src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 28, opacity: .85, filter: 'brightness(0) invert(1)' }} />
+              <img loading="lazy" src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 20, opacity: .85, filter: 'brightness(0) invert(1)' }} />
+              <img loading="lazy" src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 36, opacity: .85 }} />
+              <img loading="lazy" src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 30, opacity: .85, filter: 'brightness(0) invert(1)' }} />
             </div>
           </div>
         </div>
@@ -644,17 +644,17 @@ function MobileMonoHero() {
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '28%', color: '#fafafa', textAlign: 'center', padding: '0 22px' }}>
-        <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: '92%', display: 'block', margin: '0 auto', opacity: .85, filter: 'brightness(0) invert(1)' }} />
+        <img loading="lazy" src="assets/logo-layer3.webp" alt="Ascension International Student Intro 2026" style={{ width: '92%', display: 'block', margin: '0 auto', opacity: .85, filter: 'brightness(0) invert(1)' }} />
         <div style={{ ...monoStyles.mono, marginTop: 16, fontSize: 10, opacity: .9 }}>
           A warm welcome to Eindhoven's International Student Experience
         </div>
         <div style={{ marginTop: 22, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
           <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>In collaboration with</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
-            <img src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 20, opacity: .8, filter: 'brightness(0) invert(1)' }} />
-            <img src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 14, opacity: .8, filter: 'brightness(0) invert(1)' }} />
-            <img src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 26, opacity: .8 }} />
-            <img src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 22, opacity: .8, filter: 'brightness(0) invert(1)' }} />
+            <img loading="lazy" src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 20, opacity: .8, filter: 'brightness(0) invert(1)' }} />
+            <img loading="lazy" src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 14, opacity: .8, filter: 'brightness(0) invert(1)' }} />
+            <img loading="lazy" src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 26, opacity: .8 }} />
+            <img loading="lazy" src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 22, opacity: .8, filter: 'brightness(0) invert(1)' }} />
           </div>
         </div>
       </div>
@@ -800,21 +800,21 @@ function MonochromeMobile() {
     <div style={{ ...monoStyles.root, position: 'relative' }}>
       <MobileMonoNav inverted />
       <MobileMonoHero />
-      <div style={{ backgroundImage: 'url(assets/sunset-gradient.png)', backgroundSize: 'cover', backgroundPosition: 'center top', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
-        <img src="assets/fog-overlay.png" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
+      <div style={{ backgroundImage: 'url(assets/sunset-gradient.webp)', backgroundSize: 'cover', backgroundPosition: 'center top', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
+        <img loading="lazy" src="assets/fog-overlay.webp" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
         <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200vw', height: '200vw', pointerEvents: 'none', zIndex: 0 }}>
-          <img src="assets/sun.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
+          <img loading="lazy" src="assets/sun.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
         </div>
         <MobileIntroSection />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '36px 22px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
-          <img src="assets/logo-layer3.png" alt="Ascension International Student Intro 2026" style={{ width: '80%', display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
+          <img loading="lazy" src="assets/logo-layer3.webp" alt="Ascension International Student Intro 2026" style={{ width: '80%', display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
             <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>In collaboration with</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
-              <img src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 22, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-              <img src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 16, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-              <img src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 28, opacity: .85 }} />
-              <img src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 18, opacity: .85, filter: 'brightness(0) invert(1)' }} />
+              <img loading="lazy" src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 22, opacity: .85, filter: 'brightness(0) invert(1)' }} />
+              <img loading="lazy" src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 16, opacity: .85, filter: 'brightness(0) invert(1)' }} />
+              <img loading="lazy" src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 28, opacity: .85 }} />
+              <img loading="lazy" src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 18, opacity: .85, filter: 'brightness(0) invert(1)' }} />
             </div>
           </div>
         </div>
