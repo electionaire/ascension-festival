@@ -106,7 +106,7 @@ function MonoNav({ inverted = false }) {
 
 // ── Desktop hero (fullscreen) ──────────────────────────────────────────
 function MonoHero() {
-  const { days, hours, mins, secs } = useCountdown('2026-06-05T22:00:00+02:00');
+  const { days, hours, mins, secs } = useCountdown('2026-09-04T23:30:00+02:00');
   const pad = (n) => String(n).padStart(2, '0');
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
@@ -128,8 +128,8 @@ function MonoHero() {
       </div>
       <div style={{ position: 'absolute', left: 48, right: 48, bottom: 48, color: '#fafafa', display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 48, alignItems: 'flex-end', borderTop: '1px solid rgba(250,250,250,.3)', paddingTop: 32 }}>
         <div>
-          <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10 }}>Next show · Fri 05 Jun 2026 · 22:00</div>
-          <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 30, marginTop: 8, letterSpacing: '-0.015em' }}>Summer Festival</div>
+          <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10 }}>Next show · Thu 04 Sep 2026 · 23:30</div>
+          <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 30, marginTop: 8, letterSpacing: '-0.015em' }}>International Student Intro</div>
           <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 10, marginTop: 5 }}>Effenaar Main Stage</div>
         </div>
         <div style={{ display: 'flex', gap: 28, alignItems: 'baseline' }}>
@@ -140,7 +140,7 @@ function MonoHero() {
             </div>
           )}
         </div>
-        <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track('Hero – Buy Tickets (Summer Festival)', 'cta')} style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap', display: 'inline-block' }}>
+        <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track('Hero – Buy Tickets (ISI)', 'cta')} style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap', display: 'inline-block' }}>
           Buy tickets →
         </a>
       </div>
@@ -156,7 +156,7 @@ function MonoEvents() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 56, letterSpacing: '-0.025em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Upcoming</span> shows
         </h2>
-        <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>Summer 2026 · 1 festival + 1 series</span>
+        <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>Autumn 2026 · 3-show series</span>
       </div>
       <div>
         {EVENTS.map((ev, i) => {
@@ -638,7 +638,7 @@ function MobileMonoNav({ inverted = true }) {
 
 // ── Mobile hero (fullscreen) ───────────────────────────────────────────
 function MobileMonoHero() {
-  const { days, hours, mins, secs } = useCountdown('2026-06-05T22:00:00+02:00');
+  const { days, hours, mins, secs } = useCountdown('2026-09-04T23:30:00+02:00');
   const pad = (n) => String(n).padStart(2, '0');
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
@@ -659,8 +659,8 @@ function MobileMonoHero() {
         </div>
       </div>
       <div style={{ position: 'absolute', left: 16, right: 16, bottom: 28, color: '#fafafa', borderTop: '1px solid rgba(250,250,250,.4)', paddingTop: 18 }}>
-        <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 9 }}>Next · Fri 05 Jun 2026</div>
-        <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 22, marginTop: 6, letterSpacing: '-0.015em' }}>Summer Festival</div>
+        <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 9 }}>Next · Thu 04 Sep 2026</div>
+        <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 22, marginTop: 6, letterSpacing: '-0.015em' }}>International Student Intro</div>
         <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 9, marginTop: 4 }}>Effenaar Main Stage</div>
         <div style={{ display: 'flex', gap: 18, marginTop: 18, justifyContent: 'space-between' }}>
           {[['D', pad(days)], ['H', pad(hours)], ['M', pad(mins)], ['S', pad(secs)]].map(([l, v]) =>
@@ -670,7 +670,7 @@ function MobileMonoHero() {
             </div>
           )}
         </div>
-        <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track('Mobile Hero – Buy Tickets (Summer Festival)', 'cta')} style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
+        <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track('Mobile Hero – Buy Tickets (ISI)', 'cta')} style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
           Buy tickets →
         </a>
       </div>
