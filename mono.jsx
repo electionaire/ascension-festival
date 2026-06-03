@@ -210,7 +210,7 @@ function MonoEvents() {
                 <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 6, fontSize: 10 }}>{ev.doors}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <a href="#tickets" className="af-link" onClick={() => track('Events List – Buy Summer Festival Ticket', 'cta')} style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy ticket →</a>
+                <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-link" onClick={() => track('Events List – Buy Summer Festival Ticket', 'cta')} style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy ticket →</a>
               </div>
             </div>
           );
@@ -730,7 +730,7 @@ function MobileMonoEvents() {
                 </div>
                 <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>{ev.venue.split(' — ')[0]} · 18+</div>
               </div>
-              <a href="#tickets" className="af-link" onClick={() => track('Mobile Events List – Buy Summer Festival Ticket', 'cta')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
+              <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-link" onClick={() => track('Mobile Events List – Buy Summer Festival Ticket', 'cta')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
             </div>
           );
         })}
