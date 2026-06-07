@@ -129,25 +129,10 @@ function Marquee({ items = [], speed = 30, separator = '✦', style = {}, color 
 // ── Festival event data ─────────────────────────────────────────────────
 const EVENTS = [
   {
-    id: 'summer-fest-2026',
-    headline: true,
-    isSeries: false,
-    date: { day: '05', month: 'JUN', dow: 'FRI', year: '2026' },
-    iso: '2026-06-05T23:30:00+02:00',
-    title: 'SUMMER FESTIVAL 2026',
-    venue: 'Effenaar — Main Stage',
-    city: 'Eindhoven, NL',
-    doors: '23:30 — 04:00',
-    tag: 'Headline event',
-    status: 'On sale',
-    price: '€22.50',
-    poster: 'assets/poster-summer.jpg',
-  },
-  {
     id: 'intro-2026',
     headline: false,
     isSeries: true,
-    iso: '2026-09-04T23:30:00+02:00',
+    iso: '2026-09-04T23:50:00+02:00',
     title: 'INTERNATIONAL STUDENT INTRO 2026',
     venue: 'Effenaar & Vibes Eindhoven',
     city: 'Eindhoven, NL',
@@ -158,7 +143,7 @@ const EVENTS = [
     // Compact label for grid cells that expect a single date
     date: { day: '04', month: 'SEP', dow: 'FRI', year: '2026' },
     series: [
-      { id: 'intro-opening', subtitle: 'The Opening Ball',  day: '04', month: 'SEP', dow: 'FRI', year: '2026', venue: 'Effenaar Main Stage', doors: '23:30 — 05:00' },
+      { id: 'intro-opening', subtitle: 'The Opening Ball',  day: '04', month: 'SEP', dow: 'FRI', year: '2026', venue: 'Effenaar Main Stage', doors: '23:50 — 05:00' },
       { id: 'intro-main',    subtitle: 'Main Act',          day: '11', month: 'SEP', dow: 'FRI', year: '2026', venue: 'Effenaar Main Stage', doors: '23:30 — 05:00' },
       { id: 'intro-closing', subtitle: 'Closing Festival',  day: '02', month: 'OCT', dow: 'FRI', year: '2026', venue: 'Vibes Eindhoven',     doors: '23:30 — 05:00' },
     ],

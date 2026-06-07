@@ -112,7 +112,7 @@ function TicketsPage() {
         title="Get your"
         italic="tickets."
         lead="Pre-sale codes go out to the mailing list 24 hours before public release. Tickets are transferable, but non-refundable."
-        subhead={['Powered by Pretix', '4 / 4 shows on sale', 'No third-party resellers — buy direct from us']}
+        subhead={['Powered by Pretix', '3 / 3 shows on sale', 'No third-party resellers — buy direct from us']}
         photo="assets/gallery/g11.jpg" />
 
       <section className="af-reveal" style={{ padding: '80px 48px' }}>
@@ -332,7 +332,6 @@ function GalleryPage() {
 
 // ── EVENTS ─────────────────────────────────────────────────────────────
 const LINEUPS = {
-  'summer-fest-2026': ['SADO OPULENCE (live)', 'KETTAMA', 'Mac Declos', 'Local hero · TBA', 'Special b2b · TBA'],
   'intro-opening':    ['House selectors · Ascension Crew', 'Sajeda', 'Bonzai b2b LOOG', 'Resident closeout'],
   'intro-main':       ['Headliner · TBA', 'D.Dan', 'Sara Landry (techno set)', 'Ascension Crew', 'Surprise guest'],
   'intro-closing':    ['Closing headliner · TBA', 'Marlon Hoffstadt', 'Kessler', 'Ascension Crew', 'Vibes resident'],
@@ -365,7 +364,7 @@ function EventCard({ ev, i }) {
               {ev.title}
             </h3>
           </div>
-          <a href={ev.id === 'summer-fest-2026' ? 'https://tickets.ascensionfestival.nl/summerfestival/' : 'https://tickets.ascensionfestival.nl/intro/'} target="_blank" rel="noopener" className="af-cta-dark" onClick={() => track(`Events Page – Get Tickets: ${ev.title}`, 'cta')} style={{ background: '#0a0a0a', color: '#fafafa', padding: '14px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap' }}>
+          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-dark" onClick={() => track(`Events Page – Get Tickets: ${ev.title}`, 'cta')} style={{ background: '#0a0a0a', color: '#fafafa', padding: '14px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap' }}>
             Get tickets →
           </a>
         </div>
@@ -382,7 +381,7 @@ function EventsPage() {
         title="Welcome to"
         italic="Eindhoven"
         lead="Eindhoven's International Student Intro Event Series"
-        subhead={['Updated 03.06.2026', '4 / 4 shows on sale', 'Doors at 23:30 unless noted']}
+        subhead={['Updated 07.06.2026', '3 / 3 shows on sale', 'Doors at 23:30 unless noted']}
         photo="assets/gallery/g27.jpg" />
 
       <section style={{ padding: '40px 48px 80px' }}>

@@ -106,7 +106,7 @@ function MonoNav({ inverted = false }) {
 
 // ── Desktop hero (fullscreen) ──────────────────────────────────────────
 function MonoHero() {
-  const { days, hours, mins, secs } = useCountdown('2026-09-04T23:30:00+02:00');
+  const { days, hours, mins, secs } = useCountdown('2026-09-04T23:50:00+02:00');
   const pad = (n) => String(n).padStart(2, '0');
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
@@ -128,8 +128,8 @@ function MonoHero() {
       </div>
       <div style={{ position: 'absolute', left: 48, right: 48, bottom: 48, color: '#fafafa', display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 48, alignItems: 'flex-end', borderTop: '1px solid rgba(250,250,250,.3)', paddingTop: 32 }}>
         <div>
-          <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10 }}>Next show · Thu 04 Sep 2026 · 23:30</div>
-          <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 30, marginTop: 8, letterSpacing: '-0.015em' }}>International Student Intro</div>
+          <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10 }}>Next show · Fri 04 Sep 2026 · 23:50</div>
+          <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 30, marginTop: 8, letterSpacing: '-0.015em' }}>International Student Intro: The Opening Ball</div>
           <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 10, marginTop: 5 }}>Effenaar Main Stage</div>
         </div>
         <div style={{ display: 'flex', gap: 28, alignItems: 'baseline' }}>
@@ -259,7 +259,7 @@ function MonoGalleryStrip() {
 function MonoFooter() {
   return (
     <footer id="contact" className="af-reveal" style={{ background: '#fafafa', borderTop: '1px solid #0a0a0a', padding: '48px 48px 28px' }}>
-      <div className="af-footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 32, alignItems: 'flex-start' }}>
+      <div className="af-footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', gap: 32, alignItems: 'flex-start' }}>
         <div>
           <a href="/" className="af-logo-link" onClick={() => track('Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
           <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10, marginTop: 16 }}>EINDHOVEN, SINCE 2025</div>
@@ -269,11 +269,9 @@ function MonoFooter() {
         </div>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Follow</div>
-          {[['Instagram', 'https://instagram.com/ascensionfestival.nl'], ['TikTok', 'https://tiktok.com/@ascensionfestival'], ['Spotify', '#']].map(([label, href]) =>
-            <div key={label} style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
-              <a href={href} className="af-footer-link" target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" onClick={() => track(`Footer – ${label}`, 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>{label}</a>
-            </div>
-          )}
+          <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
+            <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Footer – Instagram', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Instagram</a>
+          </div>
         </div>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Contact</div>
@@ -281,13 +279,6 @@ function MonoFooter() {
             <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" onClick={() => track('Footer – Email', 'contact')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
           </div>
           <a href="/contact" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
-        </div>
-        <div>
-          <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Mailing list</div>
-          <form onSubmit={(e) => { e.preventDefault(); track('Footer – Mailing List Signup', 'engagement'); }} style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
-            <input type="email" placeholder="your@university.nl" required style={{ flex: 1, border: 'none', background: 'transparent', fontFamily: 'Montserrat', fontWeight: 400, fontSize: 14, color: '#0a0a0a', outline: 'none' }} />
-            <button type="submit" className="af-footer-link" style={{ border: 'none', background: 'transparent', cursor: 'pointer', ...monoStyles.mono, fontSize: 11, color: '#0a0a0a', padding: 0 }}>Sign up →</button>
-          </form>
         </div>
       </div>
       <div style={{ borderTop: '1px solid rgba(10,10,10,.15)', marginTop: 36, paddingTop: 18, display: 'flex', justifyContent: 'space-between', ...monoStyles.mono, opacity: .5, fontSize: 9 }}>
@@ -638,7 +629,7 @@ function MobileMonoNav({ inverted = true }) {
 
 // ── Mobile hero (fullscreen) ───────────────────────────────────────────
 function MobileMonoHero() {
-  const { days, hours, mins, secs } = useCountdown('2026-09-04T23:30:00+02:00');
+  const { days, hours, mins, secs } = useCountdown('2026-09-04T23:50:00+02:00');
   const pad = (n) => String(n).padStart(2, '0');
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
@@ -659,8 +650,8 @@ function MobileMonoHero() {
         </div>
       </div>
       <div style={{ position: 'absolute', left: 16, right: 16, bottom: 28, color: '#fafafa', borderTop: '1px solid rgba(250,250,250,.4)', paddingTop: 18 }}>
-        <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 9 }}>Next · Thu 04 Sep 2026</div>
-        <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 22, marginTop: 6, letterSpacing: '-0.015em' }}>International Student Intro</div>
+        <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 9 }}>Next · Fri 04 Sep 2026</div>
+        <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 22, marginTop: 6, letterSpacing: '-0.015em' }}>International Student Intro: The Opening Ball</div>
         <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 9, marginTop: 4 }}>Effenaar Main Stage</div>
         <div style={{ display: 'flex', gap: 18, marginTop: 18, justifyContent: 'space-between' }}>
           {[['D', pad(days)], ['H', pad(hours)], ['M', pad(mins)], ['S', pad(secs)]].map(([l, v]) =>
@@ -686,7 +677,7 @@ function MobileMonoEvents() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Upcoming</span>
         </h2>
-        <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 9 }}>1 fest + 1 series</span>
+        <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 9 }}>3-show series</span>
       </div>
       <div>
         {EVENTS.map((ev, i) => {
@@ -773,17 +764,8 @@ function MobileMonoFooter() {
       <div style={{ padding: '24px 22px 36px' }}>
         <a href="/" className="af-logo-link" onClick={() => track('Mobile Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginTop: 12 }}>Eindhoven, since 2025</div>
-        <div style={{ marginTop: 22 }}>
-          <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginBottom: 8 }}>Mailing list</div>
-          <form onSubmit={(e) => { e.preventDefault(); track('Mobile Footer – Mailing List Signup', 'engagement'); }} style={{ display: 'flex', borderBottom: '1px solid #0a0a0a', paddingBottom: 10 }}>
-            <input type="email" placeholder="you@uni.nl" required style={{ flex: 1, border: 'none', background: 'transparent', fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, color: '#0a0a0a', outline: 'none' }} />
-            <button type="submit" className="af-footer-link" style={{ border: 'none', background: 'transparent', cursor: 'pointer', ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', padding: 0 }}>→</button>
-          </form>
-        </div>
         <div style={{ display: 'flex', gap: 16, marginTop: 24, ...monoStyles.mono, fontSize: 10 }}>
           <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Mobile Footer – Instagram', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Instagram</a>
-          <a href="https://tiktok.com/@ascensionfestival" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Mobile Footer – TikTok', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>TikTok</a>
-          <a href="#" className="af-footer-link" onClick={() => track('Mobile Footer – Spotify', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Spotify</a>
         </div>
         <div style={{ marginTop: 28, ...monoStyles.mono, opacity: .5, fontSize: 8, display: 'flex', justifyContent: 'space-between' }}>
           <span>© 2026 Ascension Festival NL</span>
