@@ -54,7 +54,7 @@ function MonoNav({ inverted = false }) {
     <>
       {/* Full-screen overlay — always in DOM, toggled via opacity */}
       <div style={{
-        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+        position: 'fixed', top: 0, left: 0, width: '100%', height: '100vh',
         zIndex: 9998, background: '#080808',
         display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center',
         padding: '0 36px',
@@ -298,7 +298,7 @@ function MonoIntroSection() {
       <div style={{ position: 'relative', zIndex: 1, textShadow: '0 1px 10px rgba(0,0,0,0.35)' }}>
         {/* headline + body */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 36 }}>
-          <div style={{ flex: '0 0 auto', maxWidth: 640 }}>
+          <div style={{ flex: '1 1 0', minWidth: 0, maxWidth: 640 }}>
             <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 16 }}>§ — International Student Intro · Eindhoven 2026</div>
             <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 68, lineHeight: 0.96, letterSpacing: '-0.033em', margin: 0 }}>
               Eindhoven's International<br />
@@ -436,7 +436,7 @@ function MonoEventDetailsSection() {
       <div style={{ position: 'relative', zIndex: 1, padding: '40px 48px 80px', textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}>
         <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 10, marginBottom: 56 }}>§ — Event Breakdown · 3 nights</div>
         {EVENT_DETAILS.map((ev, i) => (
-          <div key={ev.num} className="af-reveal" style={{ display: 'grid', gridTemplateColumns: '96px 1fr 300px', gap: 48, padding: '48px 0', borderTop: '1px solid rgba(255,255,255,.22)', alignItems: 'center', transitionDelay: `${i * 0.18}s` }}>
+          <div key={ev.num} className="af-reveal" style={{ display: 'grid', gridTemplateColumns: '80px 1fr minmax(0, 280px)', gap: 40, padding: '48px 0', borderTop: '1px solid rgba(255,255,255,.22)', alignItems: 'center', transitionDelay: `${i * 0.18}s` }}>
             <div>
               <div style={{ fontFamily: 'Montserrat', fontWeight: 200, fontSize: 72, lineHeight: 1, letterSpacing: '-0.04em' }}>{ev.num}</div>
               <div style={{ ...monoStyles.mono, fontSize: 10, marginTop: 10 }}>{ev.date}</div>
@@ -553,7 +553,7 @@ function MobileMonoNav({ inverted = true }) {
     <>
       {/* Full-screen overlay — always in DOM, toggled via opacity */}
       <div style={{
-        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+        position: 'fixed', top: 0, left: 0, width: '100%', height: '100vh',
         zIndex: 9998,
         background: '#080808',
         display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center',

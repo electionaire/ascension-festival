@@ -1,7 +1,10 @@
 /* ── Ascension Festival — global styles & interactions ───────────────────── */
 
 *, *::before, *::after { box-sizing: border-box; }
-body { overflow-x: hidden; }
+/* Prevent horizontal overflow at every level without disrupting vertical scroll */
+html { overflow-x: clip; }
+body { overflow-x: hidden; max-width: 100%; }
+img, video, svg { max-width: 100%; }
 
 /* ── Sun pulse ──────────────────────────────────────────────────────────── */
 @keyframes sun-pulse {
@@ -256,6 +259,32 @@ body { overflow-x: hidden; }
   .af-reveal, .af-page-header { padding-left: 22px; padding-right: 22px; }
   /* Ensure first content section below fixed nav isn't hidden */
   .af-page-header { padding-top: 56px; }
+}
+
+/* ── Medium desktop (768–1399px) ────────────────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1399px) {
+  /* Reduce horizontal padding on all sections */
+  .af-reveal { padding-left: 32px !important; padding-right: 32px !important; }
+  .af-page-header-content { left: 32px !important; right: 32px !important; }
+
+  /* Scale down large hero h1 */
+  .af-page-h1 { font-size: clamp(52px, 10vw, 152px) !important; }
+
+  /* Events page: switch article to stacked at narrow desktops */
+  @media (max-width: 1099px) {
+    .af-event-article { grid-template-columns: 1fr !important; gap: 24px !important; }
+  }
+
+  /* Gallery grid: simplify spans at narrow desktops */
+  @media (max-width: 959px) {
+    .af-gallery-grid { grid-template-columns: repeat(6, 1fr) !important; }
+    .af-gallery-grid > div { grid-column: span 2 !important; height: 240px !important; }
+  }
+
+  /* Tickets features: 2-column at narrow desktops */
+  @media (max-width: 959px) {
+    .af-ticket-features { grid-template-columns: repeat(2, 1fr) !important; }
+  }
 }
 
 /* ── Map / misc outline links ────────────────────────────────────────────── */
