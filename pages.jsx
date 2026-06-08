@@ -10,10 +10,10 @@ const pageRoot = {
 };
 
 // ── Shared page header ─────────────────────────────────────────────────
-function PageHeader({ eyebrow, title, italic, lead, subhead, photo, height = 720 }) {
+function PageHeader({ eyebrow, title, italic, lead, subhead, photo, height = 720, photoPosition = 'center' }) {
   return (
     <section className="af-page-header" style={{ position: 'relative', height }}>
-      {photo && <BWPhoto src={photo} caption="" style={{ position: 'absolute', inset: 0 }} />}
+      {photo && <BWPhoto src={photo} caption="" objectPosition={photoPosition} style={{ position: 'absolute', inset: 0 }} />}
       {photo && <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.15) 45%, rgba(0,0,0,.72) 100%)' }} />}
       <MonoNav inverted={!!photo} />
       <div className="af-page-header-content" style={{ position: 'absolute', left: 56, right: 56, bottom: 56, color: photo ? '#fafafa' : '#0a0a0a' }}>
@@ -268,15 +268,99 @@ const ALBUM_LAYOUTS = {
     { src: 'assets/gallery/g140.jpg', col: 'span 4', h: 520 },
   ],
   ascension: [],
+  summerfestival: [
+    { src: 'assets/gallery/sf1.jpg',  col: 'span 8', h: 600 },
+    { src: 'assets/gallery/sf2.jpg',  col: 'span 4', h: 600 },
+    { src: 'assets/gallery/sf3.jpg',  col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf4.jpg',  col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf5.jpg',  col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf6.jpg',  col: 'span 5', h: 700 },
+    { src: 'assets/gallery/sf7.jpg',  col: 'span 7', h: 700 },
+    { src: 'assets/gallery/sf8.jpg',  col: 'span 6', h: 420 },
+    { src: 'assets/gallery/sf9.jpg',  col: 'span 6', h: 420 },
+    { src: 'assets/gallery/sf10.jpg', col: 'span 4', h: 520 },
+    { src: 'assets/gallery/sf11.jpg', col: 'span 4', h: 520 },
+    { src: 'assets/gallery/sf12.jpg', col: 'span 4', h: 520 },
+    { src: 'assets/gallery/sf13.jpg', col: 'span 5', h: 440 },
+    { src: 'assets/gallery/sf14.jpg', col: 'span 4', h: 440 },
+    { src: 'assets/gallery/sf15.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/sf16.jpg', col: 'span 4', h: 560 },
+    { src: 'assets/gallery/sf17.jpg', col: 'span 8', h: 560 },
+    { src: 'assets/gallery/sf18.jpg', col: 'span 3', h: 350 },
+    { src: 'assets/gallery/sf19.jpg', col: 'span 5', h: 350 },
+    { src: 'assets/gallery/sf20.jpg', col: 'span 4', h: 350 },
+    { src: 'assets/gallery/sf21.jpg', col: 'span 6', h: 650 },
+    { src: 'assets/gallery/sf22.jpg', col: 'span 6', h: 650 },
+    { src: 'assets/gallery/sf23.jpg', col: 'span 8', h: 480 },
+    { src: 'assets/gallery/sf24.jpg', col: 'span 4', h: 480 },
+    { src: 'assets/gallery/sf25.jpg', col: 'span 3', h: 500 },
+    { src: 'assets/gallery/sf26.jpg', col: 'span 5', h: 500 },
+    { src: 'assets/gallery/sf27.jpg', col: 'span 4', h: 500 },
+    { src: 'assets/gallery/sf28.jpg', col: 'span 4', h: 460 },
+    { src: 'assets/gallery/sf29.jpg', col: 'span 5', h: 460 },
+    { src: 'assets/gallery/sf30.jpg', col: 'span 3', h: 460 },
+    { src: 'assets/gallery/sf31.jpg', col: 'span 5', h: 600 },
+    { src: 'assets/gallery/sf32.jpg', col: 'span 7', h: 600 },
+    { src: 'assets/gallery/sf33.jpg', col: 'span 4', h: 400 },
+    { src: 'assets/gallery/sf34.jpg', col: 'span 4', h: 400 },
+    { src: 'assets/gallery/sf35.jpg', col: 'span 4', h: 400 },
+    { src: 'assets/gallery/sf36.jpg', col: 'span 7', h: 680 },
+    { src: 'assets/gallery/sf37.jpg', col: 'span 5', h: 680 },
+    { src: 'assets/gallery/sf38.jpg', col: 'span 6', h: 440 },
+    { src: 'assets/gallery/sf39.jpg', col: 'span 6', h: 440 },
+    { src: 'assets/gallery/sf40.jpg', col: 'span 4', h: 520 },
+    { src: 'assets/gallery/sf41.jpg', col: 'span 4', h: 520 },
+    { src: 'assets/gallery/sf42.jpg', col: 'span 4', h: 520 },
+    { src: 'assets/gallery/sf43.jpg', col: 'span 3', h: 460 },
+    { src: 'assets/gallery/sf44.jpg', col: 'span 5', h: 460 },
+    { src: 'assets/gallery/sf45.jpg', col: 'span 4', h: 460 },
+    { src: 'assets/gallery/sf46.jpg', col: 'span 8', h: 580 },
+    { src: 'assets/gallery/sf47.jpg', col: 'span 4', h: 580 },
+    { src: 'assets/gallery/sf48.jpg', col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf49.jpg', col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf50.jpg', col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf51.jpg', col: 'span 5', h: 700 },
+    { src: 'assets/gallery/sf52.jpg', col: 'span 7', h: 700 },
+    { src: 'assets/gallery/sf53.jpg', col: 'span 6', h: 430 },
+    { src: 'assets/gallery/sf54.jpg', col: 'span 6', h: 430 },
+    { src: 'assets/gallery/sf55.jpg', col: 'span 4', h: 510 },
+    { src: 'assets/gallery/sf56.jpg', col: 'span 4', h: 510 },
+    { src: 'assets/gallery/sf57.jpg', col: 'span 4', h: 510 },
+    { src: 'assets/gallery/sf58.jpg', col: 'span 5', h: 450 },
+    { src: 'assets/gallery/sf59.jpg', col: 'span 4', h: 450 },
+    { src: 'assets/gallery/sf60.jpg', col: 'span 3', h: 450 },
+    { src: 'assets/gallery/sf61.jpg', col: 'span 7', h: 560 },
+    { src: 'assets/gallery/sf62.jpg', col: 'span 5', h: 560 },
+    { src: 'assets/gallery/sf63.jpg', col: 'span 3', h: 380 },
+    { src: 'assets/gallery/sf64.jpg', col: 'span 5', h: 380 },
+    { src: 'assets/gallery/sf65.jpg', col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf66.jpg', col: 'span 6', h: 640 },
+    { src: 'assets/gallery/sf67.jpg', col: 'span 6', h: 640 },
+    { src: 'assets/gallery/sf68.jpg', col: 'span 8', h: 480 },
+    { src: 'assets/gallery/sf69.jpg', col: 'span 4', h: 480 },
+    { src: 'assets/gallery/sf70.jpg', col: 'span 4', h: 500 },
+    { src: 'assets/gallery/sf71.jpg', col: 'span 4', h: 500 },
+    { src: 'assets/gallery/sf72.jpg', col: 'span 4', h: 500 },
+    { src: 'assets/gallery/sf73.jpg', col: 'span 4', h: 460 },
+    { src: 'assets/gallery/sf74.jpg', col: 'span 5', h: 460 },
+    { src: 'assets/gallery/sf75.jpg', col: 'span 3', h: 460 },
+    { src: 'assets/gallery/sf76.jpg', col: 'span 8', h: 600 },
+    { src: 'assets/gallery/sf77.jpg', col: 'span 4', h: 600 },
+    { src: 'assets/gallery/sf78.jpg', col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf79.jpg', col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf80.jpg', col: 'span 4', h: 380 },
+    { src: 'assets/gallery/sf81.jpg', col: 'span 12', h: 520 },
+  ],
 };
 
 const ALBUMS = [
+  { id: 'summerfestival', name: 'Ascension: Summer Festival', date: 'Jun 6 · 2026', src: 'assets/gallery/sf1.jpg' },
   { id: 'turbulence', name: 'Ascension: Turbulence', date: 'Apr 24 · 2026', src: 'assets/gallery/g40.jpg' },
   { id: 'ascension',  name: 'Ascension',             date: 'Nov 15 · 2025', src: 'assets/gallery/g29.jpg' },
 ];
 
 function GalleryPage() {
-  const [activeId, setActiveId] = React.useState('turbulence');
+  const [activeId, setActiveId] = React.useState('summerfestival');
   const [lightbox, setLightbox] = React.useState(null);
 
   const active = ALBUMS.find(a => a.id === activeId);
@@ -290,7 +374,8 @@ function GalleryPage() {
       <PageHeader
         eyebrow="§ 02 — Gallery"
         title="The afterglow."
-        photo="assets/gallery/g15.jpg" />
+        photo="assets/gallery/sf73.jpg"
+        photoPosition="center 70%" />
 
       <section className="af-reveal" style={{ padding: '40px 48px 0', borderBottom: '1px solid rgba(10,10,10,.15)' }}>
         <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 28 }}>

@@ -1,6 +1,7 @@
 /* ── Ascension Festival — global styles & interactions ───────────────────── */
 
 *, *::before, *::after { box-sizing: border-box; }
+body { overflow-x: hidden; }
 
 /* ── Sun pulse ──────────────────────────────────────────────────────────── */
 @keyframes sun-pulse {

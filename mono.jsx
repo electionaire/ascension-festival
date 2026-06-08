@@ -12,7 +12,7 @@ const monoStyles = {
 };
 
 // ── Grayscale photo / video block ─────────────────────────────────────
-function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, video, kenBurns = false }) {
+function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, video, kenBurns = false, objectPosition = 'center' }) {
   const palettes = {
     crowd:    'linear-gradient(180deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.08) 35%, rgba(0,0,0,.55) 80%, #000 100%), radial-gradient(80% 60% at 50% 78%, #2a2a2a 0%, #0d0d0d 70%, #000 100%)',
     portrait: 'linear-gradient(160deg, rgba(255,255,255,.10), rgba(0,0,0,.6)), radial-gradient(70% 55% at 40% 35%, #353535 0%, #111 70%, #000 100%)',
@@ -32,7 +32,7 @@ function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, vide
       ...style
     }}>
       <style>{`@keyframes kb { from { transform: scale(1.0) translate(0,0) } to { transform: scale(1.18) translate(-2%, -1%) } }`}</style>
-      {src && <img src={src} alt={caption} loading="lazy" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', animation: kenBurns ? 'kb 14s ease-in-out infinite alternate' : 'none' }} />}
+      {src && <img src={src} alt={caption} loading="lazy" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition, animation: kenBurns ? 'kb 14s ease-in-out infinite alternate' : 'none' }} />}
       {video && <video src={video} autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
       {!src && !video && kenBurns && <div aria-hidden style={{ position: 'absolute', inset: 0, animation: 'kb 14s ease-in-out infinite alternate', backgroundImage: palettes[tone] || palettes.crowd, backgroundSize: 'cover' }} />}
       <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', mixBlendMode: 'overlay', opacity: .4, backgroundImage: 'radial-gradient(rgba(255,255,255,.2) 1px, transparent 1px)', backgroundSize: '3px 3px' }} />
@@ -241,7 +241,7 @@ function MonoGalleryStrip() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
         {items.map((it, i) =>
           <div key={i} className="af-photo-item" style={{ position: 'relative' }}>
-            <BWPhoto src={it.src} caption="" kenBurns={it.isVideo} style={{ aspectRatio: '3 / 4' }} />
+            <BWPhoto src={it.src} caption="" kenBurns={it.isVideo} objectPosition="center 70%" style={{ aspectRatio: '3 / 4' }} />
             {it.isVideo &&
               <div style={{ position: 'absolute', top: 10, right: 10, color: '#fafafa', ...monoStyles.mono, fontSize: 8, display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(0,0,0,.5)', padding: '4px 7px', pointerEvents: 'none' }}>
                 <span style={{ width: 0, height: 0, borderLeft: '6px solid #fafafa', borderTop: '4px solid transparent', borderBottom: '4px solid transparent' }} />
@@ -321,12 +321,12 @@ function MonoIntroSection() {
 
         {/* photo grid */}
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 8, height: 340 }}>
-          <BWPhoto src="assets/photo-10.jpg" style={{ height: '100%' }} />
+          <BWPhoto src="assets/gallery/sf74.jpg" objectPosition="center 70%" style={{ height: '100%' }} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <BWPhoto src="assets/photo-9.jpg" style={{ flex: 1 }} />
-            <BWPhoto src="assets/photo-12.jpg" style={{ flex: 1 }} />
+            <BWPhoto src="assets/gallery/sf58.jpg" objectPosition="center 70%" style={{ flex: 1 }} />
+            <BWPhoto src="assets/gallery/sf31.jpg" objectPosition="center 70%" style={{ flex: 1 }} />
           </div>
-          <BWPhoto src="assets/photo-11.jpg" style={{ height: '100%' }} />
+          <BWPhoto src="assets/gallery/sf15.jpg" objectPosition="center 70%" style={{ height: '100%' }} />
         </div>
 
         {/* show facts strip */}
@@ -369,8 +369,8 @@ function MobileIntroSection() {
           Get tickets →
         </a>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 32 }}>
-          <BWPhoto src="assets/photo-10.jpg" style={{ aspectRatio: '3/4' }} />
-          <BWPhoto src="assets/photo-12.jpg" style={{ aspectRatio: '3/4' }} />
+          <BWPhoto src="assets/gallery/sf74.jpg" objectPosition="center 70%" style={{ aspectRatio: '3/4' }} />
+          <BWPhoto src="assets/gallery/sf31.jpg" objectPosition="center 70%" style={{ aspectRatio: '3/4' }} />
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,.25)' }}>
           {[
@@ -399,7 +399,7 @@ const EVENT_DETAILS = [
     venue: 'Effenaar Main Stage', capacity: '1,200 cap', time: '23:50 – 04:00',
     desc: 'An iconic start to the Intro Series. Step onto Effenaar\'s main stage for a night of DJ sets, live energy, and 1,200 international students all sharing the same first-week feeling. Dress up, show up, and make your first Eindhoven memory one to keep.',
     link: 'https://tickets.ascensionfestival.nl/intro/',
-    photo: 'assets/photo-13.jpg',
+    photo: 'assets/gallery/sf70.jpg',
     venueLogo: 'assets/Effenaar-1024x235 (1).webp',
   },
   {
@@ -407,7 +407,7 @@ const EVENT_DETAILS = [
     venue: 'Effenaar Main Stage', capacity: '1,200 cap', time: '23:30 – 04:00',
     desc: 'Seven days in, the Intro Series returns with a headline act taking the Effenaar stage. Leave the week behind, step into a night built around the music, and close out your first full university week the right way.',
     link: 'https://tickets.ascensionfestival.nl/intro/',
-    photo: 'assets/photo-03.jpg',
+    photo: 'assets/gallery/sf30.jpg',
     venueLogo: 'assets/Effenaar-1024x235 (1).webp',
   },
   {
@@ -450,7 +450,7 @@ function MonoEventDetailsSection() {
               </div>
               <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16, lineHeight: 1.75, margin: 0, maxWidth: 480 }}>{ev.desc}</p>
             </div>
-            <BWPhoto src={ev.photo} style={{ height: 220, borderRadius: 2 }} />
+            <BWPhoto src={ev.photo} objectPosition="center 70%" style={{ height: 220, borderRadius: 2 }} />
           </div>
         ))}
         {/* Tickets CTA */}
@@ -517,7 +517,7 @@ function Monochrome() {
     <div style={{ ...monoStyles.root, position: 'relative' }}>
       <MonoNav inverted />
       <MonoHero />
-      <div style={{ backgroundImage: 'url(assets/sunset-gradient.webp)', backgroundSize: 'cover', backgroundPosition: 'center top', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ backgroundImage: 'url(assets/sunset-gradient.webp)', backgroundSize: 'cover', backgroundPosition: 'center 40%', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
         <img loading="lazy" src="assets/fog-overlay.webp" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
         <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '90vw', height: '90vw', pointerEvents: 'none', zIndex: 0 }}>
           <img loading="lazy" src="assets/sun.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
@@ -749,7 +749,7 @@ function MobileMonoGallery() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {items.map((it, i) =>
           <div key={i} className="af-photo-item">
-            <BWPhoto src={it.src} caption="" style={{ aspectRatio: '3 / 4' }} />
+            <BWPhoto src={it.src} caption="" objectPosition="center 70%" style={{ aspectRatio: '3 / 4' }} />
           </div>
         )}
       </div>
@@ -782,7 +782,7 @@ function MonochromeMobile() {
     <div style={{ ...monoStyles.root, position: 'relative' }}>
       <MobileMonoNav inverted />
       <MobileMonoHero />
-      <div style={{ backgroundImage: 'url(assets/sunset-gradient.webp)', backgroundSize: 'cover', backgroundPosition: 'center top', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ backgroundImage: 'url(assets/sunset-gradient.webp)', backgroundSize: 'cover', backgroundPosition: 'center 40%', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
         <img loading="lazy" src="assets/fog-overlay.webp" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
         <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200vw', height: '200vw', pointerEvents: 'none', zIndex: 0 }}>
           <img loading="lazy" src="assets/sun.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
