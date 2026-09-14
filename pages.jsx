@@ -164,6 +164,77 @@ function TicketsPage() {
 
 // ── GALLERY ────────────────────────────────────────────────────────────
 const ALBUM_LAYOUTS = {
+  mainact: [
+    { src: 'assets/gallery/ma1.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma2.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma3.jpg', col: 'span 6', h: 440 },
+    { src: 'assets/gallery/ma4.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma5.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma6.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma7.jpg', col: 'span 4', h: 560 },
+    { src: 'assets/gallery/ma8.jpg', col: 'span 4', h: 560 },
+    { src: 'assets/gallery/ma9.jpg', col: 'span 4', h: 560 },
+    { src: 'assets/gallery/ma10.jpg', col: 'span 3', h: 415 },
+    { src: 'assets/gallery/ma11.jpg', col: 'span 3', h: 415 },
+    { src: 'assets/gallery/ma12.jpg', col: 'span 6', h: 415 },
+    { src: 'assets/gallery/ma13.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma14.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma15.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma16.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma17.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma18.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma19.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma20.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma21.jpg', col: 'span 6', h: 440 },
+    { src: 'assets/gallery/ma22.jpg', col: 'span 4', h: 315 },
+    { src: 'assets/gallery/ma23.jpg', col: 'span 4', h: 315 },
+    { src: 'assets/gallery/ma24.jpg', col: 'span 4', h: 315 },
+    { src: 'assets/gallery/ma25.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma26.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma27.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma28.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma29.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma30.jpg', col: 'span 4', h: 590 },
+    { src: 'assets/gallery/ma31.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma32.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma33.jpg', col: 'span 6', h: 440 },
+    { src: 'assets/gallery/ma34.jpg', col: 'span 4', h: 375 },
+    { src: 'assets/gallery/ma35.jpg', col: 'span 4', h: 375 },
+    { src: 'assets/gallery/ma36.jpg', col: 'span 4', h: 375 },
+    { src: 'assets/gallery/ma37.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma38.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma39.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma40.jpg', col: 'span 4', h: 370 },
+    { src: 'assets/gallery/ma41.jpg', col: 'span 4', h: 370 },
+    { src: 'assets/gallery/ma42.jpg', col: 'span 4', h: 370 },
+    { src: 'assets/gallery/ma43.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma44.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma45.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma46.jpg', col: 'span 4', h: 375 },
+    { src: 'assets/gallery/ma47.jpg', col: 'span 4', h: 375 },
+    { src: 'assets/gallery/ma48.jpg', col: 'span 4', h: 375 },
+    { src: 'assets/gallery/ma49.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma50.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma51.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma52.jpg', col: 'span 6', h: 470 },
+    { src: 'assets/gallery/ma53.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/ma54.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/ma55.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma56.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma57.jpg', col: 'span 6', h: 440 },
+    { src: 'assets/gallery/ma58.jpg', col: 'span 4', h: 535 },
+    { src: 'assets/gallery/ma59.jpg', col: 'span 4', h: 535 },
+    { src: 'assets/gallery/ma60.jpg', col: 'span 4', h: 535 },
+    { src: 'assets/gallery/ma61.jpg', col: 'span 6', h: 440 },
+    { src: 'assets/gallery/ma62.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma63.jpg', col: 'span 3', h: 440 },
+    { src: 'assets/gallery/ma64.jpg', col: 'span 4', h: 370 },
+    { src: 'assets/gallery/ma65.jpg', col: 'span 4', h: 370 },
+    { src: 'assets/gallery/ma66.jpg', col: 'span 4', h: 370 },
+    { src: 'assets/gallery/ma67.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma68.jpg', col: 'span 4', h: 340 },
+    { src: 'assets/gallery/ma69.jpg', col: 'span 4', h: 340 },
+  ],
   openingball: [
     { src: 'assets/gallery/ob1.jpg', col: 'span 3', h: 440 },
     { src: 'assets/gallery/ob2.jpg', col: 'span 6', h: 440 },
@@ -496,6 +567,7 @@ const ALBUM_LAYOUTS = {
 };
 
 const ALBUMS = [
+  { id: 'mainact', name: 'Ascension Intro: Main Act', date: 'Sep 11 · 2026', src: 'assets/gallery/ma49.jpg' },
   { id: 'openingball', name: 'Ascension International Student Intro: The Opening Ball', date: 'Sep 4 · 2026', src: 'assets/gallery/ob62.jpg' },
   { id: 'summerfestival', name: 'Ascension: Summer Festival', date: 'Jun 6 · 2026', src: 'assets/gallery/sf1.jpg' },
   { id: 'turbulence', name: 'Ascension: Turbulence', date: 'Apr 24 · 2026', src: 'assets/gallery/g40.jpg' },
@@ -503,7 +575,7 @@ const ALBUMS = [
 ];
 
 function GalleryPage() {
-  const [activeId, setActiveId] = React.useState('openingball');
+  const [activeId, setActiveId] = React.useState('mainact');
   const [lightbox, setLightbox] = React.useState(null);
 
   const active = ALBUMS.find(a => a.id === activeId);
