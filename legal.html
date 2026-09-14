@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Legal &amp; Privacy — Ascension Festival</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="Legal notice, ticket terms and privacy policy for Ascension Festival, operated by MITRA VARUNA OÜ." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://unpkg.com" />
+<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8E1937HWYZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8E1937HWYZ');
+</script>
+<style>
+  html, body { margin: 0; padding: 0; background: #fafafa; font-family: 'Montserrat', system-ui, sans-serif; }
+  input, textarea, select, button { font-family: inherit; }
+</style>
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#0a0a0a" />
+
+<!-- SEO -->
+<meta name="robots" content="index, follow" />
+<meta name="author" content="Ascension Festival" />
+<link rel="canonical" href="https://ascensionfestival.nl/legal" />
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website" />
+<meta property="og:site_name"   content="Ascension Festival" />
+<meta property="og:title"       content="Legal &amp; Privacy — Ascension Festival" />
+<meta property="og:description" content="Legal notice, ticket terms and privacy policy for Ascension Festival, operated by MITRA VARUNA OÜ." />
+<meta property="og:url"         content="https://ascensionfestival.nl/legal" />
+<meta property="og:image"       content="https://ascensionfestival.nl/og-image.jpg" />
+<meta property="og:image:width"  content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale"      content="en_NL" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content="Legal &amp; Privacy — Ascension Festival" />
+<meta name="twitter:description" content="Legal notice, ticket terms and privacy policy for Ascension Festival, operated by MITRA VARUNA OÜ." />
+<meta name="twitter:image"       content="https://ascensionfestival.nl/og-image.jpg" />
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel" src="mono.jsx"></script>
+<script type="text/babel" src="pages.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+  function useScrollReveal() {
+    React.useEffect(() => {
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.af-reveal').forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      const observer = new IntersectionObserver(
+        (entries) => entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('is-visible'); observer.unobserve(e.target); }
+        }),
+        { threshold: 0.07, rootMargin: '0px 0px -32px 0px' }
+      );
+      const t = setTimeout(() => {
+        document.querySelectorAll('.af-reveal').forEach(el => observer.observe(el));
+      }, 80);
+      return () => { clearTimeout(t); observer.disconnect(); };
+    }, []);
+  }
+
+  function App() {
+    useScrollReveal();
+    return <window.LegalPage />;
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

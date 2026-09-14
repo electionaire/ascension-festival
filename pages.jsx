@@ -715,4 +715,152 @@ function ContactPage() {
   );
 }
 
-Object.assign(window, { TicketsPage, GalleryPage, EventsPage, ContactPage });
+
+// ── LEGAL & PRIVACY ────────────────────────────────────────────────────
+const LEGAL_UPDATED = '14 September 2026';
+
+const LEGAL_SECTIONS = [
+  {
+    num: '01', title: 'Who we are',
+    body: [
+      'This website and the events presented on it are operated by MITRA VARUNA OÜ, a private limited company registered in Estonia, trading as Ascension ("Ascension", "we", "us", "our").',
+    ],
+    details: [
+      ['Company', 'MITRA VARUNA OÜ'],
+      ['Registry code', '14566053'],
+      ['Registered address', 'Harju maakond, Tallinn, Kristiine linnaosa, Tulika tn 19, 10613, Estonia'],
+      ['VAT identification number', 'EE102132944'],
+      ['Email', 'info@ascensionfestival.nl'],
+    ],
+  },
+  {
+    num: '02', title: 'Tickets and refunds',
+    body: [
+      'All ticket sales are final. Tickets are non-refundable. Once a ticket has been purchased, we do not refund it if you change your mind, if you are unable to attend, or if you are refused entry or removed from an event under the conditions set out below.',
+      'Tickets are transferable. If you cannot make it, you may pass your ticket to someone else through your confirmation email, free of charge.',
+      'Because our tickets are for leisure events supplied on a specific date, the 14-day right of withdrawal for distance purchases does not apply, in line with Article 16(l) of EU Directive 2011/83/EU on consumer rights.',
+      'If we cancel an event entirely and do not reschedule it, we will refund the face value of your ticket. Booking and service fees charged by our ticketing partner may be non-refundable. If an event is rescheduled or moved to another venue, your ticket remains valid for the new date or location and no refund is due.',
+      'Line-ups, timetables and supporting acts are subject to change. A change to the line-up is not grounds for a refund.',
+      'Entry requires a valid ticket and, where applicable, valid photo identification and compliance with the minimum age for the event. Entry is also subject to the house rules of the venue. We and the venue may refuse entry to, or remove, anyone who breaches those rules, and no refund is due in that case.',
+    ],
+  },
+  {
+    num: '03', title: 'Buying tickets',
+    body: [
+      'Ticket sales are handled by our ticketing partner on a separate platform, not on this website. We do not receive or store your payment card details. When you buy a ticket, the ticketing partner processes your data as described in their own terms and privacy notice, and we receive the attendee information we need to run the event.',
+    ],
+  },
+  {
+    num: '04', title: 'What data we collect on this site',
+    body: [
+      'This website has no accounts, no checkout and no contact form. We collect only the following:',
+    ],
+    list: [
+      ['Analytics data', 'We use Google Analytics to understand how the site is used — pages viewed, links and buttons clicked, approximate location derived from your IP address, and basic device and browser information. This is pseudonymised and we do not use it to identify you personally.'],
+      ['Correspondence', 'If you email us, we receive your email address and whatever you choose to put in your message, and we keep that correspondence so we can deal with your request.'],
+    ],
+  },
+  {
+    num: '05', title: 'Why we process it, and on what basis',
+    body: [
+      'We rely on our legitimate interest in operating, securing and improving this website and our events (Article 6(1)(f) GDPR), and on your consent where consent is required for analytics cookies (Article 6(1)(a) GDPR). Where you buy a ticket, we process data to perform our contract with you (Article 6(1)(b) GDPR), and we keep accounting records to meet our legal obligations (Article 6(1)(c) GDPR).',
+    ],
+  },
+  {
+    num: '06', title: 'Cookies and analytics',
+    body: [
+      'Google Analytics sets cookies in your browser to measure usage of this site. You can refuse or delete these cookies in your browser settings at any time, or install the Google Analytics opt-out browser add-on. Blocking them does not affect your ability to use the site.',
+      'Data collected through Google Analytics is processed by Google, which may involve transfers outside the European Economic Area under the safeguards Google applies as a processor.',
+    ],
+  },
+  {
+    num: '07', title: 'Photography and filming at events',
+    body: [
+      'We take photographs and video at our events and publish them on this website and on our social channels, to document and promote the events. We do this on the basis of our legitimate interest in promoting Ascension.',
+      'If you appear in a photograph or video and would rather not, email us at info@ascensionfestival.nl with a description of the image and where you saw it, and we will remove it from the channels we control.',
+    ],
+  },
+  {
+    num: '08', title: 'Who we share data with, and for how long',
+    body: [
+      'We share personal data only with our analytics provider, our ticketing partner, the venues hosting an event where that is necessary for entry or safety, and public authorities where we are legally required to do so. We do not sell personal data.',
+      'Analytics data is retained for up to 14 months. Email correspondence is kept for as long as needed to handle your request and a reasonable period afterwards. Accounting records are kept for seven years, as required by Estonian law.',
+    ],
+  },
+  {
+    num: '09', title: 'Your rights',
+    body: [
+      'Under the GDPR you have the right to access your personal data, to have it corrected or erased, to restrict or object to its processing, to receive it in a portable form, and to withdraw consent at any time where processing is based on consent. To exercise any of these, email info@ascensionfestival.nl.',
+      'If you believe we have handled your data improperly, you may lodge a complaint with the Estonian Data Protection Inspectorate (Andmekaitse Inspektsioon, aki.ee) or with the supervisory authority in your country of residence.',
+    ],
+  },
+  {
+    num: '10', title: 'Content and changes to this notice',
+    body: [
+      'The content of this website, including text, artwork, photography and the Ascension name and logo, belongs to MITRA VARUNA OÜ or to the photographers and designers who created it, and may not be reproduced without permission.',
+      'We may update this notice as our events and this website change. The date of the current version is shown at the foot of this page.',
+    ],
+  },
+];
+
+function LegalPage() {
+  return (
+    <div style={pageRoot}>
+      <PageHeader
+        eyebrow="§ 05 — Legal"
+        title="Legal &"
+        italic="privacy."
+        lead="Company details, ticket terms and how we handle your data."
+        photo="assets/gallery/ma57.jpg"
+        photoPosition="center 45%" />
+
+      <section className="af-reveal" style={{ padding: '80px 48px 100px' }}>
+        <div className="af-legal-body" style={{ maxWidth: 760 }}>
+          {LEGAL_SECTIONS.map((s) => (
+            <div key={s.num} className="af-legal-section" style={{ borderTop: '1px solid rgba(10,10,10,.15)', padding: '38px 0 0', marginBottom: 38 }}>
+              <div style={{ display: 'flex', gap: 20, alignItems: 'baseline' }}>
+                <span style={{ ...monoStyles.mono, opacity: .45, fontSize: 10 }}>{s.num}</span>
+                <h2 style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 26, letterSpacing: '-0.015em', margin: 0, lineHeight: 1.2 }}>{s.title}</h2>
+              </div>
+              <div style={{ marginTop: 18 }}>
+                {s.body.map((p, i) => (
+                  <p key={i} style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.7, opacity: .8, margin: '0 0 16px' }}>{p}</p>
+                ))}
+
+                {s.details && (
+                  <dl style={{ margin: '4px 0 0', display: 'grid', gridTemplateColumns: 'minmax(150px, 220px) 1fr', gap: '12px 24px' }} className="af-legal-details">
+                    {s.details.map(([k, v]) => (
+                      <React.Fragment key={k}>
+                        <dt style={{ ...monoStyles.mono, opacity: .5, fontSize: 10, paddingTop: 2 }}>{k}</dt>
+                        <dd style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.6 }}>
+                          {k === 'Email'
+                            ? <a href={`mailto:${v}`} className="af-footer-link" onClick={() => track('Legal – Email', 'contact')} style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid rgba(10,10,10,.35)' }}>{v}</a>
+                            : v}
+                        </dd>
+                      </React.Fragment>
+                    ))}
+                  </dl>
+                )}
+
+                {s.list && s.list.map(([k, v]) => (
+                  <div key={k} style={{ marginBottom: 16 }}>
+                    <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 10, marginBottom: 6 }}>{k}</div>
+                    <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.7, opacity: .8, margin: 0 }}>{v}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <div style={{ borderTop: '1px solid #0a0a0a', paddingTop: 18, ...monoStyles.mono, opacity: .5, fontSize: 10 }}>
+            Last updated: {LEGAL_UPDATED}
+          </div>
+        </div>
+      </section>
+
+      <MonoFooter />
+    </div>
+  );
+}
+
+Object.assign(window, { TicketsPage, GalleryPage, EventsPage, ContactPage, LegalPage });

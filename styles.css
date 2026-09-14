@@ -241,6 +241,10 @@ img, video, svg { max-width: 100%; }
   .af-gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .af-gallery-grid > div { grid-column: span 1 !important; height: 180px !important; }
 
+  /* Legal: stack the company details */
+  .af-legal-details { grid-template-columns: 1fr !important; gap: 4px 0 !important; }
+  .af-legal-details dd { margin-bottom: 12px !important; }
+
   /* Contact: single column */
   .af-contact-cards { grid-template-columns: 1fr !important; }
   .af-contact-layout { grid-template-columns: 1fr !important; padding: 32px 22px 60px !important; gap: 40px !important; }

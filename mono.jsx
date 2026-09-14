@@ -281,8 +281,11 @@ function MonoFooter() {
           <a href="/contact" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
         </div>
       </div>
-      <div style={{ borderTop: '1px solid rgba(10,10,10,.15)', marginTop: 36, paddingTop: 18, display: 'flex', justifyContent: 'space-between', ...monoStyles.mono, opacity: .5, fontSize: 9 }}>
-        <span>© 2026 Ascension Festival NL</span>
+      <div style={{ borderTop: '1px solid rgba(10,10,10,.15)', marginTop: 36, paddingTop: 18, display: 'flex', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', ...monoStyles.mono, opacity: .5, fontSize: 9 }}>
+        <span style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+          <span>© 2026 Ascension Festival NL</span>
+          <a href="/legal" className="af-footer-link" onClick={() => track('Footer – Legal & Privacy', 'navigation')} style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px solid rgba(10,10,10,.4)' }}>Legal & privacy</a>
+        </span>
         <span>Made in Eindhoven</span>
       </div>
     </footer>
@@ -764,8 +767,9 @@ function MobileMonoFooter() {
       <div style={{ padding: '24px 22px 36px' }}>
         <a href="/" className="af-logo-link" onClick={() => track('Mobile Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginTop: 12 }}>Eindhoven, since 2025</div>
-        <div style={{ display: 'flex', gap: 16, marginTop: 24, ...monoStyles.mono, fontSize: 10 }}>
+        <div style={{ display: 'flex', gap: 16, marginTop: 24, flexWrap: 'wrap', ...monoStyles.mono, fontSize: 10 }}>
           <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Mobile Footer – Instagram', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Instagram</a>
+          <a href="/legal" className="af-footer-link" onClick={() => track('Mobile Footer – Legal & Privacy', 'navigation')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Legal & privacy</a>
         </div>
         <div style={{ marginTop: 28, ...monoStyles.mono, opacity: .5, fontSize: 8, display: 'flex', justifyContent: 'space-between' }}>
           <span>© 2026 Ascension Festival NL</span>
