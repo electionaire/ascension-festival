@@ -567,9 +567,9 @@ const ALBUM_LAYOUTS = {
 };
 
 const ALBUMS = [
-  { id: 'mainact', name: 'Ascension Intro: Main Act', date: 'Sep 11 · 2026', src: 'assets/gallery/ma49.jpg' },
-  { id: 'openingball', name: 'Ascension International Student Intro: The Opening Ball', date: 'Sep 4 · 2026', src: 'assets/gallery/ob62.jpg' },
-  { id: 'summerfestival', name: 'Ascension: Summer Festival', date: 'Jun 6 · 2026', src: 'assets/gallery/sf1.jpg' },
+  { id: 'mainact', name: 'Ascension International Student Intro: Main Act ft. DJ359', date: 'Sep 11 · 2026', src: 'assets/gallery/ma49.jpg' },
+  { id: 'openingball', name: 'Ascension International Student Intro: Main Act ft. Miguelito', date: 'Sep 4 · 2026', src: 'assets/gallery/ob62.jpg' },
+  { id: 'summerfestival', name: 'Ascension: Summer Festival', date: 'Jun 5 · 2026', src: 'assets/gallery/sf1.jpg' },
   { id: 'turbulence', name: 'Ascension: Turbulence', date: 'Apr 24 · 2026', src: 'assets/gallery/g40.jpg' },
   { id: 'ascension',  name: 'Ascension',             date: 'Nov 15 · 2025', src: 'assets/gallery/g29.jpg' },
 ];
