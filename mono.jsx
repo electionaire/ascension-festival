@@ -106,15 +106,13 @@ function MonoNav({ inverted = false }) {
 
 // ── Desktop hero (fullscreen) ──────────────────────────────────────────
 function MonoHero() {
-  const { days, hours, mins, secs } = useCountdown('2026-09-04T23:50:00+02:00');
-  const pad = (n) => String(n).padStart(2, '0');
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
-      <div style={{ position: 'absolute', left: 0, right: 0, top: '15%', bottom: '22%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 60px', textAlign: 'center' }}>
-        <img loading="lazy" src="assets/logo-layer3.webp" alt="Ascension International Student Intro 2026" style={{ width: 820, maxWidth: '90%', display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
+      <div style={{ position: 'absolute', left: 0, right: 0, top: '20%', bottom: '20%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 60px', textAlign: 'center' }}>
+        <img loading="lazy" src="assets/logo-white.png" alt="Ascension" style={{ width: 560, maxWidth: '85%', display: 'block', opacity: .85 }} />
         <div style={{ ...monoStyles.mono, marginTop: 26, fontSize: 12, color: '#fafafa', opacity: .9, letterSpacing: '.28em' }}>
-          A warm welcome to Eindhoven's International Student Experience
+          Celebrating our International Community. Thank you for an amazing 2025-2026
         </div>
         <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
           <div style={{ ...monoStyles.mono, color: '#fafafa', opacity: .5, fontSize: 9 }}>In collaboration with</div>
@@ -125,24 +123,6 @@ function MonoHero() {
             <img loading="lazy" src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 26, opacity: .8, filter: 'brightness(0) invert(1)' }} />
           </div>
         </div>
-      </div>
-      <div style={{ position: 'absolute', left: 48, right: 48, bottom: 48, color: '#fafafa', display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 48, alignItems: 'flex-end', borderTop: '1px solid rgba(250,250,250,.3)', paddingTop: 32 }}>
-        <div>
-          <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10 }}>Next show · Fri 04 Sep 2026 · 23:50</div>
-          <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 30, marginTop: 8, letterSpacing: '-0.015em' }}>International Student Intro: The Opening Ball</div>
-          <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 10, marginTop: 5 }}>Effenaar Main Stage</div>
-        </div>
-        <div style={{ display: 'flex', gap: 28, alignItems: 'baseline' }}>
-          {[['D', pad(days)], ['H', pad(hours)], ['M', pad(mins)], ['S', pad(secs)]].map(([l, v]) =>
-            <div key={l} style={{ textAlign: 'center', minWidth: 56 }}>
-              <div style={{ fontFamily: 'Montserrat', fontWeight: 200, fontSize: 56, lineHeight: 1, letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums' }}>{v}</div>
-              <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 9 }}>{l}</div>
-            </div>
-          )}
-        </div>
-        <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track('Hero – Buy Tickets (ISI)', 'cta')} style={{ background: '#fafafa', color: '#0a0a0a', padding: '18px 28px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap', display: 'inline-block' }}>
-          Buy tickets →
-        </a>
       </div>
     </section>
   );
@@ -156,8 +136,13 @@ function MonoEvents() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 56, letterSpacing: '-0.025em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Upcoming</span> shows
         </h2>
-        <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>Autumn 2026 · 3-show series</span>
+        <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>{EVENTS.length > 0 ? `${EVENTS.length} on sale` : 'Nothing on sale right now'}</span>
       </div>
+      {EVENTS.length === 0 && (
+        <div style={{ padding: '40px 0', borderTop: '1px solid #0a0a0a', borderBottom: '1px solid #0a0a0a', ...monoStyles.mono, fontSize: 12, opacity: .6 }}>
+          No shows announced yet — check back soon.
+        </div>
+      )}
       <div>
         {EVENTS.map((ev, i) => {
           const isLast = i === EVENTS.length - 1;
@@ -520,26 +505,6 @@ function Monochrome() {
     <div style={{ ...monoStyles.root, position: 'relative' }}>
       <MonoNav inverted />
       <MonoHero />
-      <div style={{ backgroundImage: 'url(assets/sunset-gradient.webp)', backgroundSize: 'cover', backgroundPosition: 'center 40%', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
-        <img loading="lazy" src="assets/fog-overlay.webp" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
-        <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '90vw', height: '90vw', pointerEvents: 'none', zIndex: 0 }}>
-          <img loading="lazy" src="assets/sun.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
-        </div>
-        <MonoIntroSection />
-        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '48px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 }}>
-          <img loading="lazy" src="assets/logo-layer3.webp" alt="Ascension International Student Intro 2026" style={{ width: 420, display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-            <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 9 }}>In collaboration with</div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 48, flexWrap: 'wrap' }}>
-              <img loading="lazy" src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 28, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-              <img loading="lazy" src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 20, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-              <img loading="lazy" src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 36, opacity: .85 }} />
-              <img loading="lazy" src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 30, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-            </div>
-          </div>
-        </div>
-        <MonoEventDetailsSection />
-      </div>
       <MonoEvents />
       <MonoGalleryStrip />
       <MonoFooter />
@@ -632,15 +597,13 @@ function MobileMonoNav({ inverted = true }) {
 
 // ── Mobile hero (fullscreen) ───────────────────────────────────────────
 function MobileMonoHero() {
-  const { days, hours, mins, secs } = useCountdown('2026-09-04T23:50:00+02:00');
-  const pad = (n) => String(n).padStart(2, '0');
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '28%', color: '#fafafa', textAlign: 'center', padding: '0 22px' }}>
-        <img loading="lazy" src="assets/logo-layer3.webp" alt="Ascension International Student Intro 2026" style={{ width: '92%', display: 'block', margin: '0 auto', opacity: .85, filter: 'brightness(0) invert(1)' }} />
+        <img loading="lazy" src="assets/logo-white.png" alt="Ascension" style={{ width: '60%', display: 'block', margin: '0 auto', opacity: .85 }} />
         <div style={{ ...monoStyles.mono, marginTop: 16, fontSize: 10, opacity: .9 }}>
-          A warm welcome to Eindhoven's International Student Experience
+          Celebrating our International Community. Thank you for an amazing 2025-2026
         </div>
         <div style={{ marginTop: 22, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
           <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>In collaboration with</div>
@@ -651,22 +614,6 @@ function MobileMonoHero() {
             <img loading="lazy" src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 22, opacity: .8, filter: 'brightness(0) invert(1)' }} />
           </div>
         </div>
-      </div>
-      <div style={{ position: 'absolute', left: 16, right: 16, bottom: 28, color: '#fafafa', borderTop: '1px solid rgba(250,250,250,.4)', paddingTop: 18 }}>
-        <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 9 }}>Next · Fri 04 Sep 2026</div>
-        <div style={{ fontFamily: 'Montserrat', fontStyle: 'italic', fontWeight: 300, fontSize: 22, marginTop: 6, letterSpacing: '-0.015em' }}>International Student Intro: The Opening Ball</div>
-        <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 9, marginTop: 4 }}>Effenaar Main Stage</div>
-        <div style={{ display: 'flex', gap: 18, marginTop: 18, justifyContent: 'space-between' }}>
-          {[['D', pad(days)], ['H', pad(hours)], ['M', pad(mins)], ['S', pad(secs)]].map(([l, v]) =>
-            <div key={l} style={{ textAlign: 'center', flex: 1 }}>
-              <div style={{ fontFamily: 'Montserrat', fontWeight: 200, fontSize: 36, lineHeight: 1, letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums' }}>{v}</div>
-              <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>{l}</div>
-            </div>
-          )}
-        </div>
-        <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track('Mobile Hero – Buy Tickets (ISI)', 'cta')} style={{ display: 'block', textAlign: 'center', background: '#fafafa', color: '#0a0a0a', padding: '18px 22px', marginTop: 22, textDecoration: 'none', ...monoStyles.mono, fontSize: 11 }}>
-          Buy tickets →
-        </a>
       </div>
     </section>
   );
@@ -680,8 +627,13 @@ function MobileMonoEvents() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Upcoming</span>
         </h2>
-        <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 9 }}>3-show series</span>
+        <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 9 }}>{EVENTS.length > 0 ? `${EVENTS.length} on sale` : 'Nothing on sale'}</span>
       </div>
+      {EVENTS.length === 0 && (
+        <div style={{ padding: '28px 0', borderTop: '1px solid #0a0a0a', borderBottom: '1px solid #0a0a0a', ...monoStyles.mono, fontSize: 10, opacity: .6 }}>
+          No shows announced yet — check back soon.
+        </div>
+      )}
       <div>
         {EVENTS.map((ev, i) => {
           const isLast = i === EVENTS.length - 1;
@@ -786,26 +738,6 @@ function MonochromeMobile() {
     <div style={{ ...monoStyles.root, position: 'relative' }}>
       <MobileMonoNav inverted />
       <MobileMonoHero />
-      <div style={{ backgroundImage: 'url(assets/sunset-gradient.webp)', backgroundSize: 'cover', backgroundPosition: 'center 40%', color: '#fafafa', position: 'relative', overflow: 'hidden' }}>
-        <img loading="lazy" src="assets/fog-overlay.webp" aria-hidden alt="" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none', opacity: 0.3, mixBlendMode: 'screen', zIndex: 10 }} />
-        <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '200vw', height: '200vw', pointerEvents: 'none', zIndex: 0 }}>
-          <img loading="lazy" src="assets/sun.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.9, animation: 'sun-pulse 7s ease-in-out infinite', display: 'block' }} />
-        </div>
-        <MobileIntroSection />
-        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '36px 22px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
-          <img loading="lazy" src="assets/logo-layer3.webp" alt="Ascension International Student Intro 2026" style={{ width: '80%', display: 'block', opacity: .85, filter: 'brightness(0) invert(1)' }} />
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-            <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 8 }}>In collaboration with</div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
-              <img loading="lazy" src="assets/IntStuExp (1).png" alt="International Student Experience NL" style={{ height: 22, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-              <img loading="lazy" src="assets/Effenaar-1024x235 (1).webp" alt="Effenaar" style={{ height: 16, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-              <img loading="lazy" src="assets/Vibes_logo_2022_Event_RGB_Vibes_logo_Badge_Wit.png" alt="Vibes Eindhoven" style={{ height: 28, opacity: .85 }} />
-              <img loading="lazy" src="assets/elctnr_creative_studio.png" alt="ELCNTR Creative Studio" style={{ height: 18, opacity: .85, filter: 'brightness(0) invert(1)' }} />
-            </div>
-          </div>
-        </div>
-        <MobileEventDetailsSection />
-      </div>
       <MobileMonoEvents />
       <MobileMonoGallery />
       <MobileMonoFooter />

@@ -127,28 +127,8 @@ function Marquee({ items = [], speed = 30, separator = '✦', style = {}, color 
 }
 
 // ── Festival event data ─────────────────────────────────────────────────
-const EVENTS = [
-  {
-    id: 'intro-2026',
-    headline: false,
-    isSeries: true,
-    iso: '2026-09-04T23:50:00+02:00',
-    title: 'INTERNATIONAL STUDENT INTRO 2026',
-    venue: 'Effenaar & Vibes Eindhoven',
-    city: 'Eindhoven, NL',
-    tag: 'Three-show series',
-    status: 'On sale',
-    price: '€18.50 / show',
-    poster: 'assets/poster-intro.jpg',
-    // Compact label for grid cells that expect a single date
-    date: { day: '04', month: 'SEP', dow: 'FRI', year: '2026' },
-    series: [
-      { id: 'intro-opening', subtitle: 'The Opening Ball',  day: '04', month: 'SEP', dow: 'FRI', year: '2026', venue: 'Effenaar Main Stage', doors: '23:50 — 05:00' },
-      { id: 'intro-main',    subtitle: 'Main Act',          day: '11', month: 'SEP', dow: 'FRI', year: '2026', venue: 'Effenaar Main Stage', doors: '23:30 — 05:00' },
-      { id: 'intro-closing', subtitle: 'Closing Festival',  day: '02', month: 'OCT', dow: 'FRI', year: '2026', venue: 'Vibes Eindhoven',     doors: '23:30 — 05:00' },
-    ],
-  },
-];
+// International Student Intro 2026 has concluded — no shows currently announced.
+const EVENTS = [];
 
 const FAQS = [
   { q: 'What is the minimum age?', a: 'Ascension events are 18+. Bring a valid government ID — passport, EU ID card, or driver\'s license. No ID, no entry. We don\'t make exceptions.' },

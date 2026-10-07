@@ -568,7 +568,7 @@ const ALBUM_LAYOUTS = {
 
 const ALBUMS = [
   { id: 'mainact', name: 'Ascension International Student Intro: Main Act ft. DJ359', date: 'Sep 11 · 2026', src: 'assets/gallery/ma49.jpg' },
-  { id: 'openingball', name: 'Ascension International Student Intro: Main Act ft. Miguelito', date: 'Sep 4 · 2026', src: 'assets/gallery/ob62.jpg' },
+  { id: 'openingball', name: 'Ascension International Student Intro: Opening Ball ft. Miguelito', date: 'Sep 4 · 2026', src: 'assets/gallery/ob62.jpg' },
   { id: 'summerfestival', name: 'Ascension: Summer Festival', date: 'Jun 5 · 2026', src: 'assets/gallery/sf1.jpg' },
   { id: 'turbulence', name: 'Ascension: Turbulence', date: 'Apr 24 · 2026', src: 'assets/gallery/g40.jpg' },
   { id: 'ascension',  name: 'Ascension',             date: 'Nov 15 · 2025', src: 'assets/gallery/g29.jpg' },
@@ -680,13 +680,20 @@ function EventsPage() {
         eyebrow="§ 03 — Events"
         title="Welcome to"
         italic="Eindhoven"
-        lead="Eindhoven's International Student Intro Event Series"
-        subhead={['Updated 07.06.2026', '3 / 3 shows on sale', 'Doors at 23:30 unless noted']}
+        lead="Ascension events in Eindhoven"
         photo="assets/gallery/g27.jpg" />
 
       <section style={{ padding: '40px 48px 80px' }}>
-        {EVENTS.map((ev, i) => <EventCard key={ev.id} ev={ev} i={i} />)}
-        <div style={{ borderTop: '1px solid #0a0a0a' }} />
+        {EVENTS.length > 0
+          ? EVENTS.map((ev, i) => <EventCard key={ev.id} ev={ev} i={i} />)
+          : (
+            <div className="af-reveal" style={{ padding: '120px 0', textAlign: 'center', borderTop: '1px solid #0a0a0a', borderBottom: '1px solid #0a0a0a' }}>
+              <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 16 }}>No shows on sale</div>
+              <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.02em', margin: 0 }}>
+                <span style={{ fontStyle: 'italic' }}>Nothing</span> announced yet — check back soon.
+              </h2>
+            </div>
+          )}
       </section>
 
       <MonoFooter />
