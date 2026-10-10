@@ -42,134 +42,6 @@ function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, vide
   );
 }
 
-// ── Hero logo particles — glowing dust shed from the logo's letterforms ──
-// Samples the logo image's opaque pixels, emits particles from them, lets them
-// drift outward on a soft flow field and dissolve into the video behind.
-function LogoParticles({ logoRef, count = 260, size = 1.6, glow = 5, color = '#ffffff', accent = '#ffd2f0' }) {
-  const wrapRef = React.useRef(null);
-  const canvasRef = React.useRef(null);
-
-  useEffect(() => {
-    const wrap = wrapRef.current, canvas = canvasRef.current, logo = logoRef.current;
-    const ctx = canvas && canvas.getContext('2d');
-    if (!wrap || !ctx || !logo) return;
-
-    const sprite = (c) => {
-      const s = document.createElement('canvas');
-      s.width = s.height = 64;
-      const g = s.getContext('2d');
-      const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-      grad.addColorStop(0, c); grad.addColorStop(0.2, c); grad.addColorStop(1, 'rgba(0,0,0,0)');
-      g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
-      return s;
-    };
-    const mainDot = sprite(color), accentDot = sprite(accent);
-
-    let w = 0, h = 0, points = [], cx = 0, cy = 0, logoW = 1, particles = [];
-
-    // Collect emission points from the logo's visible pixels, in canvas coordinates
-    const sampleLogo = () => {
-      const wr = wrap.getBoundingClientRect(), lr = logo.getBoundingClientRect();
-      if (!lr.width || !logo.naturalWidth) return;
-      const lw = Math.round(lr.width), lh = Math.round(lr.height);
-      const off = document.createElement('canvas');
-      off.width = lw; off.height = lh;
-      const g = off.getContext('2d');
-      g.drawImage(logo, 0, 0, lw, lh);
-      const data = g.getImageData(0, 0, lw, lh).data;
-      const ox = lr.left - wr.left, oy = lr.top - wr.top, step = 2;
-      points = [];
-      for (let y = 0; y < lh; y += step)
-        for (let x = 0; x < lw; x += step)
-          if (data[(y * lw + x) * 4 + 3] > 140) points.push([ox + x, oy + y]);
-      cx = ox + lw / 2; cy = oy + lh / 2; logoW = lw;
-    };
-
-    const spawn = (p = {}) => {
-      const [x, y] = points[(Math.random() * points.length) | 0];
-      // Push away from the logo's centre, biased upward, plus a little randomness
-      const dx = (x - cx) / logoW, dy = (y - cy) / logoW;
-      const len = Math.hypot(dx, dy) || 1;
-      const v = 0.15 + Math.random() * 0.45;
-      return Object.assign(p, {
-        x, y,
-        vx: (dx / len) * v * 0.6 + (Math.random() - 0.5) * 0.3,
-        vy: (dy / len) * v * 0.6 - (0.25 + Math.random() * 0.45),
-        size: size * (0.4 + Math.random() * 1.0),
-        accent: Math.random() < 0.15,
-        life: 0, maxLife: 1.6 + Math.random() * 2.8,
-      });
-    };
-
-    const resize = () => {
-      const r = wrap.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
-      w = Math.max(1, Math.round(r.width)); h = Math.max(1, Math.round(r.height));
-      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      sampleLogo();
-      if (!points.length) { particles = []; return; }
-      const n = w < 768 ? Math.round(count * 0.55) : count;
-      // Stagger initial ages so the emission is continuous from the first frame
-      particles = Array.from({ length: n }, () => { const p = spawn(); p.life = Math.random() * p.maxLife; return p; });
-    };
-
-    const draw = (t, dt) => {
-      ctx.clearRect(0, 0, w, h);
-      ctx.globalCompositeOperation = 'lighter';
-      for (const p of particles) {
-        // Gentle swirl so the trails curl instead of moving in straight lines
-        const k = t * 0.4;
-        p.vx += Math.sin(p.y * 0.012 + k) * 0.012;
-        p.vy += Math.cos(p.x * 0.012 - k) * 0.008 - 0.004;
-        p.x += p.vx * dt * 60; p.y += p.vy * dt * 60; p.life += dt;
-        if (p.life >= p.maxLife) { spawn(p); continue; }
-        const age = p.life / p.maxLife;
-        // Bright at birth on the letters, easing out to fully transparent
-        const alpha = Math.min(1, p.life / 0.15) * Math.pow(1 - age, 1.6);
-        const r = p.size * (1 - age * 0.5), halo = r * glow;
-        const img = p.accent ? accentDot : mainDot;
-        ctx.globalAlpha = alpha * 0.35; ctx.drawImage(img, p.x - halo, p.y - halo, halo * 2, halo * 2);
-        ctx.globalAlpha = alpha;        ctx.drawImage(img, p.x - r, p.y - r, r * 2, r * 2);
-      }
-      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
-    };
-
-    let raf, stopped = false, ro, io, visible = true;
-    const begin = () => {
-      resize();
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { draw(0, 0); return; }
-      ro = 'ResizeObserver' in window ? new ResizeObserver(resize) : null;
-      ro && ro.observe(wrap);
-      ro && ro.observe(logo);
-      document.fonts && document.fonts.ready.then(() => { if (!stopped) resize(); });
-      io = 'IntersectionObserver' in window ? new IntersectionObserver((es) => { visible = es.some(e => e.isIntersecting); }) : null;
-      io && io.observe(wrap);
-      const start = performance.now(); let last = start;
-      const loop = (now) => {
-        if (stopped) return;
-        const dt = Math.min(0.05, (now - last) / 1000); last = now;
-        if (visible && points.length) draw((now - start) / 1000, dt);
-        raf = requestAnimationFrame(loop);
-      };
-      raf = requestAnimationFrame(loop);
-    };
-    if (logo.complete && logo.naturalWidth) begin();
-    else logo.addEventListener('load', begin, { once: true });
-
-    return () => {
-      stopped = true; cancelAnimationFrame(raf);
-      logo.removeEventListener('load', begin);
-      ro && ro.disconnect(); io && io.disconnect();
-    };
-  }, [count, size, glow, color, accent]);
-
-  return (
-    <div ref={wrapRef} aria-hidden style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-      <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
-    </div>
-  );
-}
-
 // ── Nav (desktop + mobile-responsive) ─────────────────────────────────
 function MonoNav({ inverted = false }) {
   const [open, setOpen] = useState(false);
@@ -234,13 +106,11 @@ function MonoNav({ inverted = false }) {
 
 // ── Desktop hero (fullscreen) ──────────────────────────────────────────
 function MonoHero() {
-  const logoRef = React.useRef(null);
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/hero-miguelito-poster.jpg" video="assets/hero-miguelito.mp4" style={{ position: 'absolute', inset: 0 }} />
-      <LogoParticles logoRef={logoRef} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '20%', bottom: '20%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 60px', textAlign: 'center' }}>
-        <img ref={logoRef} src="assets/logo-white.png" alt="Ascension" style={{ width: 860, maxWidth: '90%', display: 'block', opacity: .9 , filter: 'drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 0 22px rgba(255,210,240,.35))' }} />
+        <img src="assets/logo-white.png" alt="Ascension" style={{ width: 860, maxWidth: '90%', display: 'block', opacity: .9 , filter: 'drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 0 22px rgba(255,210,240,.35))' }} />
         <div style={{ ...monoStyles.mono, marginTop: 26, fontSize: 12, color: '#fafafa', opacity: .9, letterSpacing: '.28em' }}>
           Celebrating our International Community. Thank you for an amazing 2025-2026
         </div>
@@ -726,13 +596,11 @@ function MobileMonoNav({ inverted = true }) {
 
 // ── Mobile hero (fullscreen) ───────────────────────────────────────────
 function MobileMonoHero() {
-  const logoRef = React.useRef(null);
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
       <BWPhoto tone="crowd" caption="" src="assets/hero-miguelito-poster.jpg" video="assets/hero-miguelito.mp4" style={{ position: 'absolute', inset: 0 }} />
-      <LogoParticles logoRef={logoRef} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '28%', color: '#fafafa', textAlign: 'center', padding: '0 22px' }}>
-        <img ref={logoRef} src="assets/logo-white.png" alt="Ascension" style={{ width: '88%', display: 'block', margin: '0 auto', opacity: .9 , filter: 'drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 0 22px rgba(255,210,240,.35))' }} />
+        <img src="assets/logo-white.png" alt="Ascension" style={{ width: '88%', display: 'block', margin: '0 auto', opacity: .9 , filter: 'drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 0 22px rgba(255,210,240,.35))' }} />
         <div style={{ ...monoStyles.mono, marginTop: 16, fontSize: 10, opacity: .9 }}>
           Celebrating our International Community. Thank you for an amazing 2025-2026
         </div>
