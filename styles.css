@@ -22,20 +22,6 @@ img, video, svg { max-width: 100%; }
   animation: af-page-in 0.35s ease;
 }
 
-/* ── Scroll reveal ──────────────────────────────────────────────────────── */
-.af-reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.65s ease, transform 0.65s ease;
-}
-.af-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .af-reveal, .af-reveal.is-visible { opacity: 1; transform: none; transition: none; }
-}
-
 /* ── Hero fullscreen ────────────────────────────────────────────────────── */
 .af-hero {
   height: 100vh;
@@ -208,13 +194,6 @@ img, video, svg { max-width: 100%; }
 
 /* ── Mobile: nav bar ─────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
-  /* Skip reveal animations entirely on mobile — IntersectionObserver is unreliable */
-  .af-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
   /* Switch desktop nav to hamburger */
   .af-nav-bar {
     position: fixed !important;
