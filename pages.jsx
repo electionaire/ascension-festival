@@ -5,7 +5,7 @@ const { MonoNav, MonoFooter, BWPhoto, monoStyles, EVENTS } = window;
 const pageRoot = {
   width: '100%', minHeight: '100vh',
   fontFamily: 'Montserrat, sans-serif',
-  background: '#fafafa', color: '#0a0a0a',
+  background: '#000', color: '#fafafa',
   position: 'relative',
 };
 
@@ -16,7 +16,7 @@ function PageHeader({ eyebrow, title, italic, lead, subhead, photo, height = 720
       {photo && <BWPhoto src={photo} caption="" objectPosition={photoPosition} style={{ position: 'absolute', inset: 0 }} />}
       {photo && <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.15) 45%, rgba(0,0,0,.72) 100%)' }} />}
       <MonoNav inverted={!!photo} />
-      <div className="af-page-header-content" style={{ position: 'absolute', left: 56, right: 56, bottom: 56, color: photo ? '#fafafa' : '#0a0a0a' }}>
+      <div className="af-page-header-content" style={{ position: 'absolute', left: 56, right: 56, bottom: 56, color: '#fafafa' }}>
         <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 11, marginBottom: 22 }}>{eyebrow}</div>
         <h1 className="af-page-h1" style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 152, lineHeight: 0.91, letterSpacing: '-0.042em', margin: 0, maxWidth: 1120 }}>
           {title}{italic && <span style={{ fontStyle: 'italic', fontWeight: 200 }}> {italic}</span>}
@@ -116,14 +116,14 @@ function TicketsPage() {
         photo="assets/gallery/g11.jpg" />
 
       <section className="af-reveal" style={{ padding: '80px 48px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid #0a0a0a' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 28, paddingBottom: 20, }}>
           <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', margin: 0 }}>
             <span style={{ fontStyle: 'italic' }}>Pick</span> your shows
           </h2>
           <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>Secure checkout · iDEAL · Card · Bancontact</span>
         </div>
 
-        <div style={{ border: '1px solid #0a0a0a', padding: 32, minHeight: 720, background: '#fff' }}>
+        <div style={{ border: '1px solid #fafafa', padding: 32, minHeight: 720, background: '#fff' }}>
           <div dangerouslySetInnerHTML={{ __html: `
             <pretix-widget event="https://tickets.ascensionfestival.nl/intro/"></pretix-widget>
             <noscript>
@@ -138,11 +138,11 @@ function TicketsPage() {
 
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginTop: 16, textAlign: 'center' }}>
           Trouble loading the shop?{' '}
-          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-link" onClick={() => track('Tickets Page – Open Shop Directly', 'cta')} style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 1 }}>Open it directly →</a>
+          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-link" onClick={() => track('Tickets Page – Open Shop Directly', 'cta')} style={{ color: '#fafafa', borderBottom: '1px solid #fafafa', paddingBottom: 1 }}>Open it directly →</a>
         </div>
       </section>
 
-      <section className="af-reveal af-ticket-features" style={{ padding: '60px 48px 100px', borderTop: '1px solid #0a0a0a', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 40 }}>
+      <section className="af-reveal af-ticket-features" style={{ padding: '60px 48px 100px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 40 }}>
         {[
           ['01', 'Direct from us', 'No third-party resellers. Every ticket comes through Pretix and is valid at the door.'],
           ['02', 'Transferable', "Can't make it? Pass your ticket to a friend through your confirmation email — no fee."],
@@ -575,7 +575,10 @@ const ALBUMS = [
 ];
 
 function GalleryPage() {
-  const [activeId, setActiveId] = React.useState('mainact');
+  const [activeId, setActiveId] = React.useState(() => {
+    const id = new URLSearchParams(window.location.search).get('album');
+    return ALBUMS.some(a => a.id === id) ? id : 'mainact';
+  });
   const [lightbox, setLightbox] = React.useState(null);
 
   const active = ALBUMS.find(a => a.id === activeId);
@@ -592,11 +595,11 @@ function GalleryPage() {
         photo="assets/gallery/sf73.jpg"
         photoPosition="center 70%" />
 
-      <section className="af-reveal" style={{ padding: '40px 48px 0', borderBottom: '1px solid rgba(10,10,10,.15)' }}>
+      <section className="af-reveal" style={{ padding: '40px 48px 0', }}>
         <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 28 }}>
           {ALBUMS.map((a) =>
             <div key={a.id} className="af-album-card" onClick={() => switchAlbum(a.id)}
-              style={{ flex: '0 0 auto', cursor: 'pointer', border: a.id === activeId ? '1px solid #0a0a0a' : '1px solid rgba(10,10,10,.18)', background: a.id === activeId ? '#0a0a0a' : 'transparent', color: a.id === activeId ? '#fafafa' : '#0a0a0a', padding: 14, width: 220 }}>
+              style={{ flex: '0 0 auto', cursor: 'pointer', border: a.id === activeId ? '1px solid #fafafa' : '1px solid rgba(250,250,250,.18)', background: a.id === activeId ? '#fafafa' : 'transparent', color: a.id === activeId ? '#000' : '#fafafa', padding: 14, width: 220 }}>
               <img src={a.src} alt={a.name} style={{ width: '100%', height: 130, objectFit: 'cover', display: 'block' }} />
               <div style={{ ...monoStyles.mono, fontSize: 9, opacity: .65, marginTop: 12 }}>{a.date}</div>
               <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 15, marginTop: 4, letterSpacing: '-0.005em', lineHeight: 1.2 }}>{a.name}</div>
@@ -645,7 +648,7 @@ const VENUE_INFO = {
 
 function EventCard({ ev, i }) {
   return (
-    <article className="af-reveal af-event-article" style={{ display: 'grid', gridTemplateColumns: '420px 1fr', gap: 48, padding: '60px 0', borderTop: '1px solid #0a0a0a' }}>
+    <article className="af-reveal af-event-article" style={{ display: 'grid', gridTemplateColumns: '420px 1fr', gap: 48, padding: '60px 0', }}>
       <div className="af-photo-item">
         <img src={ev.poster} alt={ev.title} style={{ width: '100%', aspectRatio: '1', objectFit: 'cover', display: 'block' }} />
       </div>
@@ -664,12 +667,28 @@ function EventCard({ ev, i }) {
               {ev.title}
             </h3>
           </div>
-          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-dark" onClick={() => track(`Events Page – Get Tickets: ${ev.title}`, 'cta')} style={{ background: '#0a0a0a', color: '#fafafa', padding: '14px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap' }}>
+          <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" className="af-cta-light" onClick={() => track(`Events Page – Get Tickets: ${ev.title}`, 'cta')} style={{ background: '#fafafa', color: '#000', padding: '14px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, whiteSpace: 'nowrap' }}>
             Get tickets →
           </a>
         </div>
       </div>
     </article>
+  );
+}
+
+// Past events are the gallery albums, newest first
+function PastEventCard({ album }) {
+  const count = ALBUM_LAYOUTS[album.id].length;
+  return (
+    <a href={`/gallery?album=${album.id}`} className="af-album-card" onClick={() => track(`Events Page – Past Event: ${album.id}`, 'navigation')}
+      style={{ display: 'block', color: '#fafafa', textDecoration: 'none', border: '1px solid rgba(250,250,250,.18)', padding: 14 }}>
+      <div className="af-photo-item" style={{ overflow: 'hidden' }}>
+        <BWPhoto src={album.src} caption="" objectPosition="center 60%" style={{ aspectRatio: '4 / 3' }} />
+      </div>
+      <div style={{ ...monoStyles.mono, fontSize: 9, opacity: .65, marginTop: 14 }}>{album.date}</div>
+      <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 17, marginTop: 6, letterSpacing: '-0.005em', lineHeight: 1.25 }}>{album.name}</div>
+      {count > 0 && <div style={{ ...monoStyles.mono, fontSize: 10, marginTop: 14 }}>{count} photos →</div>}
+    </a>
   );
 }
 
@@ -687,13 +706,25 @@ function EventsPage() {
         {EVENTS.length > 0
           ? EVENTS.map((ev, i) => <EventCard key={ev.id} ev={ev} i={i} />)
           : (
-            <div className="af-reveal" style={{ padding: '120px 0', textAlign: 'center', borderTop: '1px solid #0a0a0a', borderBottom: '1px solid #0a0a0a' }}>
+            <div className="af-reveal" style={{ padding: '120px 0', textAlign: 'center', }}>
               <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 16 }}>No shows on sale</div>
               <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.02em', margin: 0 }}>
                 <span style={{ fontStyle: 'italic' }}>Nothing</span> announced yet — check back soon.
               </h2>
             </div>
           )}
+      </section>
+
+      <section className="af-reveal" style={{ padding: '0 48px 100px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, flexWrap: 'wrap', marginBottom: 28, paddingBottom: 20, }}>
+          <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', margin: 0 }}>
+            <span style={{ fontStyle: 'italic' }}>Past</span> events
+          </h2>
+          <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>{ALBUMS.length} nights · photos in the gallery</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))', gap: 16 }}>
+          {ALBUMS.map((a) => <PastEventCard key={a.id} album={a} />)}
+        </div>
       </section>
 
       <MonoFooter />
@@ -712,7 +743,7 @@ function ContactPage() {
         photo="assets/gallery/g66.jpg" />
 
       <section className="af-reveal" style={{ padding: '100px 48px 120px' }}>
-        <a href="mailto:egor@ascensionfestival.nl" className="af-contact-email" onClick={() => track('Contact Page – Email', 'contact')} style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 4, display: 'inline-block', wordBreak: 'break-all' }}>
+        <a href="mailto:egor@ascensionfestival.nl" className="af-contact-email" onClick={() => track('Contact Page – Email', 'contact')} style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', color: '#fafafa', textDecoration: 'none', borderBottom: '1px solid #fafafa', paddingBottom: 4, display: 'inline-block', wordBreak: 'break-all' }}>
           egor@ascensionfestival.nl
         </a>
       </section>
@@ -824,7 +855,7 @@ function LegalPage() {
       <section className="af-reveal" style={{ padding: '80px 48px 100px' }}>
         <div className="af-legal-body" style={{ maxWidth: 760 }}>
           {LEGAL_SECTIONS.map((s) => (
-            <div key={s.num} className="af-legal-section" style={{ borderTop: '1px solid rgba(10,10,10,.15)', padding: '38px 0 0', marginBottom: 38 }}>
+            <div key={s.num} className="af-legal-section" style={{ padding: '38px 0 0', marginBottom: 38 }}>
               <div style={{ display: 'flex', gap: 20, alignItems: 'baseline' }}>
                 <span style={{ ...monoStyles.mono, opacity: .45, fontSize: 10 }}>{s.num}</span>
                 <h2 style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 26, letterSpacing: '-0.015em', margin: 0, lineHeight: 1.2 }}>{s.title}</h2>
@@ -841,7 +872,7 @@ function LegalPage() {
                         <dt style={{ ...monoStyles.mono, opacity: .5, fontSize: 10, paddingTop: 2 }}>{k}</dt>
                         <dd style={{ margin: 0, fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.6 }}>
                           {k === 'Email'
-                            ? <a href={`mailto:${v}`} className="af-footer-link" onClick={() => track('Legal – Email', 'contact')} style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid rgba(10,10,10,.35)' }}>{v}</a>
+                            ? <a href={`mailto:${v}`} className="af-footer-link" onClick={() => track('Legal – Email', 'contact')} style={{ color: '#fafafa', textDecoration: 'none', borderBottom: '1px solid rgba(250,250,250,.35)' }}>{v}</a>
                             : v}
                         </dd>
                       </React.Fragment>
@@ -859,7 +890,7 @@ function LegalPage() {
             </div>
           ))}
 
-          <div style={{ borderTop: '1px solid #0a0a0a', paddingTop: 18, ...monoStyles.mono, opacity: .5, fontSize: 10 }}>
+          <div style={{ paddingTop: 18, ...monoStyles.mono, opacity: .5, fontSize: 10 }}>
             Last updated: {LEGAL_UPDATED}
           </div>
         </div>

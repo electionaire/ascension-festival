@@ -5,7 +5,7 @@ const { useState, useEffect } = React;
 const monoStyles = {
   root: {
     width: '100%', fontFamily: 'Montserrat, sans-serif',
-    background: '#fafafa', color: '#0a0a0a',
+    background: '#000', color: '#fafafa',
     position: 'relative',
   },
   mono: { fontFamily: 'Montserrat', fontWeight: 500, fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase' }
@@ -16,7 +16,7 @@ function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, vide
   const palettes = {
     crowd:    'linear-gradient(180deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.08) 35%, rgba(0,0,0,.55) 80%, #000 100%), radial-gradient(80% 60% at 50% 78%, #2a2a2a 0%, #0d0d0d 70%, #000 100%)',
     portrait: 'linear-gradient(160deg, rgba(255,255,255,.10), rgba(0,0,0,.6)), radial-gradient(70% 55% at 40% 35%, #353535 0%, #111 70%, #000 100%)',
-    floor:    'linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(0,0,0,.5) 60%, #000 100%), radial-gradient(60% 40% at 50% 60%, #303030 0%, #0a0a0a 70%, #000 100%)',
+    floor:    'linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(0,0,0,.5) 60%, #000 100%), radial-gradient(60% 40% at 50% 60%, #303030 0%, #fafafa 70%, #000 100%)',
     smoke:    'linear-gradient(140deg, rgba(255,255,255,.16), rgba(0,0,0,.7)), radial-gradient(60% 50% at 70% 30%, #404040 0%, #1a1a1a 50%, #000 100%)',
     light:    'linear-gradient(160deg, rgba(255,255,255,.22), rgba(0,0,0,.55)), radial-gradient(50% 40% at 25% 30%, #5a5a5a 0%, #1e1e1e 60%, #050505 100%)',
     venue:    'linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.55)), radial-gradient(80% 60% at 50% 20%, #4a4a4a 0%, #181818 60%, #000 100%)',
@@ -42,12 +42,140 @@ function BWPhoto({ caption = '', children, style = {}, tone = 'crowd', src, vide
   );
 }
 
+// ── Hero logo particles — glowing dust shed from the logo's letterforms ──
+// Samples the logo image's opaque pixels, emits particles from them, lets them
+// drift outward on a soft flow field and dissolve into the video behind.
+function LogoParticles({ logoRef, count = 260, size = 1.6, glow = 5, color = '#ffffff', accent = '#ffd2f0' }) {
+  const wrapRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+
+  useEffect(() => {
+    const wrap = wrapRef.current, canvas = canvasRef.current, logo = logoRef.current;
+    const ctx = canvas && canvas.getContext('2d');
+    if (!wrap || !ctx || !logo) return;
+
+    const sprite = (c) => {
+      const s = document.createElement('canvas');
+      s.width = s.height = 64;
+      const g = s.getContext('2d');
+      const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, c); grad.addColorStop(0.2, c); grad.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
+      return s;
+    };
+    const mainDot = sprite(color), accentDot = sprite(accent);
+
+    let w = 0, h = 0, points = [], cx = 0, cy = 0, logoW = 1, particles = [];
+
+    // Collect emission points from the logo's visible pixels, in canvas coordinates
+    const sampleLogo = () => {
+      const wr = wrap.getBoundingClientRect(), lr = logo.getBoundingClientRect();
+      if (!lr.width || !logo.naturalWidth) return;
+      const lw = Math.round(lr.width), lh = Math.round(lr.height);
+      const off = document.createElement('canvas');
+      off.width = lw; off.height = lh;
+      const g = off.getContext('2d');
+      g.drawImage(logo, 0, 0, lw, lh);
+      const data = g.getImageData(0, 0, lw, lh).data;
+      const ox = lr.left - wr.left, oy = lr.top - wr.top, step = 2;
+      points = [];
+      for (let y = 0; y < lh; y += step)
+        for (let x = 0; x < lw; x += step)
+          if (data[(y * lw + x) * 4 + 3] > 140) points.push([ox + x, oy + y]);
+      cx = ox + lw / 2; cy = oy + lh / 2; logoW = lw;
+    };
+
+    const spawn = (p = {}) => {
+      const [x, y] = points[(Math.random() * points.length) | 0];
+      // Push away from the logo's centre, biased upward, plus a little randomness
+      const dx = (x - cx) / logoW, dy = (y - cy) / logoW;
+      const len = Math.hypot(dx, dy) || 1;
+      const v = 0.15 + Math.random() * 0.45;
+      return Object.assign(p, {
+        x, y,
+        vx: (dx / len) * v * 0.6 + (Math.random() - 0.5) * 0.3,
+        vy: (dy / len) * v * 0.6 - (0.25 + Math.random() * 0.45),
+        size: size * (0.4 + Math.random() * 1.0),
+        accent: Math.random() < 0.15,
+        life: 0, maxLife: 1.6 + Math.random() * 2.8,
+      });
+    };
+
+    const resize = () => {
+      const r = wrap.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      w = Math.max(1, Math.round(r.width)); h = Math.max(1, Math.round(r.height));
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      sampleLogo();
+      if (!points.length) { particles = []; return; }
+      const n = w < 768 ? Math.round(count * 0.55) : count;
+      // Stagger initial ages so the emission is continuous from the first frame
+      particles = Array.from({ length: n }, () => { const p = spawn(); p.life = Math.random() * p.maxLife; return p; });
+    };
+
+    const draw = (t, dt) => {
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'lighter';
+      for (const p of particles) {
+        // Gentle swirl so the trails curl instead of moving in straight lines
+        const k = t * 0.4;
+        p.vx += Math.sin(p.y * 0.012 + k) * 0.012;
+        p.vy += Math.cos(p.x * 0.012 - k) * 0.008 - 0.004;
+        p.x += p.vx * dt * 60; p.y += p.vy * dt * 60; p.life += dt;
+        if (p.life >= p.maxLife) { spawn(p); continue; }
+        const age = p.life / p.maxLife;
+        // Bright at birth on the letters, easing out to fully transparent
+        const alpha = Math.min(1, p.life / 0.15) * Math.pow(1 - age, 1.6);
+        const r = p.size * (1 - age * 0.5), halo = r * glow;
+        const img = p.accent ? accentDot : mainDot;
+        ctx.globalAlpha = alpha * 0.35; ctx.drawImage(img, p.x - halo, p.y - halo, halo * 2, halo * 2);
+        ctx.globalAlpha = alpha;        ctx.drawImage(img, p.x - r, p.y - r, r * 2, r * 2);
+      }
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    };
+
+    let raf, stopped = false, ro, io, visible = true;
+    const begin = () => {
+      resize();
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { draw(0, 0); return; }
+      ro = 'ResizeObserver' in window ? new ResizeObserver(resize) : null;
+      ro && ro.observe(wrap);
+      ro && ro.observe(logo);
+      document.fonts && document.fonts.ready.then(() => { if (!stopped) resize(); });
+      io = 'IntersectionObserver' in window ? new IntersectionObserver((es) => { visible = es.some(e => e.isIntersecting); }) : null;
+      io && io.observe(wrap);
+      const start = performance.now(); let last = start;
+      const loop = (now) => {
+        if (stopped) return;
+        const dt = Math.min(0.05, (now - last) / 1000); last = now;
+        if (visible && points.length) draw((now - start) / 1000, dt);
+        raf = requestAnimationFrame(loop);
+      };
+      raf = requestAnimationFrame(loop);
+    };
+    if (logo.complete && logo.naturalWidth) begin();
+    else logo.addEventListener('load', begin, { once: true });
+
+    return () => {
+      stopped = true; cancelAnimationFrame(raf);
+      logo.removeEventListener('load', begin);
+      ro && ro.disconnect(); io && io.disconnect();
+    };
+  }, [count, size, glow, color, accent]);
+
+  return (
+    <div ref={wrapRef} aria-hidden style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+      <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
+    </div>
+  );
+}
+
 // ── Nav (desktop + mobile-responsive) ─────────────────────────────────
 function MonoNav({ inverted = false }) {
   const [open, setOpen] = useState(false);
-  const ink  = inverted ? '#fafafa' : '#0a0a0a';
+  const ink  = '#fafafa';
   const link = { color: ink, textDecoration: 'none', fontSize: 11, fontWeight: 500, letterSpacing: '.18em', textTransform: 'uppercase' };
-  const logo = inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
+  const logo = 'assets/logo-white.png';
   const NAV = [['Home','/'],['Events','/events'],['Gallery','/gallery'],['Contact','/contact']];
 
   return (
@@ -106,11 +234,13 @@ function MonoNav({ inverted = false }) {
 
 // ── Desktop hero (fullscreen) ──────────────────────────────────────────
 function MonoHero() {
+  const logoRef = React.useRef(null);
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
-      <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
+      <BWPhoto tone="crowd" caption="" src="assets/hero-miguelito-poster.jpg" video="assets/hero-miguelito.mp4" style={{ position: 'absolute', inset: 0 }} />
+      <LogoParticles logoRef={logoRef} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '20%', bottom: '20%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 60px', textAlign: 'center' }}>
-        <img loading="lazy" src="assets/logo-white.png" alt="Ascension" style={{ width: 560, maxWidth: '85%', display: 'block', opacity: .85 }} />
+        <img ref={logoRef} src="assets/logo-white.png" alt="Ascension" style={{ width: 860, maxWidth: '90%', display: 'block', opacity: .9 , filter: 'drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 0 22px rgba(255,210,240,.35))' }} />
         <div style={{ ...monoStyles.mono, marginTop: 26, fontSize: 12, color: '#fafafa', opacity: .9, letterSpacing: '.28em' }}>
           Celebrating our International Community. Thank you for an amazing 2025-2026
         </div>
@@ -139,14 +269,13 @@ function MonoEvents() {
         <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>{EVENTS.length > 0 ? `${EVENTS.length} on sale` : 'Nothing on sale right now'}</span>
       </div>
       {EVENTS.length === 0 && (
-        <div style={{ padding: '40px 0', borderTop: '1px solid #0a0a0a', borderBottom: '1px solid #0a0a0a', ...monoStyles.mono, fontSize: 12, opacity: .6 }}>
+        <div style={{ padding: '40px 0', ...monoStyles.mono, fontSize: 12, opacity: .6 }}>
           No shows announced yet — check back soon.
         </div>
       )}
       <div>
         {EVENTS.map((ev, i) => {
-          const isLast = i === EVENTS.length - 1;
-          const baseRow = { display: 'grid', alignItems: 'center', padding: '28px 0', borderTop: '1px solid #0a0a0a', ...(isLast ? { borderBottom: '1px solid #0a0a0a' } : {}) };
+          const baseRow = { display: 'grid', alignItems: 'center', padding: '28px 0', };
           if (ev.isSeries) {
             return (
               <div key={ev.id} className="af-event-row" style={{ ...baseRow, gridTemplateColumns: '120px 1fr 1.2fr 140px', gap: 28 }}>
@@ -158,7 +287,7 @@ function MonoEvents() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {ev.series.map((s, j) => (
-                    <div key={s.id} style={{ display: 'grid', gridTemplateColumns: '52px 1fr', gap: 14, alignItems: 'baseline', paddingBottom: j < ev.series.length - 1 ? 8 : 0, borderBottom: j < ev.series.length - 1 ? '1px dashed rgba(10,10,10,.18)' : 'none' }}>
+                    <div key={s.id} style={{ display: 'grid', gridTemplateColumns: '52px 1fr', gap: 14, alignItems: 'baseline', paddingBottom: j < ev.series.length - 1 ? 8 : 0 }}>
                       <div>
                         <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 24, lineHeight: 1, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>{s.day}</div>
                         <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 9, marginTop: 2 }}>{s.month}</div>
@@ -171,7 +300,7 @@ function MonoEvents() {
                   ))}
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <a href="#tickets" className="af-link" onClick={() => track('Events List – Buy ISI Series', 'cta')} style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy series →</a>
+                  <a href="#tickets" className="af-link" onClick={() => track('Events List – Buy ISI Series', 'cta')} style={{ color: '#fafafa', borderBottom: '1px solid #fafafa', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy series →</a>
                 </div>
               </div>
             );
@@ -195,7 +324,7 @@ function MonoEvents() {
                 <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 6, fontSize: 10 }}>{ev.doors}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-link" onClick={() => track('Events List – Buy Summer Festival Ticket', 'cta')} style={{ color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy ticket →</a>
+                <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-link" onClick={() => track('Events List – Buy Summer Festival Ticket', 'cta')} style={{ color: '#fafafa', borderBottom: '1px solid #fafafa', paddingBottom: 3, ...monoStyles.mono, fontSize: 11, textDecoration: 'none' }}>Buy ticket →</a>
               </div>
             </div>
           );
@@ -221,7 +350,7 @@ function MonoGalleryStrip() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Gallery</span>
         </h2>
-        <a href="/gallery" className="af-link" onClick={() => track('Gallery Strip – Full Archive', 'navigation')} style={{ color: '#0a0a0a', textDecoration: 'none', borderBottom: '1px solid #0a0a0a', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
+        <a href="/gallery" className="af-link" onClick={() => track('Gallery Strip – Full Archive', 'navigation')} style={{ color: '#fafafa', textDecoration: 'none', borderBottom: '1px solid #fafafa', paddingBottom: 3, ...monoStyles.mono, fontSize: 11 }}>Full archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
         {items.map((it, i) =>
@@ -243,10 +372,10 @@ function MonoGalleryStrip() {
 // ── Shared footer ──────────────────────────────────────────────────────
 function MonoFooter() {
   return (
-    <footer id="contact" className="af-reveal" style={{ background: '#fafafa', borderTop: '1px solid #0a0a0a', padding: '48px 48px 28px' }}>
+    <footer id="contact" className="af-reveal" style={{ background: '#000', padding: '48px 48px 28px' }}>
       <div className="af-footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', gap: 32, alignItems: 'flex-start' }}>
         <div>
-          <a href="/" className="af-logo-link" onClick={() => track('Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
+          <a href="/" className="af-logo-link" onClick={() => track('Footer – Logo', 'navigation')}><img src="assets/logo-white.png" alt="Ascension" style={{ height: 28, display: 'block' }} /></a>
           <div style={{ ...monoStyles.mono, opacity: .7, fontSize: 10, marginTop: 16 }}>EINDHOVEN, SINCE 2025</div>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, lineHeight: 1.6, opacity: .65, marginTop: 10, maxWidth: 320 }}>
             A warm welcome to Eindhoven's International Student Experience. Run by students, for students.
@@ -255,21 +384,21 @@ function MonoFooter() {
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Follow</div>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
-            <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Footer – Instagram', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Instagram</a>
+            <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Footer – Instagram', 'social')} style={{ color: '#fafafa', textDecoration: 'none' }}>Instagram</a>
           </div>
         </div>
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Contact</div>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
-            <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" onClick={() => track('Footer – Email', 'contact')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
+            <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" onClick={() => track('Footer – Email', 'contact')} style={{ color: '#fafafa', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
           </div>
-          <a href="/contact" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', textDecoration: 'none' }}>Send a message →</a>
+          <a href="/contact" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#fafafa', textDecoration: 'none' }}>Send a message →</a>
         </div>
       </div>
-      <div style={{ borderTop: '1px solid rgba(10,10,10,.15)', marginTop: 36, paddingTop: 18, display: 'flex', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', ...monoStyles.mono, opacity: .5, fontSize: 9 }}>
+      <div style={{ marginTop: 36, paddingTop: 18, display: 'flex', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', ...monoStyles.mono, opacity: .5, fontSize: 9 }}>
         <span style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
           <span>© 2026 Ascension Festival NL</span>
-          <a href="/legal" className="af-footer-link" onClick={() => track('Footer – Legal & Privacy', 'navigation')} style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px solid rgba(10,10,10,.4)' }}>Legal & privacy</a>
+          <a href="/legal" className="af-footer-link" onClick={() => track('Footer – Legal & Privacy', 'navigation')} style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px solid rgba(250,250,250,.4)' }}>Legal & privacy</a>
         </span>
         <span>Made in Eindhoven</span>
       </div>
@@ -318,7 +447,7 @@ function MonoIntroSection() {
         </div>
 
         {/* show facts strip */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 32, marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,.25)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 32, marginTop: 24, paddingTop: 24, }}>
           {[
             ['04 SEP', 'The Opening Ball',   'Effenaar Main Stage · 1,200 cap', '23:50 – 04:00'],
             ['11 SEP', 'Main Act',          'Effenaar Main Stage · 1,200 cap',  '23:30 – 04:00'],
@@ -360,7 +489,7 @@ function MobileIntroSection() {
           <BWPhoto src="assets/gallery/sf74.jpg" objectPosition="center 70%" style={{ aspectRatio: '3/4' }} />
           <BWPhoto src="assets/gallery/sf31.jpg" objectPosition="center 70%" style={{ aspectRatio: '3/4' }} />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,.25)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, paddingTop: 24, }}>
           {[
             ['04 SEP', 'The Opening Ball', 'Effenaar',  '23:50 – 04:00'],
             ['11 SEP', 'Main Act',         'Effenaar',  '23:30 – 04:00'],
@@ -424,7 +553,7 @@ function MonoEventDetailsSection() {
       <div style={{ position: 'relative', zIndex: 1, padding: '40px 48px 80px', textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}>
         <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 10, marginBottom: 56 }}>§ — Event Breakdown · 3 nights</div>
         {EVENT_DETAILS.map((ev, i) => (
-          <div key={ev.num} className="af-reveal" style={{ display: 'grid', gridTemplateColumns: '80px 1fr minmax(0, 280px)', gap: 40, padding: '48px 0', borderTop: '1px solid rgba(255,255,255,.22)', alignItems: 'center', transitionDelay: `${i * 0.18}s` }}>
+          <div key={ev.num} className="af-reveal" style={{ display: 'grid', gridTemplateColumns: '80px 1fr minmax(0, 280px)', gap: 40, padding: '48px 0', alignItems: 'center', transitionDelay: `${i * 0.18}s` }}>
             <div>
               <div style={{ fontFamily: 'Montserrat', fontWeight: 200, fontSize: 72, lineHeight: 1, letterSpacing: '-0.04em' }}>{ev.num}</div>
               <div style={{ ...monoStyles.mono, fontSize: 10, marginTop: 10 }}>{ev.date}</div>
@@ -442,7 +571,7 @@ function MonoEventDetailsSection() {
           </div>
         ))}
         {/* Tickets CTA */}
-        <div className="af-reveal" style={{ paddingTop: 48, borderTop: '1px solid rgba(255,255,255,.22)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', transitionDelay: `${EVENT_DETAILS.length * 0.18}s` }}>
+        <div className="af-reveal" style={{ paddingTop: 48, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transitionDelay: `${EVENT_DETAILS.length * 0.18}s` }}>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 28, letterSpacing: '-0.02em' }}>
             All 3 nights · <span style={{ fontStyle: 'italic' }}>get your tickets now</span>
           </div>
@@ -468,7 +597,7 @@ function MobileEventDetailsSection() {
       <div style={{ position: 'relative', zIndex: 1, padding: '60px 22px 40px', textShadow: '0 1px 10px rgba(0,0,0,0.45)' }}>
         <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 9, marginBottom: 36 }}>§ — Event Breakdown · 3 nights</div>
         {EVENT_DETAILS.map((ev, i) => (
-          <div key={ev.num} className="af-reveal" style={{ padding: '36px 0', borderTop: '1px solid rgba(255,255,255,.22)', transitionDelay: `${i * 0.18}s` }}>
+          <div key={ev.num} className="af-reveal" style={{ padding: '36px 0', transitionDelay: `${i * 0.18}s` }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
               <div style={{ fontFamily: 'Montserrat', fontWeight: 200, fontSize: 48, lineHeight: 1, letterSpacing: '-0.04em' }}>{ev.num}</div>
               <div style={{ textAlign: 'right' }}>
@@ -485,7 +614,7 @@ function MobileEventDetailsSection() {
           </div>
         ))}
         {/* Tickets CTA */}
-        <div className="af-reveal" style={{ padding: '32px 0', borderTop: '1px solid rgba(255,255,255,.22)', transitionDelay: `${EVENT_DETAILS.length * 0.18}s` }}>
+        <div className="af-reveal" style={{ padding: '32px 0', transitionDelay: `${EVENT_DETAILS.length * 0.18}s` }}>
           <a href="https://tickets.ascensionfestival.nl/intro/" target="_blank" rel="noopener" onClick={() => track('Event Details Mobile – Buy Tickets (ISI All 3 Nights)', 'cta')} style={{ display: 'block', textAlign: 'center', background: 'rgba(255,255,255,0.12)', color: '#fafafa', border: '1px solid rgba(255,255,255,.55)', padding: '18px 22px', textDecoration: 'none', ...monoStyles.mono, fontSize: 11, backdropFilter: 'blur(6px)' }}>
             Buy tickets — all 3 nights →
           </a>
@@ -515,7 +644,7 @@ function Monochrome() {
 // ── Mobile nav with fullscreen overlay menu ────────────────────────────
 function MobileMonoNav({ inverted = true }) {
   const [open, setOpen] = useState(false);
-  const logo = inverted ? 'assets/logo-white.png' : 'assets/logo-black.png';
+  const logo = inverted ? 'assets/logo-white.png' : 'assets/logo-white.png';
 
   return (
     <>
@@ -597,11 +726,13 @@ function MobileMonoNav({ inverted = true }) {
 
 // ── Mobile hero (fullscreen) ───────────────────────────────────────────
 function MobileMonoHero() {
+  const logoRef = React.useRef(null);
   return (
     <section id="home" className="af-hero" style={{ position: 'relative' }}>
-      <BWPhoto tone="crowd" caption="" src="assets/photo-01.jpg" video="assets/hero.mp4" style={{ position: 'absolute', inset: 0 }} />
+      <BWPhoto tone="crowd" caption="" src="assets/hero-miguelito-poster.jpg" video="assets/hero-miguelito.mp4" style={{ position: 'absolute', inset: 0 }} />
+      <LogoParticles logoRef={logoRef} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: '28%', color: '#fafafa', textAlign: 'center', padding: '0 22px' }}>
-        <img loading="lazy" src="assets/logo-white.png" alt="Ascension" style={{ width: '60%', display: 'block', margin: '0 auto', opacity: .85 }} />
+        <img ref={logoRef} src="assets/logo-white.png" alt="Ascension" style={{ width: '88%', display: 'block', margin: '0 auto', opacity: .9 , filter: 'drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 0 22px rgba(255,210,240,.35))' }} />
         <div style={{ ...monoStyles.mono, marginTop: 16, fontSize: 10, opacity: .9 }}>
           Celebrating our International Community. Thank you for an amazing 2025-2026
         </div>
@@ -630,14 +761,13 @@ function MobileMonoEvents() {
         <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 9 }}>{EVENTS.length > 0 ? `${EVENTS.length} on sale` : 'Nothing on sale'}</span>
       </div>
       {EVENTS.length === 0 && (
-        <div style={{ padding: '28px 0', borderTop: '1px solid #0a0a0a', borderBottom: '1px solid #0a0a0a', ...monoStyles.mono, fontSize: 10, opacity: .6 }}>
+        <div style={{ padding: '28px 0', ...monoStyles.mono, fontSize: 10, opacity: .6 }}>
           No shows announced yet — check back soon.
         </div>
       )}
       <div>
         {EVENTS.map((ev, i) => {
-          const isLast = i === EVENTS.length - 1;
-          const baseRow = { padding: '16px 0', borderTop: '1px solid #0a0a0a', ...(isLast ? { borderBottom: '1px solid #0a0a0a' } : {}) };
+          const baseRow = { padding: '16px 0', };
           if (ev.isSeries) {
             return (
               <div key={ev.id} className="af-event-row" style={baseRow}>
@@ -648,7 +778,7 @@ function MobileMonoEvents() {
                     <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 13, lineHeight: 1.15, letterSpacing: '-0.005em', marginTop: 4 }}>Int'l Student Intro 2026</div>
                     <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>3 shows · Eindhoven · 18+</div>
                   </div>
-                  <a href="#tickets" className="af-link" onClick={() => track('Mobile Events List – Buy ISI Series', 'cta')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
+                  <a href="#tickets" className="af-link" onClick={() => track('Mobile Events List – Buy ISI Series', 'cta')} style={{ ...monoStyles.mono, fontSize: 10, color: '#fafafa', borderBottom: '1px solid #fafafa', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 12, paddingLeft: 78 }}>
                   {ev.series.map((s) => (
@@ -676,7 +806,7 @@ function MobileMonoEvents() {
                 </div>
                 <div style={{ ...monoStyles.mono, opacity: .55, marginTop: 4, fontSize: 8 }}>{ev.venue.split(' — ')[0]} · 18+</div>
               </div>
-              <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-link" onClick={() => track('Mobile Events List – Buy Summer Festival Ticket', 'cta')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
+              <a href="https://tickets.ascensionfestival.nl/summerfestival" target="_blank" rel="noopener" className="af-link" onClick={() => track('Mobile Events List – Buy Summer Festival Ticket', 'cta')} style={{ ...monoStyles.mono, fontSize: 10, color: '#fafafa', borderBottom: '1px solid #fafafa', paddingBottom: 2, textDecoration: 'none' }}>Buy →</a>
             </div>
           );
         })}
@@ -699,7 +829,7 @@ function MobileMonoGallery() {
         <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 24, letterSpacing: '-0.02em', margin: 0 }}>
           <span style={{ fontStyle: 'italic' }}>Recent</span> moments
         </h2>
-        <a href="/gallery" className="af-link" onClick={() => track('Mobile Gallery Strip – Archive', 'navigation')} style={{ ...monoStyles.mono, fontSize: 10, color: '#0a0a0a', borderBottom: '1px solid #0a0a0a', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
+        <a href="/gallery" className="af-link" onClick={() => track('Mobile Gallery Strip – Archive', 'navigation')} style={{ ...monoStyles.mono, fontSize: 10, color: '#fafafa', borderBottom: '1px solid #fafafa', paddingBottom: 2, textDecoration: 'none' }}>Archive →</a>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {items.map((it, i) =>
@@ -715,13 +845,13 @@ function MobileMonoGallery() {
 // ── Mobile footer ──────────────────────────────────────────────────────
 function MobileMonoFooter() {
   return (
-    <footer id="contact" className="af-reveal" style={{ borderTop: '1px solid #0a0a0a' }}>
+    <footer id="contact" className="af-reveal" style={{ }}>
       <div style={{ padding: '24px 22px 36px' }}>
-        <a href="/" className="af-logo-link" onClick={() => track('Mobile Footer – Logo', 'navigation')}><img src="assets/logo-black.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
+        <a href="/" className="af-logo-link" onClick={() => track('Mobile Footer – Logo', 'navigation')}><img src="assets/logo-white.png" alt="Ascension" style={{ height: 18, display: 'block' }} /></a>
         <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 9, marginTop: 12 }}>Eindhoven, since 2025</div>
         <div style={{ display: 'flex', gap: 16, marginTop: 24, flexWrap: 'wrap', ...monoStyles.mono, fontSize: 10 }}>
-          <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Mobile Footer – Instagram', 'social')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Instagram</a>
-          <a href="/legal" className="af-footer-link" onClick={() => track('Mobile Footer – Legal & Privacy', 'navigation')} style={{ color: '#0a0a0a', textDecoration: 'none' }}>Legal & privacy</a>
+          <a href="https://instagram.com/ascensionfestival.nl" className="af-footer-link" target="_blank" rel="noopener" onClick={() => track('Mobile Footer – Instagram', 'social')} style={{ color: '#fafafa', textDecoration: 'none' }}>Instagram</a>
+          <a href="/legal" className="af-footer-link" onClick={() => track('Mobile Footer – Legal & Privacy', 'navigation')} style={{ color: '#fafafa', textDecoration: 'none' }}>Legal & privacy</a>
         </div>
         <div style={{ marginTop: 28, ...monoStyles.mono, opacity: .5, fontSize: 8, display: 'flex', justifyContent: 'space-between' }}>
           <span>© 2026 Ascension Festival NL</span>
