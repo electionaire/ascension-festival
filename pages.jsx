@@ -764,6 +764,7 @@ const TEAM = [
   { name: 'George Nosal',       role: 'Audiovisual Engineer', photo: 'assets/team/george-nosal.jpg' },
   { name: 'Bruno Simunic',      role: 'Live Camera Engineer', photo: 'assets/team/bruno-simunic.jpg' },
   { name: 'Bernarda C. Nibera', role: 'Head of Graphic Design', photo: 'assets/team/bernarda-nibera.jpg' },
+  { name: 'Urte Pazusyte',      role: 'Floor Manager · Hospitality', photo: 'assets/team/urte-pazusyte.jpg' },
 ];
 
 const CREDITS = [
