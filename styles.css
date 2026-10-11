@@ -246,6 +246,12 @@ img, video, svg { max-width: 100%; }
   .af-legal-details { grid-template-columns: 1fr !important; gap: 4px 0 !important; }
   .af-legal-details dd { margin-bottom: 12px !important; }
 
+  /* Team: 2-column grid */
+  .af-team-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+
+  /* Hall of Fame: stack name above its events */
+  .af-hof-row { grid-template-columns: 1fr !important; gap: 12px !important; padding: 16px 0 !important; }
+
   /* Contact: single column */
   .af-contact-cards { grid-template-columns: 1fr !important; }
   .af-contact-layout { grid-template-columns: 1fr !important; padding: 32px 22px 60px !important; gap: 40px !important; }
@@ -286,11 +292,22 @@ img, video, svg { max-width: 100%; }
     .af-gallery-grid > div { grid-column: span 2 !important; height: 240px !important; }
   }
 
+  /* Team: 3 columns at narrow desktops */
+  @media (max-width: 1099px) {
+    .af-team-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  }
+
   /* Tickets features: 2-column at narrow desktops */
   @media (max-width: 959px) {
     .af-ticket-features { grid-template-columns: repeat(2, 1fr) !important; }
   }
 }
+
+/* ── Hall of Fame event chips ───────────────────────────────────────────── */
+.af-hof-chip { transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+.af-hof-chip img { transition: filter 0.2s ease; }
+.af-hof-chip:hover { background: #fafafa; color: #000 !important; border-color: #fafafa !important; }
+.af-hof-chip:hover img { filter: none !important; }
 
 /* ── Map / misc outline links ────────────────────────────────────────────── */
 .af-outline-link {

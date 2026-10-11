@@ -48,7 +48,7 @@ function MonoNav({ inverted = false }) {
   const ink  = '#fafafa';
   const link = { color: ink, textDecoration: 'none', fontSize: 11, fontWeight: 500, letterSpacing: '.18em', textTransform: 'uppercase' };
   const logo = 'assets/logo-white.png';
-  const NAV = [['Home','/'],['Events','/events'],['Gallery','/gallery'],['Contact','/contact']];
+  const NAV = [['Home','/'],['Events','/events'],['Gallery','/gallery'],['Team','/team'],['Contact','/contact']];
 
   return (
     <>
@@ -530,7 +530,7 @@ function MobileMonoNav({ inverted = true }) {
         transition: 'opacity 0.3s ease',
         color: '#fafafa',
       }}>
-        {[['Home','/'],['Events','/events'],['Gallery','/gallery'],['Contact','/contact']].map(([label, href]) => (
+        {[['Home','/'],['Events','/events'],['Gallery','/gallery'],['Team','/team'],['Contact','/contact']].map(([label, href]) => (
           <a key={label} href={href}
             onClick={() => { setOpen(false); track(`Mobile Overlay – ${label}`, 'navigation'); }}
             style={{

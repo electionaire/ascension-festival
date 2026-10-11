@@ -754,6 +754,137 @@ function ContactPage() {
 }
 
 
+// ── TEAM ───────────────────────────────────────────────────────────────
+// Photos: drop a square-ish portrait in assets/team/ and set `photo` to its path.
+const TEAM = [
+  { name: 'Egor Electionaire',  role: 'Founder, Director & Executive Producer', photo: 'assets/team/egor-electionaire.jpg' },
+  { name: 'Javi Cabrera', alias: 'Vanderphoto', role: 'Director of Photography · Logistics Manager', photo: 'assets/team/javi-cabrera.jpg' },
+  { name: 'Adam Nouicer',       role: 'Multicam Operator', photo: 'assets/team/adam-nouicer.jpg' },
+  { name: 'Aleksi Griffin',     role: 'Video Engineer', photo: 'assets/team/aleksi-griffin.jpg' },
+  { name: 'George Nosal',       role: 'Audiovisual Engineer', photo: 'assets/team/george-nosal.jpg' },
+  { name: 'Bruno Simunic',      role: 'Live Camera Engineer', photo: 'assets/team/bruno-simunic.jpg' },
+  { name: 'Bernarda C. Nibera', role: 'Head of Graphic Design', photo: 'assets/team/bernarda-nibera.jpg' },
+];
+
+const CREDITS = [
+  { group: 'Partners', items: [
+    ['Effenaar', 'Venue · Summer Festival, Opening Ball, Main Act'],
+    ['Vibes Eindhoven', 'Venue · Turbulence, Closing Festival'],
+  ] },
+  { group: 'Creative', items: [
+    ['ELCNTR Creative Studio', 'Creative studio'],
+  ] },
+];
+
+// Every DJ who has played Ascension — headliners first, then residents
+const HALL_OF_FAME = [
+  { name: 'Miguelito',  events: ['Opening Ball'] },
+  { name: 'DJ359',      events: ['Main Act'] },
+  { name: 'Amoros',     events: ['Closing Festival'] },
+  { name: 'Baray',      events: ['Turbulence', 'Summer Festival', 'Opening Ball', 'Main Act', 'Closing Festival'] },
+  { name: 'Chab',       events: ['Turbulence', 'Summer Festival', 'Opening Ball', 'Main Act', 'Closing Festival'] },
+  { name: 'Kaan Celik', events: ['Summer Festival', 'Main Act'] },
+];
+
+// Event name → gallery album (cover photo + deep link). Closing Festival has no album yet.
+const EVENT_ALBUM = {
+  'Turbulence':       { album: 'turbulence' },
+  'Summer Festival':  { album: 'summerfestival' },
+  'Opening Ball':     { album: 'openingball' },
+  'Main Act':         { album: 'mainact' },
+  'Closing Festival': { src: 'assets/photo-11.jpg' },
+};
+
+function EventChip({ name }) {
+  const info = EVENT_ALBUM[name] || {};
+  const album = info.album && ALBUMS.find(a => a.id === info.album);
+  const src = album ? album.src : info.src;
+  const chip = { display: 'inline-flex', alignItems: 'center', gap: 10, padding: '4px 12px 4px 4px', border: '1px solid rgba(250,250,250,.25)', color: '#fafafa', textDecoration: 'none', ...monoStyles.mono, fontSize: 9, letterSpacing: '.16em' };
+  const body = <>
+    {src && <img src={src} alt="" loading="lazy" style={{ width: 34, height: 34, objectFit: 'cover', display: 'block', filter: 'grayscale(1)' }} />}
+    <span>{name}{album ? ' →' : ''}</span>
+  </>;
+  return album
+    ? <a href={`/gallery?album=${album.id}`} className="af-hof-chip" onClick={() => track(`Hall of Fame – ${name}`, 'navigation')} style={chip}>{body}</a>
+    : <span style={chip}>{body}</span>;
+}
+
+function TeamPage() {
+  return (
+    <div style={pageRoot}>
+      <PageHeader
+        eyebrow="§ 05 — Team"
+        title="The"
+        italic="crew."
+        lead="The team behind Ascension, and everyone who helps make the nights happen."
+        photo="assets/gallery/ob28.jpg"
+        photoPosition="center 55%" />
+
+      <section className="af-reveal" style={{ padding: '80px 48px 40px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, flexWrap: 'wrap', marginBottom: 28 }}>
+          <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', margin: 0 }}>
+            <span style={{ fontStyle: 'italic' }}>Our</span> team
+          </h2>
+          <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>The team behind every night</span>
+        </div>
+        <div className="af-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+          {TEAM.map((m, i) => (
+            <div key={i}>
+              <div className="af-photo-item" style={{ overflow: 'hidden' }}>
+                <BWPhoto src={m.photo || undefined} tone="portrait" caption="" objectPosition="center 30%" style={{ aspectRatio: '1 / 1' }} />
+              </div>
+              <div style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: 18, marginTop: 14, letterSpacing: '-0.005em' }}>{m.name}</div>
+              {m.alias && <div style={{ fontFamily: 'Montserrat', fontWeight: 300, fontStyle: 'italic', fontSize: 14, opacity: .75, marginTop: 2 }}>{m.alias}</div>}
+              <div style={{ ...monoStyles.mono, opacity: .6, fontSize: 10, marginTop: 6 }}>{m.role}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="af-reveal" style={{ padding: '80px 48px 40px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, flexWrap: 'wrap', marginBottom: 36 }}>
+          <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', margin: 0 }}>
+            <span style={{ fontStyle: 'italic' }}>Hall</span> of Fame
+          </h2>
+          <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>Every DJ who has played Ascension</span>
+        </div>
+        {HALL_OF_FAME.map((dj) => (
+          <div key={dj.name} className="af-hof-row" style={{ display: 'grid', gridTemplateColumns: '1fr minmax(0, 520px)', gap: 32, alignItems: 'center', padding: '18px 0' }}>
+            <div style={{ fontFamily: 'Montserrat', fontWeight: 200, fontSize: 'clamp(44px, 7vw, 104px)', lineHeight: 1, letterSpacing: '-0.04em' }}>{dj.name}</div>
+            <div>
+              <div style={{ ...monoStyles.mono, fontSize: 10, opacity: .55, marginBottom: 10 }}>{dj.events.length} {dj.events.length === 1 ? 'night' : 'nights'}</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {dj.events.map((e) => <EventChip key={e} name={e} />)}
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section className="af-reveal" style={{ padding: '60px 48px 100px' }}>
+        <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', margin: '0 0 36px' }}>
+          <span style={{ fontStyle: 'italic' }}>Credits</span>
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 40 }}>
+          {CREDITS.map((c) => (
+            <div key={c.group}>
+              <div style={{ ...monoStyles.mono, opacity: .5, fontSize: 10, marginBottom: 16 }}>{c.group}</div>
+              {c.items.map(([name, what]) => (
+                <div key={name} style={{ marginBottom: 16 }}>
+                  <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16 }}>{name}</div>
+                  {what && <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, opacity: .6, marginTop: 3 }}>{what}</div>}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <MonoFooter />
+    </div>
+  );
+}
+
 // ── LEGAL & PRIVACY ────────────────────────────────────────────────────
 const LEGAL_UPDATED = '14 September 2026';
 
@@ -845,7 +976,7 @@ function LegalPage() {
   return (
     <div style={pageRoot}>
       <PageHeader
-        eyebrow="§ 05 — Legal"
+        eyebrow="§ 06 — Legal"
         title="Legal &"
         italic="privacy."
         lead="Company details, ticket terms and how we handle your data."
@@ -901,4 +1032,4 @@ function LegalPage() {
   );
 }
 
-Object.assign(window, { TicketsPage, GalleryPage, EventsPage, ContactPage, LegalPage });
+Object.assign(window, { TicketsPage, GalleryPage, EventsPage, ContactPage, TeamPage, LegalPage });
