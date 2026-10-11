@@ -828,7 +828,7 @@ function TeamPage() {
           </h2>
           <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>The team behind every night</span>
         </div>
-        <div className="af-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+        <div className="af-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 16 }}>
           {TEAM.map((m, i) => (
             <div key={i}>
               <div className="af-photo-item" style={{ overflow: 'hidden' }}>
