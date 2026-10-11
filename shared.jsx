@@ -136,7 +136,6 @@ const FAQS = [
   { q: 'Is there a cloakroom / lockers?', a: 'Yes. Cloakroom is €3 per item, lockers are €5 for the night with in-and-out access. Cash and contactless both work.' },
   { q: 'What about re-entry?', a: 'Once you leave the venue, you cannot return. Smoking is allowed in the designated smoking area inside.' },
   { q: 'Is the venue accessible?', a: 'Effenaar Main Stage is wheelchair accessible with accessible toilets on the ground floor. Reach out to us at hello@ascensionfestival.nl ahead of the show so we can make sure you have the best night.' },
-  { q: 'Lost something?', a: 'Lost & found is held at the venue for 14 days after the event. Email us with a description and date — we\'ll do our best to reunite you with your stuff.' },
   { q: 'Refunds?', a: 'Tickets are non-refundable but transferable. Use the official resale link in your confirmation email — never buy from strangers on Telegram or Instagram.' },
 ];
 

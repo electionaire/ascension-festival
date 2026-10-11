@@ -207,12 +207,12 @@ function MonoEvents() {
 // ── Desktop gallery strip ──────────────────────────────────────────────
 function MonoGalleryStrip() {
   const items = [
-    { src: 'assets/photo-13.jpg' },
-    { src: 'assets/photo-10.jpg' },
-    { src: 'assets/photo-11.jpg' },
-    { src: 'assets/photo-9.jpg' },
-    { src: 'assets/photo-12.jpg' },
-    { src: 'assets/photo-08.jpg' },
+    { src: 'assets/gallery/cf36.jpg' },
+    { src: 'assets/gallery/cf22.jpg' },
+    { src: 'assets/gallery/cf81.jpg' },
+    { src: 'assets/gallery/cf86.jpg' },
+    { src: 'assets/gallery/cf82.jpg' },
+    { src: 'assets/gallery/cf76.jpg' },
   ];
   return (
     <section id="gallery" className="af-reveal" style={{ padding: '40px 48px 60px' }}>
@@ -260,9 +260,8 @@ function MonoFooter() {
         <div>
           <div style={{ ...monoStyles.mono, opacity: .55, fontSize: 10, marginBottom: 12 }}>Contact</div>
           <div style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 13, padding: '4px 0' }}>
-            <a href="mailto:info@ascensionfestival.nl" className="af-footer-link" onClick={() => track('Footer – Email', 'contact')} style={{ color: '#fafafa', textDecoration: 'none' }}>info@ascensionfestival.nl</a>
+            <a href="/contact" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ color: '#fafafa', textDecoration: 'none' }}>Send us a message →</a>
           </div>
-          <a href="/contact" className="af-footer-link" onClick={() => track('Footer – Send a Message', 'navigation')} style={{ display: 'inline-block', marginTop: 8, ...monoStyles.mono, fontSize: 10, color: '#fafafa', textDecoration: 'none' }}>Send a message →</a>
         </div>
       </div>
       <div style={{ marginTop: 36, paddingTop: 18, display: 'flex', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', ...monoStyles.mono, opacity: .5, fontSize: 9 }}>
@@ -686,10 +685,10 @@ function MobileMonoEvents() {
 // ── Mobile gallery strip ───────────────────────────────────────────────
 function MobileMonoGallery() {
   const items = [
-    { src: 'assets/photo-13.jpg' },
-    { src: 'assets/photo-10.jpg' },
-    { src: 'assets/photo-9.jpg' },
-    { src: 'assets/photo-12.jpg' },
+    { src: 'assets/gallery/cf36.jpg' },
+    { src: 'assets/gallery/cf22.jpg' },
+    { src: 'assets/gallery/cf81.jpg' },
+    { src: 'assets/gallery/cf86.jpg' },
   ];
   return (
     <section id="gallery" className="af-reveal" style={{ padding: '20px 22px 60px' }}>

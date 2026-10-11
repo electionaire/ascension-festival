@@ -164,6 +164,95 @@ function TicketsPage() {
 
 // ── GALLERY ────────────────────────────────────────────────────────────
 const ALBUM_LAYOUTS = {
+  closingfestival: [
+    { src: 'assets/gallery/cf1.jpg', col: 'span 2', h: 360 },
+    { src: 'assets/gallery/cf2.jpg', col: 'span 5', h: 360 },
+    { src: 'assets/gallery/cf3.jpg', col: 'span 5', h: 360 },
+    { src: 'assets/gallery/cf4.jpg', col: 'span 6', h: 455 },
+    { src: 'assets/gallery/cf5.jpg', col: 'span 6', h: 455 },
+    { src: 'assets/gallery/cf6.jpg', col: 'span 7', h: 485 },
+    { src: 'assets/gallery/cf7.jpg', col: 'span 5', h: 485 },
+    { src: 'assets/gallery/cf8.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf9.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf10.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf11.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf12.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf13.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf14.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf15.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf16.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf17.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf18.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf19.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf20.jpg', col: 'span 6', h: 470 },
+    { src: 'assets/gallery/cf21.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf22.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf23.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf24.jpg', col: 'span 6', h: 470 },
+    { src: 'assets/gallery/cf25.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf26.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf27.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf28.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf29.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf30.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf31.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf32.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf33.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf34.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf35.jpg', col: 'span 6', h: 470 },
+    { src: 'assets/gallery/cf36.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf37.jpg', col: 'span 3', h: 375 },
+    { src: 'assets/gallery/cf38.jpg', col: 'span 2', h: 375 },
+    { src: 'assets/gallery/cf39.jpg', col: 'span 2', h: 375 },
+    { src: 'assets/gallery/cf40.jpg', col: 'span 5', h: 375 },
+    { src: 'assets/gallery/cf41.jpg', col: 'span 2', h: 360 },
+    { src: 'assets/gallery/cf42.jpg', col: 'span 5', h: 360 },
+    { src: 'assets/gallery/cf43.jpg', col: 'span 5', h: 360 },
+    { src: 'assets/gallery/cf44.jpg', col: 'span 5', h: 485 },
+    { src: 'assets/gallery/cf45.jpg', col: 'span 7', h: 485 },
+    { src: 'assets/gallery/cf46.jpg', col: 'span 2', h: 350 },
+    { src: 'assets/gallery/cf47.jpg', col: 'span 5', h: 350 },
+    { src: 'assets/gallery/cf48.jpg', col: 'span 5', h: 350 },
+    { src: 'assets/gallery/cf49.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf50.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf51.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf52.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf53.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf54.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf55.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf56.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf57.jpg', col: 'span 3', h: 495 },
+    { src: 'assets/gallery/cf58.jpg', col: 'span 3', h: 495 },
+    { src: 'assets/gallery/cf59.jpg', col: 'span 3', h: 495 },
+    { src: 'assets/gallery/cf60.jpg', col: 'span 3', h: 495 },
+    { src: 'assets/gallery/cf61.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf62.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf63.jpg', col: 'span 6', h: 470 },
+    { src: 'assets/gallery/cf64.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf65.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf66.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf67.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf68.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf69.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf70.jpg', col: 'span 2', h: 360 },
+    { src: 'assets/gallery/cf71.jpg', col: 'span 5', h: 360 },
+    { src: 'assets/gallery/cf72.jpg', col: 'span 5', h: 360 },
+    { src: 'assets/gallery/cf73.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf74.jpg', col: 'span 6', h: 445 },
+    { src: 'assets/gallery/cf75.jpg', col: 'span 5', h: 360 },
+    { src: 'assets/gallery/cf76.jpg', col: 'span 2', h: 360 },
+    { src: 'assets/gallery/cf77.jpg', col: 'span 5', h: 360 },
+    { src: 'assets/gallery/cf78.jpg', col: 'span 6', h: 470 },
+    { src: 'assets/gallery/cf81.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf82.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf83.jpg', col: 'span 6', h: 470 },
+    { src: 'assets/gallery/cf84.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf85.jpg', col: 'span 3', h: 470 },
+    { src: 'assets/gallery/cf86.jpg', col: 'span 3', h: 495 },
+    { src: 'assets/gallery/cf87.jpg', col: 'span 3', h: 495 },
+    { src: 'assets/gallery/cf88.jpg', col: 'span 3', h: 495 },
+    { src: 'assets/gallery/cf89.jpg', col: 'span 3', h: 495 },
+  ],
   mainact: [
     { src: 'assets/gallery/ma1.jpg', col: 'span 3', h: 440 },
     { src: 'assets/gallery/ma2.jpg', col: 'span 3', h: 440 },
@@ -567,17 +656,18 @@ const ALBUM_LAYOUTS = {
 };
 
 const ALBUMS = [
+  { id: 'closingfestival', name: 'Ascension: New Dawn Closing Festival', date: 'Oct 2 · 2026', src: 'assets/gallery/cf12.jpg' },
   { id: 'mainact', name: 'Ascension International Student Intro: Main Act ft. DJ359', date: 'Sep 11 · 2026', src: 'assets/gallery/ma49.jpg' },
   { id: 'openingball', name: 'Ascension International Student Intro: Opening Ball ft. Miguelito', date: 'Sep 4 · 2026', src: 'assets/gallery/ob62.jpg' },
-  { id: 'summerfestival', name: 'Ascension: Summer Festival', date: 'Jun 5 · 2026', src: 'assets/gallery/sf1.jpg' },
-  { id: 'turbulence', name: 'Ascension: Turbulence', date: 'Apr 24 · 2026', src: 'assets/gallery/g40.jpg' },
-  { id: 'ascension',  name: 'Ascension',             date: 'Nov 15 · 2025', src: 'assets/gallery/g29.jpg' },
+  { id: 'summerfestival', name: 'Ascension: Summer Festival', date: 'Jun 5 · 2026', src: 'assets/gallery/sf69.jpg' },
+  { id: 'turbulence', name: 'Ascension: Turbulence', date: 'Apr 24 · 2026', src: 'assets/gallery/g107.jpg' },
+  { id: 'ascension',  name: 'Ascension',             date: 'Nov 15 · 2025', src: 'assets/gallery/g22.jpg' },
 ];
 
 function GalleryPage() {
   const [activeId, setActiveId] = React.useState(() => {
     const id = new URLSearchParams(window.location.search).get('album');
-    return ALBUMS.some(a => a.id === id) ? id : 'mainact';
+    return ALBUMS.some(a => a.id === id) ? id : 'closingfestival';
   });
   const [lightbox, setLightbox] = React.useState(null);
 
@@ -733,19 +823,86 @@ function EventsPage() {
 }
 
 // ── CONTACT ────────────────────────────────────────────────────────────
+// Submissions go to contact.php, which emails them on the server — no address in the page.
 function ContactPage() {
+  const params = new URLSearchParams(window.location.search);
+  const [status, setStatus] = React.useState(params.get('sent') ? 'sent' : params.get('error') ? 'error' : 'idle');
+  const [error, setError] = React.useState(params.get('error') || '');
+  const started = React.useRef(Date.now());
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    data.set('started', String(started.current));
+    setStatus('sending'); setError('');
+    try {
+      const res = await fetch('/contact.php', { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && json.ok) { setStatus('sent'); track('Contact Page – Form Sent', 'contact'); }
+      else { setStatus('error'); setError(json.error || 'Something went wrong. Please try again.'); }
+    } catch (err) {
+      setStatus('error'); setError('Could not reach the server. Check your connection and try again.');
+    }
+  };
+
+  const field = { width: '100%', boxSizing: 'border-box', background: 'rgba(250,250,250,.06)', border: '1px solid rgba(250,250,250,.14)', borderRadius: 0, color: '#fafafa', fontFamily: 'Montserrat', fontSize: 15, padding: '14px 16px', outline: 'none' };
+  const label = { display: 'block', ...monoStyles.mono, fontSize: 10, opacity: .6, marginBottom: 10 };
+
   return (
     <div style={pageRoot}>
       <PageHeader
         eyebrow="§ 04 — Contact"
         title="Say"
         italic="hello."
-        photo="assets/gallery/g66.jpg" />
+        photo="assets/gallery/cf53.jpg"
+        photoPosition="center 40%" />
 
-      <section className="af-reveal" style={{ padding: '100px 48px 120px' }}>
-        <a href="mailto:egor@ascensionfestival.nl" className="af-contact-email" onClick={() => track('Contact Page – Email', 'contact')} style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', color: '#fafafa', textDecoration: 'none', borderBottom: '1px solid #fafafa', paddingBottom: 4, display: 'inline-block', wordBreak: 'break-all' }}>
-          egor@ascensionfestival.nl
-        </a>
+      <section className="af-reveal af-contact-layout" style={{ padding: '100px 48px 120px', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.6fr)', gap: 80, alignItems: 'start' }}>
+        <div>
+          <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', margin: 0, lineHeight: 1.1 }}>
+            <span style={{ fontStyle: 'italic' }}>Get</span> in touch
+          </h2>
+          <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.7, opacity: .7, margin: '20px 0 0', maxWidth: 380 }}>
+            Questions about tickets, partnerships or bookings — send us a message and we'll get back to you by email.
+          </p>
+        </div>
+
+        {status === 'sent' ? (
+          <div role="status" style={{ padding: '48px 0' }}>
+            <div style={{ ...monoStyles.mono, fontSize: 10, opacity: .6, marginBottom: 14 }}>Message sent</div>
+            <div style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+              <span style={{ fontStyle: 'italic' }}>Thank you.</span> We'll be in touch soon.
+            </div>
+          </div>
+        ) : (
+          <form className="af-form" action="/contact.php" method="post" onSubmit={onSubmit}>
+            <div className="af-form-fields" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+              <label><span style={label}>Name</span><input name="name" required maxLength={100} autoComplete="name" style={field} /></label>
+              <label><span style={label}>Email</span><input name="email" type="email" required autoComplete="email" style={field} /></label>
+            </div>
+            <label style={{ display: 'block', marginTop: 20 }}>
+              <span style={label}>Subject</span>
+              <input name="subject" required maxLength={150} style={field} />
+            </label>
+            <label style={{ display: 'block', marginTop: 20 }}>
+              <span style={label}>Message</span>
+              <textarea name="message" required minLength={10} maxLength={5000} rows={7} style={{ ...field, resize: 'vertical', lineHeight: 1.6 }} />
+            </label>
+            {/* Honeypot — hidden from people, filled in by bots */}
+            <div aria-hidden="true" style={{ position: 'absolute', left: -10000, width: 1, height: 1, overflow: 'hidden' }}>
+              <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+            </div>
+            <input type="hidden" name="started" value={started.current} />
+
+            {status === 'error' && (
+              <div role="alert" style={{ marginTop: 20, fontFamily: 'Montserrat', fontSize: 14, color: '#ff9a9a' }}>{error}</div>
+            )}
+            <button type="submit" className="af-submit" disabled={status === 'sending'}
+              style={{ marginTop: 28, background: '#fafafa', color: '#000', border: 'none', padding: '16px 32px', ...monoStyles.mono, fontSize: 11, opacity: status === 'sending' ? .6 : 1 }}>
+              {status === 'sending' ? 'Sending…' : 'Send message →'}
+            </button>
+          </form>
+        )}
       </section>
 
       <MonoFooter />
@@ -787,13 +944,13 @@ const HALL_OF_FAME = [
   { name: 'Kaan Celik', events: ['Summer Festival', 'Main Act'] },
 ];
 
-// Event name → gallery album (cover photo + deep link). Closing Festival has no album yet.
+// Event name → gallery album (cover photo + deep link)
 const EVENT_ALBUM = {
   'Turbulence':       { album: 'turbulence' },
   'Summer Festival':  { album: 'summerfestival' },
   'Opening Ball':     { album: 'openingball' },
   'Main Act':         { album: 'mainact' },
-  'Closing Festival': { src: 'assets/photo-11.jpg' },
+  'Closing Festival': { album: 'closingfestival' },
 };
 
 function EventChip({ name }) {
@@ -900,7 +1057,7 @@ const LEGAL_SECTIONS = [
       ['Registry code', '14566053'],
       ['Registered address', 'Harju maakond, Tallinn, Kristiine linnaosa, Tulika tn 19, 10613, Estonia'],
       ['VAT identification number', 'EE102132944'],
-      ['Email', 'info@ascensionfestival.nl'],
+      ['Email', 'egor@ascensionfestival.nl'],
     ],
   },
   {
@@ -923,11 +1080,11 @@ const LEGAL_SECTIONS = [
   {
     num: '04', title: 'What data we collect on this site',
     body: [
-      'This website has no accounts, no checkout and no contact form. We collect only the following:',
+      'This website has no accounts and no checkout. We collect only the following:',
     ],
     list: [
       ['Analytics data', 'We use Google Analytics to understand how the site is used — pages viewed, links and buttons clicked, approximate location derived from your IP address, and basic device and browser information. This is pseudonymised and we do not use it to identify you personally.'],
-      ['Correspondence', 'If you email us, we receive your email address and whatever you choose to put in your message, and we keep that correspondence so we can deal with your request.'],
+      ['Contact form and correspondence', 'If you use the contact form or email us, we receive your name, your email address, the subject and whatever you write in your message, and we keep that correspondence so we can deal with your request. Form messages are delivered to us by email and are not stored on the website. To prevent abuse, we briefly keep a hashed version of your IP address to limit how many messages can be sent per hour.'],
     ],
   },
   {
@@ -947,7 +1104,7 @@ const LEGAL_SECTIONS = [
     num: '07', title: 'Photography and filming at events',
     body: [
       'We take photographs and video at our events and publish them on this website and on our social channels, to document and promote the events. We do this on the basis of our legitimate interest in promoting Ascension.',
-      'If you appear in a photograph or video and would rather not, email us at info@ascensionfestival.nl with a description of the image and where you saw it, and we will remove it from the channels we control.',
+      'If you appear in a photograph or video and would rather not, email us at egor@ascensionfestival.nl with a description of the image and where you saw it, and we will remove it from the channels we control.',
     ],
   },
   {
@@ -960,7 +1117,7 @@ const LEGAL_SECTIONS = [
   {
     num: '09', title: 'Your rights',
     body: [
-      'Under the GDPR you have the right to access your personal data, to have it corrected or erased, to restrict or object to its processing, to receive it in a portable form, and to withdraw consent at any time where processing is based on consent. To exercise any of these, email info@ascensionfestival.nl.',
+      'Under the GDPR you have the right to access your personal data, to have it corrected or erased, to restrict or object to its processing, to receive it in a portable form, and to withdraw consent at any time where processing is based on consent. To exercise any of these, email egor@ascensionfestival.nl.',
       'If you believe we have handled your data improperly, you may lodge a complaint with the Estonian Data Protection Inspectorate (Andmekaitse Inspektsioon, aki.ee) or with the supervisory authority in your country of residence.',
     ],
   },
