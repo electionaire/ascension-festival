@@ -823,31 +823,7 @@ function EventsPage() {
 }
 
 // ── CONTACT ────────────────────────────────────────────────────────────
-// Submissions go to contact.php, which emails them on the server — no address in the page.
 function ContactPage() {
-  const params = new URLSearchParams(window.location.search);
-  const [status, setStatus] = React.useState(params.get('sent') ? 'sent' : params.get('error') ? 'error' : 'idle');
-  const [error, setError] = React.useState(params.get('error') || '');
-  const started = React.useRef(Date.now());
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    data.set('started', String(started.current));
-    setStatus('sending'); setError('');
-    try {
-      const res = await fetch('/contact.php', { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-      const json = await res.json().catch(() => ({}));
-      if (res.ok && json.ok) { setStatus('sent'); track('Contact Page – Form Sent', 'contact'); }
-      else { setStatus('error'); setError(json.error || 'Something went wrong. Please try again.'); }
-    } catch (err) {
-      setStatus('error'); setError('Could not reach the server. Check your connection and try again.');
-    }
-  };
-
-  const field = { width: '100%', boxSizing: 'border-box', background: 'rgba(250,250,250,.06)', border: '1px solid rgba(250,250,250,.14)', borderRadius: 0, color: '#fafafa', fontFamily: 'Montserrat', fontSize: 15, padding: '14px 16px', outline: 'none' };
-  const label = { display: 'block', ...monoStyles.mono, fontSize: 10, opacity: .6, marginBottom: 10 };
-
   return (
     <div style={pageRoot}>
       <PageHeader
@@ -857,52 +833,10 @@ function ContactPage() {
         photo="assets/gallery/cf53.jpg"
         photoPosition="center 40%" />
 
-      <section className="af-reveal af-contact-layout" style={{ padding: '100px 48px 120px', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.6fr)', gap: 80, alignItems: 'start' }}>
-        <div>
-          <h2 style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', margin: 0, lineHeight: 1.1 }}>
-            <span style={{ fontStyle: 'italic' }}>Get</span> in touch
-          </h2>
-          <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 15, lineHeight: 1.7, opacity: .7, margin: '20px 0 0', maxWidth: 380 }}>
-            Questions about tickets, partnerships or bookings — send us a message and we'll get back to you by email.
-          </p>
-        </div>
-
-        {status === 'sent' ? (
-          <div role="status" style={{ padding: '48px 0' }}>
-            <div style={{ ...monoStyles.mono, fontSize: 10, opacity: .6, marginBottom: 14 }}>Message sent</div>
-            <div style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 32, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-              <span style={{ fontStyle: 'italic' }}>Thank you.</span> We'll be in touch soon.
-            </div>
-          </div>
-        ) : (
-          <form className="af-form" action="/contact.php" method="post" onSubmit={onSubmit}>
-            <div className="af-form-fields" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-              <label><span style={label}>Name</span><input name="name" required maxLength={100} autoComplete="name" style={field} /></label>
-              <label><span style={label}>Email</span><input name="email" type="email" required autoComplete="email" style={field} /></label>
-            </div>
-            <label style={{ display: 'block', marginTop: 20 }}>
-              <span style={label}>Subject</span>
-              <input name="subject" required maxLength={150} style={field} />
-            </label>
-            <label style={{ display: 'block', marginTop: 20 }}>
-              <span style={label}>Message</span>
-              <textarea name="message" required minLength={10} maxLength={5000} rows={7} style={{ ...field, resize: 'vertical', lineHeight: 1.6 }} />
-            </label>
-            {/* Honeypot — hidden from people, filled in by bots */}
-            <div aria-hidden="true" style={{ position: 'absolute', left: -10000, width: 1, height: 1, overflow: 'hidden' }}>
-              <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-            </div>
-            <input type="hidden" name="started" value={started.current} />
-
-            {status === 'error' && (
-              <div role="alert" style={{ marginTop: 20, fontFamily: 'Montserrat', fontSize: 14, color: '#ff9a9a' }}>{error}</div>
-            )}
-            <button type="submit" className="af-submit" disabled={status === 'sending'}
-              style={{ marginTop: 28, background: '#fafafa', color: '#000', border: 'none', padding: '16px 32px', ...monoStyles.mono, fontSize: 11, opacity: status === 'sending' ? .6 : 1 }}>
-              {status === 'sending' ? 'Sending…' : 'Send message →'}
-            </button>
-          </form>
-        )}
+      <section className="af-reveal" style={{ padding: '100px 48px 120px' }}>
+        <a href="mailto:egor@ascensionfestival.nl" className="af-contact-email" onClick={() => track('Contact Page – Email', 'contact')} style={{ fontFamily: 'Montserrat', fontWeight: 300, fontSize: 40, letterSpacing: '-0.025em', color: '#fafafa', textDecoration: 'none', borderBottom: '1px solid #fafafa', paddingBottom: 4, display: 'inline-block', wordBreak: 'break-all' }}>
+          egor@ascensionfestival.nl
+        </a>
       </section>
 
       <MonoFooter />
@@ -1080,11 +1014,11 @@ const LEGAL_SECTIONS = [
   {
     num: '04', title: 'What data we collect on this site',
     body: [
-      'This website has no accounts and no checkout. We collect only the following:',
+      'This website has no accounts, no checkout and no contact form. We collect only the following:',
     ],
     list: [
       ['Analytics data', 'We use Google Analytics to understand how the site is used — pages viewed, links and buttons clicked, approximate location derived from your IP address, and basic device and browser information. This is pseudonymised and we do not use it to identify you personally.'],
-      ['Contact form and correspondence', 'If you use the contact form or email us, we receive your name, your email address, the subject and whatever you write in your message, and we keep that correspondence so we can deal with your request. Form messages are delivered to us by email and are not stored on the website. To prevent abuse, we briefly keep a hashed version of your IP address to limit how many messages can be sent per hour.'],
+      ['Correspondence', 'If you email us, we receive your email address and whatever you choose to put in your message, and we keep that correspondence so we can deal with your request.'],
     ],
   },
   {
