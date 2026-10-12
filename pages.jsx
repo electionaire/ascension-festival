@@ -855,6 +855,7 @@ const TEAM = [
   { name: 'George Nosal',       role: 'Audiovisual Engineer', photo: 'assets/team/george-nosal.jpg' },
   { name: 'Bruno Simunic',      role: 'Live Camera Engineer', photo: 'assets/team/bruno-simunic.jpg' },
   { name: 'Bernarda C. Nibera', role: 'Head of Graphic Design', photo: 'assets/team/bernarda-nibera.jpg' },
+  { name: 'Tim Molas Pfeifer',  role: 'Head of PR', photo: 'assets/team/tim-molas-pfeifer.jpg' },
   { name: 'Urte Pazusyte',      role: 'Floor Manager · Hospitality', photo: 'assets/team/urte-pazusyte.jpg' },
 ];
 
@@ -919,7 +920,7 @@ function TeamPage() {
           </h2>
           <span style={{ ...monoStyles.mono, opacity: .55, fontSize: 10 }}>The team behind every night</span>
         </div>
-        <div className="af-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 16 }}>
+        <div className="af-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 16 }}>
           {TEAM.map((m, i) => (
             <div key={i}>
               <div className="af-photo-item" style={{ overflow: 'hidden' }}>
